@@ -1,5 +1,5 @@
 {
-  "name": "cv-builder",
+  "name": "resumuse",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,10 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "axios": "^1.7.9",
     "cv-builder": "file:",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^7.1.1"
+    "react-router-dom": "^7.1.1",
+    "resumuse": "file:",
+    "Resumuse": "file:"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",

@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react';
+import { KeyboardEvent, useEffect, useState } from 'react';
 import { useExp } from '../../context/exp_context/ExpContext';
 import { useSkill } from '../../context/skill_context/SkillContext';
 import InputSkills from './InputSkills';
 import { Experience } from '../../types/Experience';
-import formattedDate from '../../common_functions/dateformat';
+
+
+
 
 const InputExperience = () => {
     const { addExperience, experience } = useExp();
@@ -14,43 +16,73 @@ const InputExperience = () => {
     const [company, setCompany] = useState<string>("");
     const [startDate, setStartDate] = useState<string>("");
     const [endDate, setEndDate] = useState<string>("");
-    const [description, setDescription] = useState<string>("");
+    const [description, setDescription] = useState<string[]>([]);
     const [status, setStatus] = useState<boolean>(false);
+    const [state, setState] = useState<string>("");
+    const [city, setcity] = useState<string>("");
+    const [currentInput, setCurrentInput] = useState<string>("");
+    const [country, setCountry] = useState<string>("");
+
+
 
     const employeeTypes = ["Intership", "Contract", "Employee"];
 
     const newExp: Experience = {
-        title,
-        type,
-        company,
-        description,
-        status,
+        title: title,
+        type: type,
+        company: company,
+        description: description,
+        status: status,
         skills: selectedSkills,
-        Dates: { startDate: startDate, endDate: endDate }
+        Dates: { startDate: startDate, endDate: endDate },
+        location: {
+            city: city,
+            state: state,
+            country: country
+        },
+
     };
 
+useEffect(()=>{
+    console.log(experience)
+})
     const clearExp = () => {
         setTitle("");
         setType(employeeTypes[0]);
         setCompany("");
         setStartDate("");
         setEndDate("");
-        setDescription("");
+        setDescription([]);
         clearSelectedSkills();
         setStatus(false);
     };
 
+    const handleKeyUp = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.key === ("Enter")) {
+            const value = e.currentTarget.value.trim()
+
+            if (value !== "") {
+                setDescription(prevDesc => [...prevDesc, value])
+               setCurrentInput("")
+            }
+            e.preventDefault()
+            console.log(description);
+
+        }
+
+
+    }
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         addExperience(newExp);
         clearExp();
+       
     };
 
 
-    useEffect(() => {
-        console.log("EXP ", experience);
 
-    }, [experience])
+
+
     return (
         <div>
             <h4>Experience</h4>
@@ -74,6 +106,20 @@ const InputExperience = () => {
                     <input type="text" id="company" value={company} onChange={(e) => setCompany(e.target.value)} />
                 </div>
                 <div>
+                    <div>
+                        <label htmlFor="company">State</label>
+                        <input type="text" id="company" value={state} onChange={(e) => setState(e.target.value)} />
+                    </div>
+                    <div>
+                        <label htmlFor="company">City</label>
+                        <input type="text" id="company" value={city} onChange={(e) => setcity(e.target.value)} />
+                    </div>
+                    <div>
+                        <label htmlFor="company">Country</label>
+                        <input type="text" id="company" value={country} onChange={(e) => setCountry(e.target.value)} />
+                    </div>
+                </div>
+                <div>
                     <input type="checkbox" id="current-job" checked={status} onChange={() => setStatus(!status)} />
                     <label htmlFor="current-job">I'm currently working here</label>
                 </div>
@@ -85,6 +131,7 @@ const InputExperience = () => {
                             id="start-date"
                             value={startDate}
                             onChange={(e) => setStartDate(e.target.value)}
+
                         />
                     </div>
                     <div>
@@ -96,7 +143,7 @@ const InputExperience = () => {
                             id="end-date"
                             value={endDate}
                             disabled={status}
-                            onChange={(e) => setEndDate(e.target.value)}
+                            onChange={(e) => {status ? setEndDate("Present"): setEndDate(e.target.value)}}
                         />
                     </div>
                 </div>
@@ -108,26 +155,17 @@ const InputExperience = () => {
                     <label htmlFor="description">Description</label>
                     <textarea
                         id="description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
+                        value={currentInput}
+                        onChange={(e) => setCurrentInput(e.target.value)}
+                        onKeyPress={handleKeyUp}
+                        placeholder="Type and press Enter"
                     ></textarea>
                 </div>
                 <button type="button" onClick={handleSubmit}>
                     Add
                 </button>
             </form>
-            {experience &&
-                experience.map((exp, index) => (
-                    <ul key={index}>
-                        <li>{exp.title}</li>
-                        <li>{exp.company}</li>
-                        <li>{formattedDate(exp.Dates)}</li>
-                        <li>{exp.description}</li>
-                        {exp.skills && exp.skills.map(skill => (
-                            <li key={skill.id}>{skill.skill}</li>
-                        ))}
-                    </ul>
-                ))}
+
         </div>
     );
 };

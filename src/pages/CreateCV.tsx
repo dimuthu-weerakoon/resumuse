@@ -1,4 +1,4 @@
-import InputDetails from "../components/InputDetails"
+import ResumeInput from "../components/ResumeInput"
 import Template1 from "../cv_templates/Template1"
 
 
@@ -7,7 +7,7 @@ const CreateCV = () => {
         <div className="flex ">
       
 
-            <InputDetails />
+            <ResumeInput />
             <Template1 />
 
       
