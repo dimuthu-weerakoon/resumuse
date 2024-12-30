@@ -2,10 +2,10 @@ import { FormEvent, useEffect, useState } from "react";
 import InputLocation from "./InputLocation";
 import { Location } from "../../types/Location";
 import ContactInfo from "../../types/ContactInfo";
-import { useContactInfo } from "../../context/contact_info_context/ContactInfoContext";
+
 
 const InputContactInfo = () => {
-    const { addContactInfo, contactInfo } = useContactInfo();
+    
     const [address, setAddress] = useState<string>("");
     const [city, setCity] = useState<string>("");
     const [state, setState] = useState<string>("");
@@ -17,7 +17,7 @@ const InputContactInfo = () => {
         e.preventDefault();
 
         if (!address || !location || !phone) {
-            // Handle validation if needed
+           
             console.log("Please fill in all fields");
             return;
         }
@@ -28,8 +28,8 @@ const InputContactInfo = () => {
             phone: phone
         };
 
-        addContactInfo(contactInfo);
-        console.log(contactInfo); // For debugging purposes
+    
+        console.log(contactInfo); 
     };
 
     useEffect(() => {
@@ -39,20 +39,12 @@ const InputContactInfo = () => {
     }, [city, state, country]);
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="address">Street No / Apartment No</label>
-                    <input
-                        id="address"
-                        type="text"
-                        value={address}
-                        onChange={e => setAddress(e.target.value)}
-                    />
-                </div>
-                <div>
+        <div className="w-full ">
+            <div className="flex">
+                <div className="input-div" >
                     <label htmlFor="phone">Phone Number</label>
                     <input
+                        className="flex"
                         id="phone"
                         type="tel"
                         placeholder="123-4567-8901"
@@ -62,19 +54,20 @@ const InputContactInfo = () => {
                         onChange={e => setPhone(e.target.value)}
                     />
                 </div>
-                <InputLocation location={location} setCity={setCity} setState={setState} setCountry={setCountry} />
-                <div>
-                    <button type="submit">Add</button>
-                </div>
-            </form>
-
-            <div>
-                <h3>Result</h3>
-                <div>
-                    <p>{contactInfo?.address}</p>
-                    <p>{contactInfo?.location?.city}</p>
+                <div className="input-div ">
+                    <label htmlFor="address">Street No / Apartment No</label>
+                    <input
+                        id="address"
+                        type="text"
+                        value={address}
+                        onChange={e => setAddress(e.target.value)}
+                    />
                 </div>
             </div>
+
+
+            <InputLocation location={location} setCity={setCity} setState={setState} setCountry={setCountry} />
+
         </div>
     );
 };

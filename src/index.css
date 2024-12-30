@@ -3,8 +3,20 @@
 @tailwind utilities;
 
 @layer base {
-  input,
-  textarea {
-    @apply border border-slate-600;
+  input[type="text"],[type="date"],[type="url"],[type="tel"],
+  textarea ,select{
+    @apply border border-slate-600  p-2 my-2 rounded-md w-full block;
+  }
+
+
+  label{
+    @apply absolute top-0 left-0 p-1 font-medium bg-white ms-4 text-sm rounded
+  }
+
+}
+
+@layer components{
+  .input-div{
+    @apply relative p-2 w-full
   }
 }

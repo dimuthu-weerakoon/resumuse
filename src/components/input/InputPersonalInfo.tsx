@@ -1,12 +1,13 @@
-import { FormEvent, useState } from "react"
+import { FormEvent, useEffect, useState } from "react"
 import { PersonalInfo } from "../../types/PersonalInfo";
-import { usePersonalInfo } from "../../context/personal_info_context/PersonalInfoContext";
+
 
 const InputPersonalInfo = () => {
   const [firstName, setFirstName] = useState<string>("");
   const [middleName, setMiddleName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
-  const { addPersonalInfo, personalInfo } = usePersonalInfo()
+
+
 
   const newPersonalInfo: PersonalInfo = {
     firstName: firstName,
@@ -17,39 +18,31 @@ const InputPersonalInfo = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-    addPersonalInfo(newPersonalInfo);
+  
   }
 
 
 
   return (
-    <div>
-      <form >
-      <div>
-        <label htmlFor="">First Name</label>
-        <input type="text" value={firstName} onChange={e => setFirstName(e.target.value)} id="firstname" className="" />
+    <div className="flex justify-center items-center w-full">
+
+      <div className="input-div">
+        <label htmlFor="" className="" >First Name</label>
+        <input type="text" className="" value={firstName} onChange={e => setFirstName(e.target.value)} id="firstname" />
       </div>
-      <div>
+      <div className="input-div">
         <label htmlFor="">Middle Name</label>
         <input type="text" value={middleName} onChange={e => setMiddleName(e.target.value)} id="firstname" className="" />
       </div>
-      <div>
+      <div className="input-div">
         <label htmlFor="">Last Name</label>
         <input type="text" value={lastName} onChange={e => setLastName(e.target.value)} id="lastname" className="" />
       </div>
-      <button type="button" onClick={handleSubmit}>add</button>
-
-
-      </form>
-
-      <div>
-        result
-        <br />
-        {personalInfo.firstName}
-        {personalInfo.middleName}
-        {personalInfo.lastName}
-      </div>
+      <div><button className="" type="button" onClick={handleSubmit}>add</button></div>
     </div>
+
+
+
   )
 }
 

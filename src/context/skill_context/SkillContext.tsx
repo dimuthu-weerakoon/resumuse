@@ -16,9 +16,9 @@ export const SkillContext = createContext<SkillContextProps>({
 
 export const SkillProvider = ({ children }: CommonProviderProps) => {
     const [skills, setSkills] = useState<Skill[]>([
-        { id: 1, skill: "java" },
-        { id: 2, skill: "php" },
-        { id: 3, skill: "jenkins" }
+        { id: 1, skill: "Java" },
+        { id: 2, skill: "PHP" },
+        { id: 3, skill: "Jenkins" }
     ]);
     const [filteredSkills, setFilteredSkills] = useState<Skill[]>([]);
     const [selectedSkills, setSelectedSkills] = useState<Skill[]>([]);

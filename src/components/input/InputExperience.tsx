@@ -1,14 +1,16 @@
-import { KeyboardEvent, useEffect, useState } from 'react';
-import { useExp } from '../../context/exp_context/ExpContext';
+import {  useEffect, useState } from 'react';
+
 import { useSkill } from '../../context/skill_context/SkillContext';
 import InputSkills from './InputSkills';
 import { Experience } from '../../types/Experience';
+import InputLocation from './InputLocation';
+import { Location } from '../../types/Location';
 
 
 
 
 const InputExperience = () => {
-    const { addExperience, experience } = useExp();
+   
     const { selectedSkills, clearSelectedSkills } = useSkill();
 
     const [title, setTitle] = useState<string>("");
@@ -19,10 +21,10 @@ const InputExperience = () => {
     const [description, setDescription] = useState<string[]>([]);
     const [status, setStatus] = useState<boolean>(false);
     const [state, setState] = useState<string>("");
-    const [city, setcity] = useState<string>("");
+    const [city, setCity] = useState<string>("");
     const [currentInput, setCurrentInput] = useState<string>("");
     const [country, setCountry] = useState<string>("");
-
+    const [location, setLocation] = useState<Location>()
 
 
     const employeeTypes = ["Intership", "Contract", "Employee"];
@@ -35,17 +37,14 @@ const InputExperience = () => {
         status: status,
         skills: selectedSkills,
         Dates: { startDate: startDate, endDate: endDate },
-        location: {
-            city: city,
-            state: state,
-            country: country
-        },
+        location: location,
 
     };
 
-useEffect(()=>{
-    console.log(experience)
-})
+    useEffect(() => {
+        setLocation({ state, city, country });
+    }, [state, city, country]);
+
     const clearExp = () => {
         setTitle("");
         setType(employeeTypes[0]);
@@ -63,7 +62,7 @@ useEffect(()=>{
 
             if (value !== "") {
                 setDescription(prevDesc => [...prevDesc, value])
-               setCurrentInput("")
+                setCurrentInput("")
             }
             e.preventDefault()
             console.log(description);
@@ -74,96 +73,106 @@ useEffect(()=>{
     }
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        addExperience(newExp);
-        clearExp();
        
+        clearExp();
+
     };
 
 
+    const handleEndDate = (e: React.ChangeEvent<HTMLInputElement>) => {
 
+        const selectedEndDate = e.target.value;
+        if (new Date(selectedEndDate) >= new Date(startDate)) {
+            setEndDate(selectedEndDate);
+        } else {
+            alert("End date cannot be earlier than the start date.");
+        }
+
+        if (status) {
+            setEndDate("Present")
+        }
+
+    }
 
 
     return (
-        <div>
-            <h4>Experience</h4>
+        <div className='w-full'>
+
             <form>
-                <div>
-                    <label htmlFor="title">Title</label>
-                    <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} />
-                </div>
-                <div>
-                    <label htmlFor="type">Type</label>
-                    <select id="type" value={type} onChange={(e) => setType(e.target.value)}>
-                        {employeeTypes.map((type, index) => (
-                            <option key={index} value={type}>
-                                {type}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <div>
-                    <label htmlFor="company">Company / Organization</label>
-                    <input type="text" id="company" value={company} onChange={(e) => setCompany(e.target.value)} />
-                </div>
-                <div>
-                    <div>
-                        <label htmlFor="company">State</label>
-                        <input type="text" id="company" value={state} onChange={(e) => setState(e.target.value)} />
+                <div className=''>
+                    <div className='input-div'>
+                        <label htmlFor="title">Title</label>
+                        <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} />
                     </div>
-                    <div>
-                        <label htmlFor="company">City</label>
-                        <input type="text" id="company" value={city} onChange={(e) => setcity(e.target.value)} />
+                    <div className='input-div'>
+                        <label htmlFor="type">Type</label>
+                        <select id="type" value={type} onChange={(e) => setType(e.target.value)}>
+                            {employeeTypes.map((type, index) => (
+                                <option key={index} value={type}>
+                                    {type}
+                                </option>
+                            ))}
+                        </select>
                     </div>
-                    <div>
-                        <label htmlFor="company">Country</label>
-                        <input type="text" id="company" value={country} onChange={(e) => setCountry(e.target.value)} />
+                    <div className='input-div'>
+                        <label htmlFor="company">Company / Organization</label>
+                        <input type="text" id="company" value={company} onChange={(e) => setCompany(e.target.value)} />
                     </div>
-                </div>
-                <div>
-                    <input type="checkbox" id="current-job" checked={status} onChange={() => setStatus(!status)} />
-                    <label htmlFor="current-job">I'm currently working here</label>
-                </div>
-                <div>
-                    <div>
-                        <label htmlFor="start-date">Start Date</label>
-                        <input
-                            type="date"
-                            id="start-date"
-                            value={startDate}
-                            onChange={(e) => setStartDate(e.target.value)}
 
-                        />
+                    <InputLocation
+                        location={location}
+                        setCity={setCity}
+                        setState={setState}
+                        setCountry={setCountry} />
+
+                    <div className='flex gap-4 p-2'>
+                        <input type="checkbox" id="current-job" checked={status} onChange={() => setStatus(!status)} />
+
+                        <p >I'm currently working here</p>
                     </div>
-                    <div>
+                    <div className='flex'>
+                        <div className='input-div'>
+                            <label htmlFor="start-date">Start Date</label>
+                            <input
+                                type="date"
+                                id="start-date"
+                                value={startDate}
+                                onChange={(e) => setStartDate(e.target.value)}
+
+                            />
+                        </div>
+                        <div className='input-div' hidden={status}>
                         <label htmlFor="end-date">
-                            {status ? "End Date (Disabled)" : "End Date"}
-                        </label>
-                        <input
-                            type="date"
-                            id="end-date"
-                            value={endDate}
-                            disabled={status}
-                            onChange={(e) => {status ? setEndDate("Present"): setEndDate(e.target.value)}}
-                        />
+                                End Date
+                            </label>
+                            <input
+   
+                                type="date"
+                                id="end-date"
+                                value={endDate !== "present" ? endDate || "" : ""}
+                                onChange={handleEndDate}
+                                disabled={status}
+                            />
+                        </div>
                     </div>
+
+                    <InputSkills />
+
+
+                    <div className='input-div'>
+                        <label htmlFor="description">Description</label>
+                        <textarea
+                            id="description"
+                            value={currentInput}
+                            onChange={(e) => setCurrentInput(e.target.value)}
+                            onKeyUp={handleKeyUp}
+                            placeholder="- Enter some decriptions about your work and press Enter"
+                        ></textarea>
+                    </div>
+                    <button type="button" onClick={handleSubmit}>
+                        Add experience
+                    </button>
                 </div>
-
-                <InputSkills />
-
-
-                <div>
-                    <label htmlFor="description">Description</label>
-                    <textarea
-                        id="description"
-                        value={currentInput}
-                        onChange={(e) => setCurrentInput(e.target.value)}
-                        onKeyPress={handleKeyUp}
-                        placeholder="Type and press Enter"
-                    ></textarea>
-                </div>
-                <button type="button" onClick={handleSubmit}>
-                    Add
-                </button>
             </form>
 
         </div>

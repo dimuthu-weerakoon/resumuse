@@ -32,15 +32,14 @@ const InputEducation = () => {
     }
 
 
-    const { addEducation, educations } = useEdu()
+   
     useEffect(() => {
         setLocation({ state, city, country });
     }, [state, city, country]);
 
     const handlesubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        addEducation(newEducation);
-        console.log("educations ", educations);
+     
     }
 
 
@@ -60,60 +59,70 @@ const InputEducation = () => {
     }
 
     return (
-        <div>
-
+        <div className="w-full">
 
             <form >
 
-                <div>
-                    <label htmlFor="">Title</label>
-                    <input type="text" id="resitent" value={title} onChange={e => setTitle(e.target.value)} />
-                </div>
-                <div>
-                    <div>
-                        <label htmlFor="">Collage/Institute/University</label>
-                        <input type="text" value={institute} onChange={e => setInstitute(e.target.value)} /></div>
-                    <div>
-                        <label htmlFor="">Description</label>
-                        <textarea name="" value={description} onChange={e => setDescription(e.target.value)}></textarea>
+
+
+                <div className="">
+
+                    <div className="input-div">
+                        <label htmlFor="">Title</label>
+                        <input type="text" id="resitent" value={title} onChange={e => setTitle(e.target.value)} />
                     </div>
-                </div>
-                <div>
                     <div>
-                        <label htmlFor="">I'm currently follwing this</label>
+                        <div className="input-div">
+                            <label htmlFor="">Collage/Institute/University</label>
+                            <input type="text" value={institute} onChange={e => setInstitute(e.target.value)} />
+                            </div>
+                        <div className="input-div">
+                            <label htmlFor="">Description</label>
+                            <textarea name="" value={description} onChange={e => setDescription(e.target.value)}></textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <div className="flex gap-4 p-2">
                         <input type="checkbox" onChange={() => { if (!studying) setEndDate(""); setStudying(prevStudying => !prevStudying) }} id="" />
-                    </div>
-                    <div>
-                        <label htmlFor="start-date">Start Date</label>
-                        <input
-                            type="date"
-                            id="start-date"
-                            value={startDate}
-                            onChange={(e) => setStartDate(e.target.value)}
+                            <p>I'm currently follwing this</p>
+                        </div>
+                        <div className="flex">
+                        <div className="input-div">
+                            <label htmlFor="start-date">Start Date</label>
+                            <input
+                                type="date"
+                                id="start-date"
+                                value={startDate}
+                                onChange={(e) => setStartDate(e.target.value)}
 
-                        />
+                            />
+                        </div>
+                        <div className="input-div" hidden={studying}>
+                            <label htmlFor="end-date">
+                                End Date
+                            </label>
+                            <input
+   
+                                type="date"
+                                id="end-date"
+                                value={endDate !== "present" ? endDate || "" : ""}
+                                onChange={handleEndDate}
+                                disabled={studying}
+                            />
+                        </div>
+                        </div>
+             
                     </div>
-                    <div>
-                        <label htmlFor="end-date">
-                            End Date
-                        </label>
-                        <input
+                    <InputLocation
+                        location={location}
+                        setCity={setCity}
+                        setState={setState}
+                        setCountry={setCountry} />
 
-                            type="date"
-                            id="end-date"
-                            value={endDate !== "present" ? endDate || "" : ""}
-                            onChange={handleEndDate}
-                            disabled={studying}
-                        />
-                    </div>
+                    <button type="button" onClick={handlesubmit}>add Education</button>
                 </div>
-                <InputLocation
-                    location={location}
-                    setCity={setCity}
-                    setState={setState}
-                    setCountry={setCountry} />
 
-                <button type="button" onClick={handlesubmit}>add</button>
+
             </form>
         </div>
 

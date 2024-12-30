@@ -5,7 +5,7 @@ import { SocialLink } from "../../types/SocialLinks";
 
 const InputSocialLink = () => {
 
-    const { addSocialLink, socialLinks } = useSocialLink()
+    
 
     const [platform, setPlatform] = useState<string>('');
     const [link, setLink] = useState<string>('')
@@ -23,39 +23,43 @@ const InputSocialLink = () => {
             platform: platform,
             link: link
         }
-        addSocialLink(socialLink)
+        
         setPlatform("")
         setLink("")
-        console.log(socialLinks)
+     
     }
 
     return (
-        <div>
-            <form>
-                <div>
-                    <label htmlFor="">Add Links</label>
-                    <select
-                        id="platform"
-                        value={platform}
-                        onChange={(e) => setPlatform(e.target.value)}
-                    >
-                        <option value="" disabled>
-                            Select Platform
-                        </option>
-                        <option value="Github">Github</option>
-                        <option value="Linkedin">Linkedin</option>
-                        <option value="Email">Email</option>
-                        <option value="Website">Website</option>
-                    </select>
-                    <div>
-                        <input type="url" pattern="https://.*" onChange={e => setLink(e.target.value)} />
-                    </div>
+        <div className="flex w-full items-center">
+
+            <div className="flex w-2/3 justify-center items-center ">
+                <div className="input-div">
+                    <label htmlFor="">Platform</label>
+                <select
+                className="font-medium"
+                    id="platform"
+                    value={platform}
+                    onChange={(e) => setPlatform(e.target.value)}>
+                    <option value="" disabled>
+                        Select Platform
+                    </option>
+                    <option value="Github">Github</option>
+                    <option value="Linkedin">Linkedin</option>
+                    <option value="Email">Email</option>
+                    <option value="Website">Website</option>
+                </select>
                 </div>
 
-                <div>
-                    <button type="button" onClick={handleSubmit}>add</button>
+                <div className="input-div">
+                    <label htmlFor="">Url</label>
+                    <input type="url" placeholder="https://" pattern="https://.*" onChange={e => setLink(e.target.value)} />
                 </div>
-            </form>
+            </div>
+
+            <div>
+                <button type="button" onClick={handleSubmit}>add</button>
+            </div>
+
         </div>
     )
 }

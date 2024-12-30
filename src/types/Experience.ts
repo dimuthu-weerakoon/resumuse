@@ -6,7 +6,7 @@ export interface Experience {
   title: string;
   type: string;
   company: string;
-  location:Location;
+  location?:Location;
   Dates:Dates;
   description: string[];
   status:boolean;
