@@ -1,12 +1,14 @@
 import { FormEvent, useEffect, useState } from "react"
 import { PersonalInfo } from "../../types/PersonalInfo";
+import { useDispatch,  } from "react-redux";
+import { addPersonalInfo } from "../../redux/slices/PersonalInfoSlice";
 
 
 const InputPersonalInfo = () => {
   const [firstName, setFirstName] = useState<string>("");
   const [middleName, setMiddleName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
-
+const dispatch = useDispatch()
 
 
   const newPersonalInfo: PersonalInfo = {
@@ -15,10 +17,12 @@ const InputPersonalInfo = () => {
     lastName: lastName
   }
 
-
+useEffect(()=>{
+  dispatch(addPersonalInfo(newPersonalInfo))
+})
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-  
+   
   }
 
 

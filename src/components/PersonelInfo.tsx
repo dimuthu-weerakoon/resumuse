@@ -1,8 +1,8 @@
-import { useUniversal } from "../context/universal_context/UniversalContext";
+import { useSelector } from "react-redux";
+
 
 const PersonelInfo = () => {
-  const { personalInfoContextProps } = useUniversal();
-  const { personalInfo } = personalInfoContextProps;
+const personalInfo = useSelector((state:any)=>state.personalInfo)
 
   if (!personalInfo) return <div>Loading...</div>;
 
