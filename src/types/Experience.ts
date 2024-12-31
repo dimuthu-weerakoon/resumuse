@@ -7,7 +7,7 @@ export interface Experience {
   type: string;
   company: string;
   location?:Location;
-  Dates:Dates;
+  dates:Dates | null;
   description: string[];
   status:boolean;
   skills: Skill[];

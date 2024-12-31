@@ -1,18 +1,22 @@
-import {  useEffect, useState } from 'react';
-
-import { useSkill } from '../../context/skill_context/SkillContext';
+import { useEffect, useState } from 'react';
 import InputSkills from './InputSkills';
 import { Experience } from '../../types/Experience';
 import InputLocation from './InputLocation';
 import { Location } from '../../types/Location';
+import { useDispatch, useSelector } from 'react-redux';
+import { addExperience } from '../../redux/slices/ExpSlice';
+import { clearSelectedSkills } from '../../redux/slices/SkillsSlice';
+
 
 
 
 
 const InputExperience = () => {
-   
-    const { selectedSkills, clearSelectedSkills } = useSkill();
 
+    const {  selectedSkills } = useSelector(
+        (state: any) => state.skills
+      );
+    const dispatch = useDispatch()
     const [title, setTitle] = useState<string>("");
     const [type, setType] = useState<string>("Intership");
     const [company, setCompany] = useState<string>("");
@@ -36,7 +40,7 @@ const InputExperience = () => {
         description: description,
         status: status,
         skills: selectedSkills,
-        Dates: { startDate: startDate, endDate: endDate },
+        dates: { startDate: startDate, endDate: endDate },
         location: location,
 
     };
@@ -52,9 +56,12 @@ const InputExperience = () => {
         setStartDate("");
         setEndDate("");
         setDescription([]);
-        clearSelectedSkills();
         setStatus(false);
+    
     };
+
+
+
 
     const handleKeyUp = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.key === ("Enter")) {
@@ -73,9 +80,11 @@ const InputExperience = () => {
     }
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-       
+        dispatch(addExperience(newExp))
         clearExp();
-
+        dispatch(clearSelectedSkills())
+        console.log(newExp.skills);
+        
     };
 
 
@@ -142,11 +151,11 @@ const InputExperience = () => {
                             />
                         </div>
                         <div className='input-div' hidden={status}>
-                        <label htmlFor="end-date">
+                            <label htmlFor="end-date">
                                 End Date
                             </label>
                             <input
-   
+
                                 type="date"
                                 id="end-date"
                                 value={endDate !== "present" ? endDate || "" : ""}
@@ -158,7 +167,6 @@ const InputExperience = () => {
 
                     <InputSkills />
 
-
                     <div className='input-div'>
                         <label htmlFor="description">Description</label>
                         <textarea
@@ -169,7 +177,7 @@ const InputExperience = () => {
                             placeholder="- Enter some decriptions about your work and press Enter"
                         ></textarea>
                     </div>
-                    <button type="button" onClick={handleSubmit}>
+                    <button type="button" className='bg-black text-white rounded p-1' onClick={handleSubmit}>
                         Add experience
                     </button>
                 </div>

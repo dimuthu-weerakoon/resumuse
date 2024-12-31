@@ -1,11 +1,13 @@
-import { FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import InputLocation from "./InputLocation";
 import { Location } from "../../types/Location";
 import ContactInfo from "../../types/ContactInfo";
+import { useDispatch } from "react-redux";
+import { addContactInfo } from "../../redux/slices/ContactInfoSlice";
 
 
 const InputContactInfo = () => {
-    
+    const dispatch = useDispatch()
     const [address, setAddress] = useState<string>("");
     const [city, setCity] = useState<string>("");
     const [state, setState] = useState<string>("");
@@ -13,34 +15,27 @@ const InputContactInfo = () => {
     const [location, setLocation] = useState<Location | undefined>(undefined);
     const [phone, setPhone] = useState<string>("");
 
-    const handleSubmit = (e: FormEvent) => {
-        e.preventDefault();
 
-        if (!address || !location || !phone) {
-           
-            console.log("Please fill in all fields");
-            return;
-        }
 
-        const contactInfo: ContactInfo = {
+    useEffect(() => {
+
+
+        setLocation({ city, state, country });
+        const updatedContactInfo: ContactInfo = {
             address: address,
             location: location,
             phone: phone
         };
+       
+            dispatch(addContactInfo(updatedContactInfo))
+        
+    }, [ address,location,phone,dispatch])
 
-    
-        console.log(contactInfo); 
-    };
-
-    useEffect(() => {
-        if (city && state && country) {
-            setLocation({ city, state, country });
-        }
-    }, [city, state, country]);
+  
 
     return (
         <div className="w-full ">
-            <div className="flex">
+            <div className="flex max-lg:flex-wrap">
                 <div className="input-div" >
                     <label htmlFor="phone">Phone Number</label>
                     <input

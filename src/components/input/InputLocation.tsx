@@ -5,7 +5,7 @@ const InputLocation = ({ location, setCity, setCountry, setState }: LocationProp
     return (
        
 
-            <div className="flex">
+            <div className="flex max-lg:flex-wrap">
                 <div className="input-div">
                     <label htmlFor="">City</label>
                     <input type="text" value={location?.city} onChange={(e) => setCity(e.target.value)} /></div>

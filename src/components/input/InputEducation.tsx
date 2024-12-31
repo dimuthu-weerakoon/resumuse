@@ -3,9 +3,13 @@ import { Location } from "../../types/Location";
 import { useEdu } from "../../context/edu_context/EduContext";
 import { Education } from "../../types/Education";
 import InputLocation from "./InputLocation";
+import { useDispatch } from "react-redux";
+import { addEducation } from "../../redux/slices/EducationSlice";
 
 
 const InputEducation = () => {
+    const dispatch = useDispatch()
+    
     const [title, setTitle] = useState<string>("");
     const [institute, setInstitute] = useState<string>("");
     const [description, setDescription] = useState<string>("")
@@ -31,6 +35,7 @@ const InputEducation = () => {
         studying: studying
     }
 
+    
 
    
     useEffect(() => {
@@ -39,7 +44,7 @@ const InputEducation = () => {
 
     const handlesubmit = (e: React.FormEvent) => {
         e.preventDefault()
-     
+        dispatch(addEducation(newEducation))
     }
 
 
@@ -82,7 +87,7 @@ const InputEducation = () => {
                         </div>
                     </div>
                     <div>
-                        <div className="flex gap-4 p-2">
+                        <div className="flex gap-4 p-2 ">
                         <input type="checkbox" onChange={() => { if (!studying) setEndDate(""); setStudying(prevStudying => !prevStudying) }} id="" />
                             <p>I'm currently follwing this</p>
                         </div>

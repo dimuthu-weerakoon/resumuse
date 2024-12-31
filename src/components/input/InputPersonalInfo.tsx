@@ -28,7 +28,7 @@ useEffect(()=>{
 
 
   return (
-    <div className="flex justify-center items-center w-full">
+    <div className="flex justify-center items-center max-lg:flex-wrap w-full">
 
       <div className="input-div">
         <label htmlFor="" className="" >First Name</label>
@@ -42,7 +42,7 @@ useEffect(()=>{
         <label htmlFor="">Last Name</label>
         <input type="text" value={lastName} onChange={e => setLastName(e.target.value)} id="lastname" className="" />
       </div>
-      <div><button className="" type="button" onClick={handleSubmit}>add</button></div>
+  
     </div>
 
 

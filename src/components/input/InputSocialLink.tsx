@@ -5,7 +5,7 @@ import { SocialLink } from "../../types/SocialLinks";
 
 const InputSocialLink = () => {
 
-    
+
 
     const [platform, setPlatform] = useState<string>('');
     const [link, setLink] = useState<string>('')
@@ -23,42 +23,45 @@ const InputSocialLink = () => {
             platform: platform,
             link: link
         }
-        
+
         setPlatform("")
         setLink("")
-     
+
     }
 
     return (
-        <div className="flex w-full items-center">
+        <div className="flex w-full  items-center">
 
-            <div className="flex w-2/3 justify-center items-center ">
+            <div className="flex w-full justify-center items-center max-lg:flex-wrap">
                 <div className="input-div">
                     <label htmlFor="">Platform</label>
-                <select
-                className="font-medium"
-                    id="platform"
-                    value={platform}
-                    onChange={(e) => setPlatform(e.target.value)}>
-                    <option value="" disabled>
-                        Select Platform
-                    </option>
-                    <option value="Github">Github</option>
-                    <option value="Linkedin">Linkedin</option>
-                    <option value="Email">Email</option>
-                    <option value="Website">Website</option>
-                </select>
+                    <select
+                        className="font-medium text-sm"
+                        id="platform"
+                        value={platform}
+                        onChange={(e) => setPlatform(e.target.value)}>
+                        <option value="" disabled>
+                            Select Platform
+                        </option>
+                        <option value="Github">Github</option>
+                        <option value="Linkedin">Linkedin</option>
+                        <option value="Email">Email</option>
+                        <option value="Website">Website</option>
+                    </select>
                 </div>
 
-                <div className="input-div">
+                <div className="input-div flex items-center justify-center">
                     <label htmlFor="">Url</label>
-                    <input type="url" placeholder="https://" pattern="https://.*" onChange={e => setLink(e.target.value)} />
+                    <input type="url" className="rounded-s rounded-e-none" placeholder="https://" pattern="https://.*" onChange={e => setLink(e.target.value)} />
+
+                   
+                        <button type="button" className="text-white rounded-e translate-x-[-10%] border-2 border-black outline-none bg-black border-l rounded-none p-2" onClick={handleSubmit}>add</button>
+                    
                 </div>
+
             </div>
 
-            <div>
-                <button type="button" onClick={handleSubmit}>add</button>
-            </div>
+
 
         </div>
     )
