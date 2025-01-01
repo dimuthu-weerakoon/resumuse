@@ -4,7 +4,8 @@ import ContactInfo from "../../types/ContactInfo";
 const initialState:ContactInfo={
     address: "",
     location: undefined,
-    phone: ""
+    phone: "",
+    email: ""
 }
 
 const contactInfoSlice  = createSlice({
@@ -15,6 +16,7 @@ const contactInfoSlice  = createSlice({
             state.address = action.payload.address
             state.location = action.payload.location
             state.phone = action.payload.phone
+            state.email = action.payload.email
         }
     }
 })

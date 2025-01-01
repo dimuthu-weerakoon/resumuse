@@ -1,22 +1,32 @@
 import { FormEvent, useState } from "react"
-import { useSocialLink } from "../../context/social_links_context/SocialLinksContext"
 import { SocialLink } from "../../types/SocialLinks";
+import { useDispatch } from "react-redux";
+import { addSocialLink } from "../../redux/slices/SocialLinksSlice";
 
 
 const InputSocialLink = () => {
 
+    const dispatch = useDispatch()
 
 
     const [platform, setPlatform] = useState<string>('');
     const [link, setLink] = useState<string>('')
 
 
-    const handleSubmit = async (e: FormEvent) => {
+
+    const handleSubmit =  (e: FormEvent) => {
         e.preventDefault();
 
-        if (!platform || !link) {
-            alert("Please select a platform and enter a valid link.");
-            return;
+        try {
+
+            const checkUrl = new URL(link)
+            if (checkUrl.protocol !== "https:" || !platform ) {
+                alert(`Invalid URL : `)
+                return
+            }
+        } catch (error) {
+            alert(`Invalid URL : ${error}`)
+            return
         }
 
         const socialLink: SocialLink = {
@@ -24,8 +34,10 @@ const InputSocialLink = () => {
             link: link
         }
 
+        dispatch(addSocialLink(socialLink))
+
         setPlatform("")
-        setLink("")
+        setLink(" ")
 
     }
 
@@ -40,23 +52,21 @@ const InputSocialLink = () => {
                         id="platform"
                         value={platform}
                         onChange={(e) => setPlatform(e.target.value)}>
-                        <option value="" disabled>
+                        <option value="" disabled selected>
                             Select Platform
                         </option>
-                        <option value="Github">Github</option>
-                        <option value="Linkedin">Linkedin</option>
-                        <option value="Email">Email</option>
-                        <option value="Website">Website</option>
+                        <option value="github">Github</option>
+                        <option value="linkedin">Linkedin</option>
+                        <option value="portfolio">Portfolio</option>
                     </select>
                 </div>
 
                 <div className="input-div flex items-center justify-center">
                     <label htmlFor="">Url</label>
-                    <input type="url" className="rounded-s rounded-e-none" placeholder="https://" pattern="https://.*" onChange={e => setLink(e.target.value)} />
+                    <input type="url" className="rounded-s rounded-e-none" value={link} placeholder="https://" pattern="https://.*" onChange={e => setLink(e.target.value)} />
 
-                   
-                        <button type="button" className="text-white rounded-e translate-x-[-10%] border-2 border-black outline-none bg-black border-l rounded-none p-2" onClick={handleSubmit}>add</button>
-                    
+                    <button type="button" className="text-white rounded-e translate-x-[-10%] border-2 border-black outline-none bg-black border-l rounded-none p-2" onClick={handleSubmit}>add</button>
+
                 </div>
 
             </div>

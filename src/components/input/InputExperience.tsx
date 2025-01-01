@@ -110,7 +110,7 @@ const InputExperience = () => {
             <form>
                 <div className=''>
                     <div className='input-div'>
-                        <label htmlFor="title">Title</label>
+                        <label htmlFor="title">Podition / Job Role</label>
                         <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} />
                     </div>
                     <div className='input-div'>
@@ -177,9 +177,12 @@ const InputExperience = () => {
                             placeholder="- Enter some decriptions about your work and press Enter"
                         ></textarea>
                     </div>
-                    <button type="button" className='bg-black text-white rounded p-1' onClick={handleSubmit}>
+                    <div className='p-2'>
+                    <button type="button" className='bg-black text-white rounded p-2' onClick={handleSubmit}>
                         Add experience
                     </button>
+                    </div>
+                  
                 </div>
             </form>
 

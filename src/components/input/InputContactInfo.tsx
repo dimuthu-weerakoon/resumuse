@@ -14,7 +14,7 @@ const InputContactInfo = () => {
     const [country, setCountry] = useState<string>("");
     const [location, setLocation] = useState<Location | undefined>(undefined);
     const [phone, setPhone] = useState<string>("");
-
+    const [email, setEmail] = useState<string>("");
 
 
     useEffect(() => {
@@ -24,12 +24,13 @@ const InputContactInfo = () => {
         const updatedContactInfo: ContactInfo = {
             address: address,
             location: location,
-            phone: phone
+            phone: phone,
+            email: email
         };
        
             dispatch(addContactInfo(updatedContactInfo))
         
-    }, [ address,location,phone,dispatch])
+    }, [ address,email,location,phone,dispatch])
 
   
 
@@ -49,6 +50,18 @@ const InputContactInfo = () => {
                         onChange={e => setPhone(e.target.value)}
                     />
                 </div>
+                <div className="input-div" >
+                    <label htmlFor="email">Email Address</label>
+                    <input
+                        className="flex"
+                        id="email"
+                        type="email"
+                        placeholder="mail@example.com"
+                        required
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                    />
+                </div>
                 <div className="input-div ">
                     <label htmlFor="address">Street No / Apartment No</label>
                     <input
@@ -58,6 +71,7 @@ const InputContactInfo = () => {
                         onChange={e => setAddress(e.target.value)}
                     />
                 </div>
+      
             </div>
 
 

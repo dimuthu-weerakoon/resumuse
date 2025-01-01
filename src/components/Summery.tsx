@@ -1,18 +1,14 @@
+import { useSelector } from "react-redux"
 
-import { useUniversal } from "../context/universal_context/UniversalContext"
+
 
 
 const Summery = () => {
-  const {
-   
-    summeryContextProps
-  } = useUniversal();
+const summery:string = useSelector((state:any)=>state.summery)
 
   return (
    <div>
-    <div>Summery</div>
-
-  <div>this is summery from{summeryContextProps?.summery}</div>
+  <p className="text-xs">{summery} </p>
    </div>
   )
 }

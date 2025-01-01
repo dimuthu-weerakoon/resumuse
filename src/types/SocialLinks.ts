@@ -1,4 +1,4 @@
 export interface SocialLink {
-  platform: string | null;
+  platform: string;
   link: string;
 }
