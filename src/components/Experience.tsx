@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux"
 import { Experience } from "../types/Experience"
+import formattedDate from "../common_functions/dateformat"
 
 
 const ExperienceView = () => {
@@ -8,41 +9,56 @@ const ExperienceView = () => {
   const experience: Experience[] = useSelector((state: any) => state.experience)
   return (
 
-    <div>
-      <h2>Experience</h2>
-      {experience && experience.length > 0 ? (
-        <div>
-          {experience.map((exp, index) => (
-            <ul key={index} className="experience-list">
-              <li><strong>Title:</strong> {exp.title}</li>
-              <li><strong>Type:</strong> {exp.type}</li>
-              <li><strong>Company:</strong> {exp.company}</li>
-              <li><strong>Start Date:</strong> {exp.dates?.startDate}</li>
-              <li><strong>End Date:</strong> {exp.dates?.endDate}</li>
-              <li> <strong>description</strong>   {exp.description &&
+    <div className="">
+      {experience && (
+        <div className="mb-3 ">
+          <div>
+            {experience.map((exp, index) => (
+              <div key={index} className=" text-xs mb-3 ">
 
-                <ul>
-                  {exp.description.map(desc => (
-                    <li key={index}>{desc}</li>
-                  ))}
-                </ul>
+                <div className="flex justify-between items-center mb-2">
 
-              } </li>
+                  <div className="flex flex-col">
+                    <span className="font-medium capitalize">{exp.company}</span>
+                    <span>{exp.title} - {exp.type}</span>
+                  </div>
 
-              <li><strong>Skills:</strong> {exp.skills && 
-              <ul>
-                {exp.skills.map(skill =>(
-                  <li key={skill.id}>{skill.skill}</li>
-                ))
-}
-              </ul> 
 
-              }</li>
-            </ul>
-          ))}
+                  <div className="flex flex-col text-end italic text-[0.7rem] h-fit">
+                    <span className="text-nowrap">{formattedDate(exp.dates)}</span>
+                    <span>{exp.location?.city} , {exp.location?.state}</span>
+                  </div>
+
+                </div>
+
+
+
+                <div className="mb-2">
+                    {exp.description.length > 0 && (
+                      <ul>
+                        {exp.description.map(desc=>(
+                          <li key={index}> - {desc}</li>
+                        ))}
+                      </ul>
+                    )}
+                </div>
+
+
+                {exp.skills.length > 0 && (
+
+                  <ul>
+                    <li >Improved Skills - {exp.skills.map(skill => skill.skill).join(" , ")}</li>
+                  </ul>
+
+                )}
+
+
+              </div>
+
+            ))}
+          </div>
+
         </div>
-      ) : (
-        <p>No experience data available.</p>
       )}
     </div>
   )

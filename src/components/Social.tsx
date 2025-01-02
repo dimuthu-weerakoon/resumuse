@@ -16,10 +16,9 @@ const Social = () => {
   return (
     <>
       {socialLinks &&
-        <ul className="text-[0.7rem] flex gap-5">
-
+        <ul className="text-[0.65rem] flex gap-5">
           {socialLinks.map((social, index) => (
-            <li key={index}><FontAwesomeIcon icon={iconNames[social.platform]} /> <a className="italic underline" href={social.link} target="_blank">{social.link}</a> </li>
+            <li key={index}><FontAwesomeIcon icon={iconNames[social.platform]} /> <a className="italic hover:underline" href={social.link} target="_blank">{social.link}</a> </li>
           ))}
         </ul>
       }

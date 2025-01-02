@@ -1,4 +1,4 @@
 export interface Dates{
     startDate:string;
-    endDate?:string | null | "Present";
+    endDate?:string ;
 }

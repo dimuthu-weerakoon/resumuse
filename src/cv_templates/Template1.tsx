@@ -1,9 +1,7 @@
 import ContactInfoView from "../components/ContactInfo"
-import EducationView from "../components/Education"
 import ExperienceView from "../components/Experience"
 import PersonelInfo from "../components/PersonelInfo"
 import Social from "../components/Social"
-import Subtitle from "../components/Subtitle"
 import Summery from "../components/Summery"
 
 
@@ -25,17 +23,24 @@ const Template1 = () => {
             <div className="flex flex-col gap-2 text-right italic text-[0.7rem]">
               <ContactInfoView />
             </div>
-            <div className="col-span-4">
+            <div className="col-span-4 mt-4">
               <Summery />
 
             </div>
           </div>
         </div>
+        <div className=" p-2 grid  grid-flow-col grid-cols-5 ">
+          <div className="Exp-section col-span-3 px-2">
+          <h3 className="font-semibold ">Experience</h3>
+          <hr className="mb-2" />
+          <ExperienceView/>
 
-        <Subtitle />
-        <ExperienceView />
-        <EducationView />
-
+          </div>
+          <div className="Educ-section col-span-2">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse id rem ex velit porro. Eos consequuntur accusamus dolor hic quod sunt consectetur doloribus blanditiis. Eum officiis ratione dolorum mollitia harum.</p>
+          </div>
+          </div> 
+       
 
       </div>
     </>
