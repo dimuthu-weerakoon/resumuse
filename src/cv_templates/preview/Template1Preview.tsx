@@ -1,15 +1,15 @@
-import ContactInfoView from "../components/ContactInfo"
-import EducationView from "../components/Education"
-import ExperienceView from "../components/Experience"
-import PersonelInfo from "../components/PersonelInfo"
-import Social from "../components/Social"
-import Summery from "../components/Summery"
+import ContactInfoView from "../../components/ContactInfo"
+import EducationView from "../../components/Education"
+import ExperienceView from "../../components/Experience"
+import PersonelInfo from "../../components/PersonelInfo"
+import Social from "../../components/Social"
+import Summery from "../../components/Summery"
 
 
 
 
 
-const Template1 = () => {
+const Template1Preview = () => {
 
   return (
     <>
@@ -53,4 +53,4 @@ const Template1 = () => {
   )
 }
 
-export default Template1
+export default Template1Preview

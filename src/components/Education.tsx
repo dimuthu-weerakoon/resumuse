@@ -1,31 +1,35 @@
 import { useSelector } from "react-redux"
 import { Education } from "../types/Education"
+import formattedDate from "../common_functions/dateformat"
 
 
 const EducationView = () => {
-  const educations:Education[] = useSelector((state:any)=>state.education)
+  const educations: Education[] = useSelector((state: any) => state.education)
   return (
-    <div><h2>Education</h2>
-    {
-      educations && 
+    <div>
+      {
+        educations &&
 
-      <div>
-        {educations.map((edu,index)=>(
-          <ul key={index}>
-            <li>{edu.title}</li>
-            <li>{edu.institute}</li>
-            <li>{edu.dates.startDate}</li>
-            <li>{edu.dates.endDate}</li>
-            <li>{edu.description}</li>
-            <li>{edu.location?.city}</li>
-            <li>{edu.location?.state}</li>
-            <li>{edu.location?.country}</li>
-          </ul>
-        ))}
-      </div>
+        <div className="mb-3">
+          {educations.map((edu, index) => (
+            <div key={index} className="text-xs mb-3">
+              <div className="flex justify-between items-center mb-1 capitalize">
+                <div className="flex flex-col">
+                  <span className="font-medium ">{edu.title}</span>
+                  <span>{edu.institute}</span>
 
-    }
-    
+                  <div className="flex justify-between nowrap text-[0.65rem] italic mt-1">
+                  <span className="">{formattedDate(edu.dates)}</span>
+                  <span className="">{edu.location?.city},{edu.location?.state}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+      }
+
     </div>
   )
 }

@@ -9,14 +9,14 @@ const ExperienceView = () => {
   const experience: Experience[] = useSelector((state: any) => state.experience)
   return (
 
-    <div className="">
+    <div >
       {experience && (
         <div className="mb-3 ">
           <div>
             {experience.map((exp, index) => (
               <div key={index} className=" text-xs mb-3 ">
 
-                <div className="flex justify-between items-center mb-2">
+                <div className="flex justify-between items-center mb-1">
 
                   <div className="flex flex-col">
                     <span className="font-medium capitalize">{exp.company}</span>
