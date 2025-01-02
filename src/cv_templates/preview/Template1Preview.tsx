@@ -13,40 +13,49 @@ const Template1Preview = () => {
 
   return (
     <>
-      <div className="shadow-lg p-4 font-serif">
-        <div className="text-gray-800  rounded bg-slate-100">
-          <div className=" p-2 grid  grid-flow-row-dense grid-cols-4 grid-rows-2   ">
-            <div className="col-span-3 flex flex-col gap-4">
-              <PersonelInfo />
-              <Social />
-            </div>
+      <div className=" p-4 w-[21cm] h-[29.7cm] font-serif">
 
-            <div className="flex flex-col gap-2 text-right italic text-[0.7rem]">
-              <ContactInfoView />
+        <div className="p-2  grid  grid-flow-dense grid-cols-7   ">
+          <div className="p-4 col-span-7  text-gray-800   rounded bg-slate-100">
+            <div className=" flex justify-between">
+              <div className="flex flex-col gap-4 ">
+                <PersonelInfo />
+                <Social />
+              </div>
+              <div className="flex flex-col  gap-2 text-right italic text-[0.7rem]">
+                <ContactInfoView />
+              </div>
             </div>
-            <div className="col-span-4 mt-4">
+            <div className="col-span-7 mt-5">
               <Summery />
-
             </div>
           </div>
+
+
+
+
+          <div className="Exp-section mt-4 col-span-4 mr-6">
+            <h3 className="font-semibold ">Experience</h3>
+            <hr className="my-1 w-full" />
+            <ExperienceView />
+          </div>
+
+
+          <div className="Educ-section mt-4 col-span-3">
+            <h3 className="font-semibold ">Education</h3>
+            <hr className="my-1 w-full" />
+            <EducationView />
+          </div>
+
+
         </div>
-        <div className=" p-2 grid  grid-flow-col grid-cols-5 ">
-          <div className="Exp-section col-span-3 mr-5">
-          <h3 className="font-semibold ">Experience</h3>
-          <hr className="my-1 w-full" />
-          <ExperienceView/>
-
-          </div>
 
 
-          <div className="Educ-section col-span-2">
-          <h3 className="font-semibold ">Education</h3>
-          <hr className="my-1 w-full" />
-           <EducationView/>
-          </div>
 
-          </div> 
-       
+
+
+
+
 
       </div>
     </>
@@ -54,3 +63,6 @@ const Template1Preview = () => {
 }
 
 export default Template1Preview
+
+
+

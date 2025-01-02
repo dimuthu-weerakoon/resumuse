@@ -17,9 +17,10 @@ const ResumeInput = () => {
         <InputPersonalInfo />
         <InputContactInfo />
         <InputSocialLink />
+        <InputSummery />
         <InputEducation />
         <InputExperience />
-        <InputSummery />
+       
 
       </div>
     </>

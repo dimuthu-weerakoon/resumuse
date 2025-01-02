@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Location } from "../../types/Location";
-import { useEdu } from "../../context/edu_context/EduContext";
 import { Education } from "../../types/Education";
 import InputLocation from "./InputLocation";
 import { useDispatch } from "react-redux";
@@ -17,7 +16,7 @@ const InputEducation = () => {
     const [city, setCity] = useState<string>("");
     const [country, setCountry] = useState<string>("");
     const [startDate, setStartDate] = useState<string>("");
-    const [endDate, setEndDate] = useState<string | null | "present">(null);
+    const [endDate, setEndDate] = useState<string | null |undefined |"present">(null);
     const [studying, setStudying] = useState<boolean>(false);
 
     const [location, setLocation] = useState<Location>();

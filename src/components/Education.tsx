@@ -17,7 +17,7 @@ const EducationView = () => {
                 <div className="flex flex-col">
                   <span className="font-medium ">{edu.title}</span>
                   <span>{edu.institute}</span>
-
+                  <p className="text-[.7rem]">{edu?.description}</p>
                   <div className="flex justify-between nowrap text-[0.65rem] italic mt-1">
                   <span className="">{formattedDate(edu.dates)}</span>
                   <span className="">{edu.location?.city},{edu.location?.state}</span>
