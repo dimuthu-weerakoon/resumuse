@@ -16,7 +16,7 @@ const InputEducation = () => {
     const [city, setCity] = useState<string>("");
     const [country, setCountry] = useState<string>("");
     const [startDate, setStartDate] = useState<string>("");
-    const [endDate, setEndDate] = useState<string | null |undefined |"present">(null);
+    const [endDate, setEndDate] = useState<string>("");
     const [studying, setStudying] = useState<boolean>(false);
 
     const [location, setLocation] = useState<Location>();

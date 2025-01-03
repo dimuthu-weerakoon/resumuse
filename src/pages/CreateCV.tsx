@@ -1,9 +1,9 @@
 
 
 import { useState } from "react"
-import ResumeInput from "../components/ResumeInput"
 import Template1 from "../cv_templates/Template1"
-import PreviewPanel from "./ResumeBuild"
+import PreviewPanel from "./Preview"
+import { Outlet } from "react-router-dom"
 
 
 const CreateCV = () => {
@@ -13,8 +13,8 @@ const [open,setOpen] = useState<boolean>(false)
         
         <div className="grid grid-cols-2 max-md:grid-cols-1 gap-4 p-2" >
 
-           <div>
-           <ResumeInput />
+           <div className="flex flex-col justify-center items-start p-4 m-4 w-full">
+           <Outlet />
 
            </div>
            <div>

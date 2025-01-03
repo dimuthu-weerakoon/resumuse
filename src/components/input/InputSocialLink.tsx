@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react"
+import { FormEvent, useEffect, useState } from "react"
 import { SocialLink } from "../../types/SocialLinks";
 import { useDispatch } from "react-redux";
 import { addSocialLink } from "../../redux/slices/SocialLinksSlice";
@@ -12,7 +12,9 @@ const InputSocialLink = () => {
     const [platform, setPlatform] = useState<string>('');
     const [link, setLink] = useState<string>('')
 
-
+useEffect(()=>{
+    console.log("InputSocialLink component mounted")
+},[link])
 
     const handleSubmit =  (e: FormEvent) => {
         e.preventDefault();

@@ -4,6 +4,7 @@ import { Location } from "../../types/Location";
 import ContactInfo from "../../types/ContactInfo";
 import { useDispatch } from "react-redux";
 import { addContactInfo } from "../../redux/slices/ContactInfoSlice";
+import { useNavigate } from "react-router-dom";
 
 
 const InputContactInfo = () => {
@@ -15,8 +16,10 @@ const InputContactInfo = () => {
     const [location, setLocation] = useState<Location | undefined>(undefined);
     const [phone, setPhone] = useState<string>("");
     const [email, setEmail] = useState<string>("");
-
-
+const navigate = useNavigate()
+const handleNext = () => {
+    navigate("/create/summery");
+  };
     useEffect(() => {
 
 
@@ -76,7 +79,12 @@ const InputContactInfo = () => {
 
 
             <InputLocation location={location} setCity={setCity} setState={setState} setCountry={setCountry} />
+            <div className="flex justify-between">
+        
 
+            <button onClick={handleNext} type="button">Next</button>
+
+      </div>
         </div>
     );
 };
