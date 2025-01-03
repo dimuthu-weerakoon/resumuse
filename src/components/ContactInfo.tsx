@@ -13,6 +13,7 @@ const ContactInfoView = () => {
           <li>{contactInfo.email}</li>
           <li>{contactInfo.phone}</li>
           <li className="break-words">{contactInfo.address},</li>
+          <li>{contactInfo.location?.city}</li>
           <li> {contactInfo.location?.state} , {contactInfo.location?.country}</li>
         </ul>
       )

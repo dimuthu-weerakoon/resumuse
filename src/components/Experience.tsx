@@ -19,7 +19,7 @@ const ExperienceView = () => {
                 <div className="flex justify-between items-center mb-1">
 
                   <div className="flex flex-col">
-                    <span className="font-medium capitalize">{exp.company}</span>
+                    <span className="font-semibold capitalize">{exp.company}</span>
                     <span>{exp.title} - {exp.type}</span>
                   </div>
 
@@ -47,7 +47,7 @@ const ExperienceView = () => {
                 {exp.skills.length > 0 && (
 
                   <ul>
-                    <li >Improved Skills - {exp.skills.map(skill => skill.skill).join(" , ")}</li>
+                    <li ><span>Improved Skills - </span><span className="font-medium">{exp.skills.map(skill => skill.skill).join(" , ")}</span></li>
                   </ul>
 
                 )}
@@ -59,6 +59,7 @@ const ExperienceView = () => {
           </div>
 
         </div>
+
       )}
     </div>
   )

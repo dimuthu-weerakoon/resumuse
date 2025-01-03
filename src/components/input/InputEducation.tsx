@@ -4,11 +4,12 @@ import { Education } from "../../types/Education";
 import InputLocation from "./InputLocation";
 import { useDispatch } from "react-redux";
 import { addEducation } from "../../redux/slices/EducationSlice";
+import { useNavigate } from "react-router";
 
 
 const InputEducation = () => {
     const dispatch = useDispatch()
-    
+    const navigate = useNavigate()
     const [title, setTitle] = useState<string>("");
     const [institute, setInstitute] = useState<string>("");
     const [description, setDescription] = useState<string>("")
@@ -34,9 +35,9 @@ const InputEducation = () => {
         studying: studying
     }
 
-    
 
-   
+
+
     useEffect(() => {
         setLocation({ state, city, country });
     }, [state, city, country]);
@@ -79,7 +80,7 @@ const InputEducation = () => {
                         <div className="input-div">
                             <label htmlFor="">Collage/Institute/University</label>
                             <input type="text" value={institute} onChange={e => setInstitute(e.target.value)} />
-                            </div>
+                        </div>
                         <div className="input-div">
                             <label htmlFor="">Description</label>
                             <textarea name="" value={description} onChange={e => setDescription(e.target.value)}></textarea>
@@ -87,35 +88,35 @@ const InputEducation = () => {
                     </div>
                     <div>
                         <div className="flex gap-4 p-2 ">
-                        <input type="checkbox" onChange={() => { if (!studying) setEndDate(""); setStudying(prevStudying => !prevStudying) }} id="" />
+                            <input type="checkbox" onChange={() => { if (!studying) setEndDate(""); setStudying(prevStudying => !prevStudying) }} id="" />
                             <p>I'm currently follwing this</p>
                         </div>
                         <div className="flex">
-                        <div className="input-div">
-                            <label htmlFor="start-date">Start Date</label>
-                            <input
-                                type="date"
-                                id="start-date"
-                                value={startDate}
-                                onChange={(e) => setStartDate(e.target.value)}
+                            <div className="input-div">
+                                <label htmlFor="start-date">Start Date</label>
+                                <input
+                                    type="date"
+                                    id="start-date"
+                                    value={startDate}
+                                    onChange={(e) => setStartDate(e.target.value)}
 
-                            />
+                                />
+                            </div>
+                            <div className="input-div" hidden={studying}>
+                                <label htmlFor="end-date">
+                                    End Date
+                                </label>
+                                <input
+
+                                    type="date"
+                                    id="end-date"
+                                    value={endDate !== "present" ? endDate || "" : ""}
+                                    onChange={handleEndDate}
+                                    disabled={studying}
+                                />
+                            </div>
                         </div>
-                        <div className="input-div" hidden={studying}>
-                            <label htmlFor="end-date">
-                                End Date
-                            </label>
-                            <input
-   
-                                type="date"
-                                id="end-date"
-                                value={endDate !== "present" ? endDate || "" : ""}
-                                onChange={handleEndDate}
-                                disabled={studying}
-                            />
-                        </div>
-                        </div>
-             
+
                     </div>
                     <InputLocation
                         location={location}
@@ -128,6 +129,10 @@ const InputEducation = () => {
 
 
             </form>
+
+            <button onClick={() => navigate(-1)}>back</button>
+            <button onClick={() => navigate("/create/experience")}>next</button>
+
         </div>
 
 

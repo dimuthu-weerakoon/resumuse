@@ -2,7 +2,7 @@ import { FormEvent, useEffect, useState } from "react"
 import { PersonalInfo } from "../../types/PersonalInfo";
 import { useDispatch, } from "react-redux";
 import { addPersonalInfo } from "../../redux/slices/PersonalInfoSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 
 const InputPersonalInfo = () => {
@@ -11,8 +11,9 @@ const InputPersonalInfo = () => {
   const [lastName, setLastName] = useState<string>("");
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
   const handleNext = () => {
-    navigate("/create/contact-info");
+    navigate("/create/experience");
   };
   const newPersonalInfo: PersonalInfo = {
     firstName: firstName,
@@ -50,7 +51,8 @@ const InputPersonalInfo = () => {
         </div>
       </div>
       <div className="flex justify-end">
-        <button onClick={handleNext} type="button">Next</button>
+
+        <button onClick={() => navigate('/create/contact-info')} >Next</button>
       </div>
     </div>
 

@@ -4,7 +4,7 @@ import { Location } from "../../types/Location";
 import ContactInfo from "../../types/ContactInfo";
 import { useDispatch } from "react-redux";
 import { addContactInfo } from "../../redux/slices/ContactInfoSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router";
 
 
 const InputContactInfo = () => {
@@ -13,29 +13,36 @@ const InputContactInfo = () => {
     const [city, setCity] = useState<string>("");
     const [state, setState] = useState<string>("");
     const [country, setCountry] = useState<string>("");
-    const [location, setLocation] = useState<Location | undefined>(undefined);
     const [phone, setPhone] = useState<string>("");
     const [email, setEmail] = useState<string>("");
-const navigate = useNavigate()
-const handleNext = () => {
-    navigate("/create/summery");
-  };
+
+    const navigate = useNavigate();
+
+
+    const handleDispatch = () => {
+
+        dispatch(addContactInfo(updatedContactInfo))
+
+
+    }
+
+    const updatedLocation: Location = {
+        city: city,
+        state: state,
+        country: country
+    }
+
+    const updatedContactInfo: ContactInfo = {
+        address: address,
+        location: updatedLocation,
+        phone: phone,
+        email: email
+    };
+
     useEffect(() => {
 
-
-        setLocation({ city, state, country });
-        const updatedContactInfo: ContactInfo = {
-            address: address,
-            location: location,
-            phone: phone,
-            email: email
-        };
-       
-            dispatch(addContactInfo(updatedContactInfo))
-        
-    }, [ address,email,location,phone,dispatch])
-
-  
+        handleDispatch()
+    })
 
     return (
         <div className="w-full ">
@@ -74,17 +81,17 @@ const handleNext = () => {
                         onChange={e => setAddress(e.target.value)}
                     />
                 </div>
-      
+
             </div>
 
 
-            <InputLocation location={location} setCity={setCity} setState={setState} setCountry={setCountry} />
+            <InputLocation location={updatedLocation} setCity={setCity} setState={setState} setCountry={setCountry} />
             <div className="flex justify-between">
-        
+                <button onClick={() => navigate(-1)}>back</button>
+                <button onClick={() => navigate("/create/social-link")}>next</button>
+            </div>
 
-            <button onClick={handleNext} type="button">Next</button>
 
-      </div>
         </div>
     );
 };

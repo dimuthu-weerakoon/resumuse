@@ -6,6 +6,7 @@ import { Location } from '../../types/Location';
 import { useDispatch, useSelector } from 'react-redux';
 import { addExperience } from '../../redux/slices/ExpSlice';
 import { clearSelectedSkills } from '../../redux/slices/SkillsSlice';
+import { Link, useNavigate } from 'react-router';
 
 
 
@@ -13,9 +14,8 @@ import { clearSelectedSkills } from '../../redux/slices/SkillsSlice';
 
 const InputExperience = () => {
 
-    const {  selectedSkills } = useSelector(
-        (state: any) => state.skills
-      );
+    const { selectedSkills } = useSelector( (state: any) => state.skills);
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const [title, setTitle] = useState<string>("");
     const [type, setType] = useState<string>("Intership");
@@ -57,7 +57,7 @@ const InputExperience = () => {
         setEndDate("");
         setDescription([]);
         setStatus(false);
-    
+
     };
 
 
@@ -84,7 +84,7 @@ const InputExperience = () => {
         clearExp();
         dispatch(clearSelectedSkills())
         console.log(newExp.skills);
-        
+
     };
 
 
@@ -178,14 +178,14 @@ const InputExperience = () => {
                         ></textarea>
                     </div>
                     <div className='p-2'>
-                    <button type="button" className='bg-black text-white rounded p-2' onClick={handleSubmit}>
-                        Add experience
-                    </button>
+                        <button type="button" className='bg-black text-white rounded p-2' onClick={handleSubmit}>
+                            Add experience
+                        </button>
                     </div>
-                  
                 </div>
             </form>
-
+            <button onClick={() => navigate(-1)}>back</button>
+            <button onClick={() => navigate("/create/summery")}>next</button>
         </div>
     );
 };

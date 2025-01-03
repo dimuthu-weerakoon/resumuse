@@ -1,28 +1,22 @@
-import { FormEvent, useEffect, useState } from "react"
+import { FormEvent, useState } from "react"
 import { SocialLink } from "../../types/SocialLinks";
 import { useDispatch } from "react-redux";
 import { addSocialLink } from "../../redux/slices/SocialLinksSlice";
+import { useNavigate } from "react-router";
 
 
 const InputSocialLink = () => {
-
+    const navigate = useNavigate()
     const dispatch = useDispatch()
-
-
     const [platform, setPlatform] = useState<string>('');
     const [link, setLink] = useState<string>('')
 
-useEffect(()=>{
-    console.log("InputSocialLink component mounted")
-},[link])
-
-    const handleSubmit =  (e: FormEvent) => {
+    const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
 
         try {
-
             const checkUrl = new URL(link)
-            if (checkUrl.protocol !== "https:" || !platform ) {
+            if (checkUrl.protocol !== "https:" || !platform) {
                 alert(`Invalid URL : `)
                 return
             }
@@ -35,12 +29,9 @@ useEffect(()=>{
             platform: platform,
             link: link
         }
-
         dispatch(addSocialLink(socialLink))
-
         setPlatform("")
         setLink(" ")
-
     }
 
     return (
@@ -68,13 +59,11 @@ useEffect(()=>{
                     <input type="url" className="rounded-s rounded-e-none" value={link} placeholder="https://" pattern="https://.*" onChange={e => setLink(e.target.value)} />
 
                     <button type="button" className="text-white rounded-e translate-x-[-10%] border-2 border-black outline-none bg-black border-l rounded-none p-2" onClick={handleSubmit}>add</button>
-
                 </div>
-
             </div>
+            <button onClick={() => navigate(-1)} >Back</button>
 
-
-
+        <button onClick={() => navigate('/create/education')} >Next</button>
         </div>
     )
 }

@@ -10,8 +10,8 @@ import Skill from "../../types/Skill";
 
 const initialSkills: Skill[] = [
   { id: 1, skill: "Java" },
-  { id: 4, skill: "Janva" },
-  { id: 5, skill: "Javaaa" },
+  { id: 4, skill: "Wordpress" },
+  { id: 5, skill: "React" },
   { id: 2, skill: "PHP" },
   { id: 3, skill: "Jenkins" },
 ];
