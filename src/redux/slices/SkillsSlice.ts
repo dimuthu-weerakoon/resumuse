@@ -3,13 +3,11 @@ import Skill from "../../types/Skill";
 
 export interface SkillsState {
   skills: Skill[];
-  filteredSkills: Skill[];
   selectedSkills: Skill[];
 }
 
 const initialState: SkillsState = {
   skills: [],
-  filteredSkills: [],
   selectedSkills: [],
 };
 
@@ -20,28 +18,14 @@ const skillSlice = createSlice({
     setSkills(state, action: PayloadAction<Skill[]>) {
       state.skills = action.payload;
     },
-    setSelectedSkills(state, action: PayloadAction<number>) {
-      const selectedSkill = state.skills.find((skill) => skill.id === action.payload);
-      if (
-        selectedSkill &&
-        !state.selectedSkills.some((skill) => skill.id === selectedSkill.id)) {
-        state.selectedSkills.push(selectedSkill);
-        
+    setSelectedSkills(state, action: PayloadAction<Skill>) {
+      if (!state.selectedSkills.includes(action.payload)) { 
+        state.selectedSkills.push(action.payload);
       }
     },
-
-    setFilteredSkills(state, action: PayloadAction<string>) {
-      if (action.payload === "") {
-        state.filteredSkills = [];
-      } else {
-        state.filteredSkills = state.skills.filter((skill) =>
-          skill.skill.toLowerCase().includes(action.payload.toLowerCase())
-        );
-      }
-    },
-    removeSelectedSkill(state, action: PayloadAction<number>) {
+    removeSelectedSkill(state, action: PayloadAction<Skill>) {
       state.selectedSkills = state.selectedSkills.filter(
-        (skill) => skill.id !== action.payload
+        (skill) => skill !== action.payload
       );
     },
     clearSelectedSkills(state){
@@ -52,7 +36,6 @@ const skillSlice = createSlice({
 
 export const {
   setSelectedSkills,
-  setFilteredSkills,
   removeSelectedSkill,
   setSkills,
   clearSelectedSkills

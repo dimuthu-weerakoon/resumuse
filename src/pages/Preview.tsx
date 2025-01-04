@@ -3,11 +3,12 @@
 
 
 import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react'
-import Template1Preview from '../cv_templates/preview/Template1Preview'
+
+import { ReactNode } from 'react'
 
 
 
-export default function PreviewPanel({ open, setOpen }: { open: boolean, setOpen: any }) {
+export default function PreviewPanel({ open, setOpen,children }: { open: boolean, setOpen: any,children:ReactNode }) {
 
 
     return (
@@ -17,7 +18,7 @@ export default function PreviewPanel({ open, setOpen }: { open: boolean, setOpen
 
 
 
-            <Dialog open={open} onClose={setOpen} className="relative z-10 ">
+            <Dialog open={open} onClose={setOpen} className="relative z-50 ">
 
 
                 <DialogBackdrop
@@ -34,7 +35,7 @@ export default function PreviewPanel({ open, setOpen }: { open: boolean, setOpen
 
 
                             <div className="w-full max-w-[21cm] h-full max-h-[29.7cm] overflow-auto">
-                                <Template1Preview />
+                               {children}
                             </div>
 
 

@@ -19,6 +19,7 @@ const InputSummery = () => {
     const dispatch = useDispatch()
 
     const handleAiSummery = async () => {
+        setSummery("")
         const aiSummery = await generateAiSummery(experience);
         setSummery(aiSummery || "")
     }
@@ -34,9 +35,11 @@ const InputSummery = () => {
         <div className="input-div">
             <label htmlFor="">Enter some summary about your career</label>
             <form >
-                <textarea value={summery} cols={5} rows={2} onChange={e => setSummery(e.target.value)}></textarea>
-                <button type="button" onClick={handleSubmit}>add</button>
-                <button type="button" onClick={handleAiSummery}>Generate Ai</button>
+                <textarea className="p-4" value={summery} cols={5} rows={5} onChange={e => setSummery(e.target.value)}></textarea>
+                <div className="flex justify-end gap-5">
+                <button type="button" className="p-2 rounded bg-black text-white" onClick={handleSubmit}>add</button>
+                <button type="button" className="p-2 rounded bg-black text-white" onClick={handleAiSummery}>Generate Ai</button>
+                </div>
 
             </form>
             <button onClick={() => navigate(-1)}>back</button>

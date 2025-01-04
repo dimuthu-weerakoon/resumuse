@@ -1,12 +1,14 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 import { Experience } from "../types/Experience";
+import Skill from "../types/Skill";
 
 const apiKey = import.meta.env.VITE_GOOGLE_AI_API_KEY;
 const genAI = new GoogleGenerativeAI(apiKey);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-export const generateAiSummery = async (experience:Experience[]) => {
+export const generateAiSummery = async (experience: Experience[]) => {
+  const jobRoles = experience.flatMap((exp) => exp.title).join(", ");
 
   const yearOfExperience = experience
     .flatMap((exp) => exp.dates.startDate)
@@ -18,7 +20,8 @@ export const generateAiSummery = async (experience:Experience[]) => {
     .join(", ");
 
   const prompt = `Generate a job-winning interactive resume summary correctly using these experiences details:
-    - Analyze years of experience by start dtaes: ${yearOfExperience}
+  - worked job roles ${jobRoles}
+  - Analyze years of experience by start dates of each work companies: ${yearOfExperience}
     - Highlight improved skills: ${skills}`;
 
   try {
@@ -27,4 +30,47 @@ export const generateAiSummery = async (experience:Experience[]) => {
   } catch (err) {
     console.error(err);
   }
+};
+
+export const generateSkills = async (jobrole: string, input: string) => {
+  const prompt = `Suggest relevant skills for the job role "${jobrole}" that start with or include the letter/word "${input}". 
+  Provide a concise list of skills in a comma-separated format. 
+  Focus on skills directly related to the job role and the provided input. 
+  Do not return any output if "${input}" is not related to the job role "${jobrole}".`;  
+
+  try {
+    const res = await model.generateContent(prompt);
+    const outputText: string = res.response.text();
+
+    const skills: Skill[] = outputText
+      .split(",")
+      .map((skill) => ({ skill: skill.trim() }));
+    return skills;
+  } catch (err) {
+    console.error.apply(err);
+    return [];
+  }
+};
+
+export const suggestJobRole = async (input: string) => {
+  if (input.trim() === '') { 
+    return []
+  }
+
+  const prompt = `Suggest relevant job positions matching with "${input.trim()}". 
+    Provide a concise list of job positions in a comma-separated format. 
+    Do not return anything when "${input}" is empty.
+    `;
+  try {
+    const res = await model.generateContent(prompt);
+
+    const output = res.response.text();
+
+    const suggestedRole: string[] = output.split(",");
+    return suggestedRole;
+  } catch (err) {
+    console.error.apply(err);
+    return []
+  }
+  
 };

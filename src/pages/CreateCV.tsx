@@ -4,6 +4,7 @@ import { useState } from "react"
 import Template1 from "../cv_templates/Template1"
 import PreviewPanel from "./Preview"
 import { Outlet } from "react-router"
+import Template1Preview from "../cv_templates/preview/Template1Preview"
 
 
 const CreateCV = () => {
@@ -20,7 +21,10 @@ const CreateCV = () => {
                 <button onClick={() => setOpen(!open)} type="button">Preview</button>
             </div>
 
-            <PreviewPanel open={open} setOpen={setOpen} />
+            <PreviewPanel open={open} setOpen={setOpen} >
+                <Template1Preview/>
+            </PreviewPanel>
+
 
 
         </div>

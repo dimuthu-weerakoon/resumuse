@@ -3,37 +3,42 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setSelectedSkills,
   removeSelectedSkill,
-  setSkills,
-  setFilteredSkills,
+  setSkills
 } from "../../redux/slices/SkillsSlice";
 import Skill from "../../types/Skill";
+import { generateSkills } from "../../Ai/AiGeneratives";
 
-const initialSkills: Skill[] = [
-  { id: 1, skill: "Java" },
-  { id: 4, skill: "Wordpress" },
-  { id: 5, skill: "React" },
-  { id: 2, skill: "PHP" },
-  { id: 3, skill: "Jenkins" },
-];
 
-const InputSkills = () => {
-  const { filteredSkills: filtered, selectedSkills } = useSelector(
+
+
+const InputSkills = ({ jobRole }: { jobRole: string }) => {
+  const {  skills,selectedSkills } = useSelector(
     (state: any) => state.skills
   );
+
   const [searchQuery, setSearchQuery] = useState<string>("");
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(setSkills(initialSkills));
-  }, [dispatch]);
+  const fetchAiSkills = async () => {
+    try {
+      const skills: Skill[] = await generateSkills(jobRole, searchQuery);
+      dispatch(setSkills(skills))
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
 
   useEffect(() => {
-    dispatch(setFilteredSkills(searchQuery));
-  }, [dispatch, searchQuery]);
+    if(jobRole !== "" && searchQuery !== ""){
+    fetchAiSkills()
+    }
+  }, [dispatch,searchQuery]);
+
 
   return (
     <div className="input-div">
-      <label htmlFor="skills-input" className="z-50">
+      <label htmlFor="skills-input" className="z-40">
         Enter Skills you gained
       </label>
       <div className="grid grid-cols-1 w-full relative">
@@ -41,42 +46,42 @@ const InputSkills = () => {
           type="text"
           id="skills-input"
           className="skill-input"
-          placeholder="Type to search..."
+          placeholder="Type Keywords"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        {filtered.length > 0 && (
+        {searchQuery ? (
           <ul className="shadow-xl bg-white w-full z-10 flex flex-col items-start overflow-y-auto max-h-40 absolute top-full left-0">
-            {filtered.map((filteredSkill: Skill) => (
+            {skills.map((skill: Skill, index: any) => (
               <li
-                key={filteredSkill.id}
+                key={index}
                 className="w-full cursor-pointer hover:bg-slate-100 hover:rounded"
               >
                 <button
                   type="button"
                   className="font-medium text-left w-full p-1"
                   onClick={() => {
-                    dispatch(setSelectedSkills(filteredSkill.id));
+                    dispatch(setSelectedSkills(skill));
                     setSearchQuery("");
                   }}
                 >
-                  {filteredSkill.skill}
+                  {skill.skill}
                 </button>
               </li>
             ))}
           </ul>
-        )}
-        {!filtered.length && <span>No matching skills found.</span>}
+        ):("")}
+
         <div className="selected-skills flex gap-2 mt-2">
-          {selectedSkills.map((skill: Skill) => (
+          {selectedSkills.map((skill: Skill, index: number) => (
             <span
               className="selected-skill bg-slate-300 px-2 border rounded-md border-slate-400 font-medium text-sm"
-              key={skill.id}
+              key={index}
             >
               {skill.skill}
               <button
                 className="remove-skill p-1 rounded-full text-slate-600"
-                onClick={() => dispatch(removeSelectedSkill(skill.id))}
+                onClick={() => dispatch(removeSelectedSkill(skill))}
               >
                 x
               </button>

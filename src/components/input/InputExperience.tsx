@@ -6,7 +6,9 @@ import { Location } from '../../types/Location';
 import { useDispatch, useSelector } from 'react-redux';
 import { addExperience } from '../../redux/slices/ExpSlice';
 import { clearSelectedSkills } from '../../redux/slices/SkillsSlice';
-import { Link, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
+import { suggestJobRole } from '../../Ai/AiGeneratives';
+
 
 
 
@@ -14,7 +16,7 @@ import { Link, useNavigate } from 'react-router';
 
 const InputExperience = () => {
 
-    const { selectedSkills } = useSelector( (state: any) => state.skills);
+    const { selectedSkills } = useSelector((state: any) => state.skills);
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [title, setTitle] = useState<string>("");
@@ -29,7 +31,7 @@ const InputExperience = () => {
     const [currentInput, setCurrentInput] = useState<string>("");
     const [country, setCountry] = useState<string>("");
     const [location, setLocation] = useState<Location>()
-
+    const [suggestedJobRoles, setSuggestedJobRoles] = useState<string[]>([]);
 
     const employeeTypes = ["Intership", "Contract", "Employee"];
 
@@ -44,6 +46,13 @@ const InputExperience = () => {
         location: location,
 
     };
+
+    async function handleAiSuggestTitle() {
+        const aiSuggestJobRoles: string[] = await suggestJobRole(title)
+        setSuggestedJobRoles(aiSuggestJobRoles);
+    }
+
+
 
     useEffect(() => {
         setLocation({ state, city, country });
@@ -111,7 +120,34 @@ const InputExperience = () => {
                 <div className=''>
                     <div className='input-div'>
                         <label htmlFor="title">Podition / Job Role</label>
-                        <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} />
+                        <input type="text" id="title"   value={title} onChange={(e) => {
+                            handleAiSuggestTitle()
+                            setTitle(e.target.value)
+                            }} />
+
+
+                        {title && suggestedJobRoles.length > 0 && (
+                            <ul className="shadow-xl bg-white w-full z-10 flex flex-col items-start overflow-y-auto max-h-40 absolute top-full left-0">
+                                {suggestedJobRoles.map((job, index) => (
+                                    <li key={index} className="w-full cursor-pointer hover:bg-slate-100 hover:rounded">
+                                        <button
+                                            type="button"
+                                            className="font-medium text-left w-full p-1"
+                                            onClick={() => {
+                                                setTitle(job);
+                                             
+                                                setSuggestedJobRoles([]);
+                                            }}
+                                        >
+                                            {job}
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+
+
+
                     </div>
                     <div className='input-div'>
                         <label htmlFor="type">Type</label>
@@ -165,7 +201,7 @@ const InputExperience = () => {
                         </div>
                     </div>
 
-                    <InputSkills />
+                    <InputSkills jobRole={title} />
 
                     <div className='input-div'>
                         <label htmlFor="description">Description</label>
