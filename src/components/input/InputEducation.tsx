@@ -5,6 +5,7 @@ import InputLocation from "./InputLocation";
 import { useDispatch } from "react-redux";
 import { addEducation } from "../../redux/slices/EducationSlice";
 import { useNavigate } from "react-router";
+import { generateQualifications } from "../../Ai/AiGeneratives";
 
 
 const InputEducation = () => {
@@ -19,9 +20,8 @@ const InputEducation = () => {
     const [startDate, setStartDate] = useState<string>("");
     const [endDate, setEndDate] = useState<string>("");
     const [studying, setStudying] = useState<boolean>(false);
-
     const [location, setLocation] = useState<Location>();
-
+    const [suggestedEducations, setSuggestedEducations] = useState<string[]>([])
 
     const newEducation: Education = {
         title: title,
@@ -35,6 +35,14 @@ const InputEducation = () => {
         studying: studying
     }
 
+
+    const handleAiGenerateEducations = async () => {
+        const generatedEdu: string[] = await generateQualifications(title);
+        setSuggestedEducations(generatedEdu)
+
+    }
+
+ 
 
 
 
@@ -74,13 +82,46 @@ const InputEducation = () => {
 
                     <div className="input-div">
                         <label htmlFor="">Title</label>
-                        <input type="text" id="resitent" value={title} onChange={e => setTitle(e.target.value)} />
+                        <input type="text" id="" value={title} onChange={e => {
+                            handleAiGenerateEducations()
+                            setTitle(e.target.value)
+                        }} />
+
+
+                        {title && suggestedEducations.length > 0 && (
+                            <ul className="shadow-xl bg-white w-full z-10 flex flex-col items-start overflow-y-auto max-h-40 absolute top-full left-0">
+                                {suggestedEducations.map((edu, index) => (
+                                    <li key={index} className="w-full cursor-pointer hover:bg-slate-100 hover:rounded">
+                                        <button
+                                            type="button"
+                                            className="font-medium text-left w-full p-1"
+                                            onClick={() => {
+                                                setTitle(edu);
+
+                                                setSuggestedEducations([]);
+                                            }}
+                                        >
+                                            {edu}
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+
+
+
                     </div>
                     <div>
                         <div className="input-div">
                             <label htmlFor="">Collage/Institute/University</label>
-                            <input type="text" value={institute} onChange={e => setInstitute(e.target.value)} />
+                            <input type="text" value={institute} onChange={e => { 
+                                
+                                setInstitute(e.target.value) }} />
+
+
                         </div>
+
+
                         <div className="input-div">
                             <label htmlFor="">Description</label>
                             <textarea name="" value={description} onChange={e => setDescription(e.target.value)}></textarea>
@@ -130,7 +171,7 @@ const InputEducation = () => {
 
             </form>
 
-            <button onClick={() => navigate(-1)}>back</button>
+            <button onClick={() => navigate("/create/social-link")}>back</button>
             <button onClick={() => navigate("/create/experience")}>next</button>
 
         </div>

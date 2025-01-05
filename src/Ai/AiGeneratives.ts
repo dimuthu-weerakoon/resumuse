@@ -36,7 +36,7 @@ export const generateSkills = async (jobrole: string, input: string) => {
   const prompt = `Suggest relevant skills for the job role "${jobrole}" that start with or include the letter/word "${input}". 
   Provide a concise list of skills in a comma-separated format. 
   Focus on skills directly related to the job role and the provided input. 
-  Do not return any output if "${input}" is not related to the job role "${jobrole}".`;  
+  Do not return any output if "${input}" is not related to the job role "${jobrole}".`;
 
   try {
     const res = await model.generateContent(prompt);
@@ -53,11 +53,11 @@ export const generateSkills = async (jobrole: string, input: string) => {
 };
 
 export const suggestJobRole = async (input: string) => {
-  if (input.trim() === '') { 
-    return []
+  if (input.trim() === "") {
+    return [];
   }
 
-  const prompt = `Suggest relevant job positions matching with "${input.trim()}". 
+  const prompt = `Suggest relevant job positions that start with or include the letter/word "${input}". 
     Provide a concise list of job positions in a comma-separated format. 
     Do not return anything when "${input}" is empty.
     `;
@@ -70,7 +70,32 @@ export const suggestJobRole = async (input: string) => {
     return suggestedRole;
   } catch (err) {
     console.error.apply(err);
-    return []
+    return [];
   }
-  
 };
+
+export const generateQualifications = async (input: string) => {
+  if (input.trim() === "") {
+    return [];
+  }
+
+  const prompt = `Suggest relevant education or professional qualifications or certifications that start with or include the letter/word "${input}". 
+    Provide a concise list of qualifications in a comma-separated format. 
+   deeply analyze what is trying to enter in ${input}
+    Do not return anything when "${input}" is empty.`;
+
+  try {
+    const res = await model.generateContent(prompt);
+    const outputText: string = res.response.text();
+
+    const qualifications: string[] = outputText
+      .split(",")
+      .map((qualification) => qualification.trim());
+    return qualifications;
+  } catch (err) {
+    console.error("Error generating qualifications:", err);
+    return [];
+  }
+};
+
+
