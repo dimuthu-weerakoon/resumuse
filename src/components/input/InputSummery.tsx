@@ -31,6 +31,10 @@ const InputSummery = () => {
     }
 
 
+      const handleBack = () => {
+        navigate("/create/experience");
+      };
+
     return (
         <div className="input-div">
             <label htmlFor="">Enter some summary about your career</label>
@@ -42,7 +46,7 @@ const InputSummery = () => {
                 </div>
 
             </form>
-            <button onClick={() => navigate(-1)}>back</button>
+            <button onClick={handleBack}>back</button>
         </div>
     )
 }

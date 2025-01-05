@@ -33,6 +33,12 @@ const InputSocialLink = () => {
         setPlatform("")
         setLink(" ")
     }
+    const handleNext = () => {
+        navigate("/create/education");
+      };
+      const handleBack = () => {
+        navigate("/create/contact-info");
+      };
 
     return (
         <div className="flex w-full  items-center">
@@ -61,9 +67,9 @@ const InputSocialLink = () => {
                     <button type="button" className="text-white rounded-e translate-x-[-10%] border-2 border-black outline-none bg-black border-l rounded-none p-2" onClick={handleSubmit}>add</button>
                 </div>
             </div>
-            <button onClick={() => navigate(-1)} >Back</button>
+            <button onClick={handleBack} >Back</button>
 
-        <button onClick={() => navigate('/create/education')} >Next</button>
+        <button onClick={handleNext} >Next</button>
         </div>
     )
 }

@@ -13,7 +13,7 @@ const InputPersonalInfo = () => {
   const navigate = useNavigate()
 
   const handleNext = () => {
-    navigate("/create/experience");
+    navigate("/create/contact-info");
   };
   const newPersonalInfo: PersonalInfo = {
     firstName: firstName,
@@ -52,7 +52,7 @@ const InputPersonalInfo = () => {
       </div>
       <div className="flex justify-end">
 
-        <button onClick={() => navigate('/create/contact-info')} >Next</button>
+        <button onClick={handleNext} >Next</button>
       </div>
     </div>
 

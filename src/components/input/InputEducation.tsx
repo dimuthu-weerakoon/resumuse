@@ -70,6 +70,12 @@ const InputEducation = () => {
         }
 
     }
+    const handleNext = () => {
+        navigate("/create/experience");
+      };
+      const handleBack = () => {
+        navigate("/create/social-link");
+      };
 
     return (
         <div className="w-full">
@@ -171,8 +177,8 @@ const InputEducation = () => {
 
             </form>
 
-            <button onClick={() => navigate("/create/social-link")}>back</button>
-            <button onClick={() => navigate("/create/experience")}>next</button>
+            <button onClick={handleBack}>back</button>
+            <button onClick={handleNext}>next</button>
 
         </div>
 

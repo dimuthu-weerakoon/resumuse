@@ -4,7 +4,7 @@ import { Location } from "../../types/Location";
 import ContactInfo from "../../types/ContactInfo";
 import { useDispatch } from "react-redux";
 import { addContactInfo } from "../../redux/slices/ContactInfoSlice";
-import { Link, useNavigate } from "react-router";
+import {  useNavigate } from "react-router";
 
 
 const InputContactInfo = () => {
@@ -17,7 +17,12 @@ const InputContactInfo = () => {
     const [email, setEmail] = useState<string>("");
 
     const navigate = useNavigate();
-
+    const handleNext = () => {
+        navigate("/create/social-link");
+      };
+      const handleBack = () => {
+        navigate("/create");
+      };
 
     const handleDispatch = () => {
 
@@ -87,8 +92,8 @@ const InputContactInfo = () => {
 
             <InputLocation location={updatedLocation} setCity={setCity} setState={setState} setCountry={setCountry} />
             <div className="flex justify-between">
-                <button onClick={() => navigate(-1)}>back</button>
-                <button onClick={() => navigate("/create/social-link")}>next</button>
+                <button onClick={handleBack}>back</button>
+                <button onClick={handleNext}>next</button>
             </div>
 
 

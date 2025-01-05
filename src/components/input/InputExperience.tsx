@@ -111,6 +111,12 @@ const InputExperience = () => {
         }
 
     }
+    const handleNext = () => {
+        navigate("/create/summery");
+      };
+      const handleBack = () => {
+        navigate("/create/education");
+      };
 
 
     return (
@@ -120,10 +126,10 @@ const InputExperience = () => {
                 <div className=''>
                     <div className='input-div'>
                         <label htmlFor="title">Podition / Job Role</label>
-                        <input type="text" id="title"   value={title} onChange={(e) => {
+                        <input type="text" id="title" value={title} onChange={(e) => {
                             handleAiSuggestTitle()
                             setTitle(e.target.value)
-                            }} />
+                        }} />
 
 
                         {title && suggestedJobRoles.length > 0 && (
@@ -135,7 +141,7 @@ const InputExperience = () => {
                                             className="font-medium text-left w-full p-1"
                                             onClick={() => {
                                                 setTitle(job);
-                                             
+
                                                 setSuggestedJobRoles([]);
                                             }}
                                         >
@@ -220,8 +226,8 @@ const InputExperience = () => {
                     </div>
                 </div>
             </form>
-            <button onClick={() => navigate(-1)}>back</button>
-            <button onClick={() => navigate("/create/summery")}>next</button>
+            <button onClick={handleBack}>back</button>
+            <button onClick={handleNext}>next</button>
         </div>
     );
 };
