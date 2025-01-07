@@ -3,7 +3,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+/* 
 @layer base {
   input[type="text"],
   [type="date"],
@@ -24,4 +24,4 @@
   .input-div {
     @apply relative p-2 w-full;
   }
-}
+} */

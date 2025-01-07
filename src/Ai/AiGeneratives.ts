@@ -2,6 +2,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 import { Experience } from "../types/Experience";
 import Skill from "../types/Skill";
+import { isCancel } from "axios";
 
 const apiKey = import.meta.env.VITE_GOOGLE_AI_API_KEY;
 const genAI = new GoogleGenerativeAI(apiKey);
@@ -53,21 +54,25 @@ export const generateSkills = async (jobrole: string, input: string) => {
 };
 
 export const suggestJobRole = async (input: string) => {
-  if (input.trim() === "") {
-    return [];
-  }
+  
 
   const prompt = `Suggest relevant job positions that start with or include the letter/word "${input}". 
     Provide a concise list of job positions in a comma-separated format. 
     Do not return anything when "${input}" is empty.
     `;
   try {
-    const res = await model.generateContent(prompt);
+
+    if (input.trim() !== "") {
+      const res = await model.generateContent(prompt);
 
     const output = res.response.text();
 
     const suggestedRole: string[] = output.split(",");
     return suggestedRole;
+    }else{
+      return []
+    }
+    
   } catch (err) {
     console.error.apply(err);
     return [];
@@ -75,9 +80,7 @@ export const suggestJobRole = async (input: string) => {
 };
 
 export const generateQualifications = async (input: string) => {
-  if (input.trim() === "") {
-    return [];
-  }
+  
 
   const prompt = `Suggest relevant education or professional qualifications or certifications that start with or include the letter/word "${input}". 
     Provide a concise list of qualifications in a comma-separated format. 
@@ -85,13 +88,18 @@ export const generateQualifications = async (input: string) => {
     Do not return anything when "${input}" is empty.`;
 
   try {
-    const res = await model.generateContent(prompt);
-    const outputText: string = res.response.text();
-
-    const qualifications: string[] = outputText
-      .split(",")
-      .map((qualification) => qualification.trim());
-    return qualifications;
+    if (input.trim() !== "") {
+      const res = await model.generateContent(prompt);
+      const outputText: string = res.response.text();
+  
+      const qualifications: string[] = outputText
+        .split(",")
+        .map((qualification) => qualification.trim());
+      return qualifications;
+    }else{
+      return[]
+    }
+  
   } catch (err) {
     console.error("Error generating qualifications:", err);
     return [];

@@ -19,18 +19,19 @@ const skillSlice = createSlice({
       state.skills = action.payload;
     },
     setSelectedSkills(state, action: PayloadAction<Skill>) {
-      if (!state.selectedSkills.includes(action.payload)) { 
+      if (!state.selectedSkills.includes(action.payload)) {
         state.selectedSkills.push(action.payload);
       }
     },
     removeSelectedSkill(state, action: PayloadAction<Skill>) {
       state.selectedSkills = state.selectedSkills.filter(
-        (skill) => skill !== action.payload
+        (skill) => skill.skill !== action.payload.skill
       );
     },
-    clearSelectedSkills(state){
-      state.selectedSkills = []
-    }
+    
+    clearSelectedSkills(state) {
+      state.selectedSkills = [];
+    },
   },
 });
 
@@ -38,7 +39,7 @@ export const {
   setSelectedSkills,
   removeSelectedSkill,
   setSkills,
-  clearSelectedSkills
+  clearSelectedSkills,
 } = skillSlice.actions;
 
 export default skillSlice.reducer;

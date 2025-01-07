@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import InputLocation from "./InputLocation";
-import { Location } from "../../types/Location";
-import ContactInfo from "../../types/ContactInfo";
 import { useDispatch } from "react-redux";
 import { addContactInfo } from "../../redux/slices/ContactInfoSlice";
-import {  useNavigate } from "react-router";
+import { useNavigate } from "react-router";
+import { Button, Input } from "@nextui-org/react";
 
 
 const InputContactInfo = () => {
+
     const dispatch = useDispatch()
     const [address, setAddress] = useState<string>("");
     const [city, setCity] = useState<string>("");
@@ -19,10 +19,10 @@ const InputContactInfo = () => {
     const navigate = useNavigate();
     const handleNext = () => {
         navigate("/create/social-link");
-      };
-      const handleBack = () => {
-        navigate("/create");
-      };
+    };
+    const handleBack = () => {
+        navigate(("/create"), { state: { preserveState: true }, replace: false });
+    };
 
     const handleDispatch = () => {
 
@@ -31,69 +31,63 @@ const InputContactInfo = () => {
 
     }
 
-    const updatedLocation: Location = {
-        city: city,
-        state: state,
-        country: country
-    }
+    const updatedLocation = useMemo(
+        () => ({ city, state, country }),
+        [city, state, country]
+    );
 
-    const updatedContactInfo: ContactInfo = {
-        address: address,
-        location: updatedLocation,
-        phone: phone,
-        email: email
-    };
+    const updatedContactInfo = useMemo(
+        () => ({ address, location: updatedLocation, phone, email }),
+        [address, updatedLocation, phone, email]
+    );
 
     useEffect(() => {
 
         handleDispatch()
-    })
+    }, [dispatch, updatedContactInfo])
 
     return (
         <div className="w-full ">
-            <div className="flex max-lg:flex-wrap">
-                <div className="input-div" >
-                    <label htmlFor="phone">Phone Number</label>
-                    <input
-                        className="flex"
-                        id="phone"
-                        type="tel"
-                        placeholder="123-4567-8901"
-                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                        required
-                        value={phone}
-                        onChange={e => setPhone(e.target.value)}
-                    />
-                </div>
-                <div className="input-div" >
-                    <label htmlFor="email">Email Address</label>
-                    <input
-                        className="flex"
-                        id="email"
-                        type="email"
-                        placeholder="mail@example.com"
-                        required
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
-                    />
-                </div>
-                <div className="input-div ">
-                    <label htmlFor="address">Street No / Apartment No</label>
-                    <input
-                        id="address"
-                        type="text"
-                        value={address}
-                        onChange={e => setAddress(e.target.value)}
-                    />
-                </div>
+            <div className="flex max-lg:flex-wrap gap-3">
+
+
+                <Input
+                    size="md"
+                    type="tel"
+                    label="Phone"
+                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                    value={phone}
+                    required
+                    onChange={e => setPhone(e.target.value)} />
+
+
+                <Input
+                    size="md"
+                    type="email"
+                    label="Email Address"
+                    pattern="example@mail.com"
+                    value={email}
+                    required
+                    onChange={e => setEmail(e.target.value)} />
+
+                <Input
+                    size="md"
+                    type="text"
+                    label="Street No / Apartment No"
+                    value={address}
+                    required
+                    errorMessage={"Please Enter valid Email Address"}
+                    onChange={e => setAddress(e.target.value)} />
+
+
 
             </div>
 
 
             <InputLocation location={updatedLocation} setCity={setCity} setState={setState} setCountry={setCountry} />
-            <div className="flex justify-between">
-                <button onClick={handleBack}>back</button>
-                <button onClick={handleNext}>next</button>
+            <div className="flex justify-between mt-3">
+                <Button variant="flat" color="secondary" onPress={handleBack}>back</Button>
+                <Button variant="flat" color="secondary" onPress={handleNext}>next</Button>
             </div>
 
 

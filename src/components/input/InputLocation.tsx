@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { LocationProps } from "../../types/Location";
 import { fetchCountires, fetchStates } from "../../country_API/functions";
+import { Input, Select, SelectItem } from "@nextui-org/react";
 
 const InputLocation = ({ location, setCity, setCountry, setState }: LocationProps) => {
     const [countries, setCountries] = useState<{ name: string; iso2: string }[]>([]);
@@ -21,7 +22,7 @@ const InputLocation = ({ location, setCity, setCountry, setState }: LocationProp
         }
     }
 
-  
+
     async function handleStates(iso2: string) {
         try {
             if (iso2) {
@@ -35,70 +36,51 @@ const InputLocation = ({ location, setCity, setCountry, setState }: LocationProp
         }
     }
 
-    // Initial fetch for countries
+
     useEffect(() => {
         handleCountries();
     }, []);
 
-    // Fetch states when countryIso2 changes
+
     useEffect(() => {
         handleStates(countryIso2);
     }, [countryIso2]);
 
     return (
-        <div className="flex max-lg:flex-wrap">
-        
-            <div className="input-div">
-                <label htmlFor="city">City</label>
-                <input
-                    id="city"
-                    type="text"
-                    value={location?.city}
-                    onChange={(e) => setCity(e.target.value)}
-                />
-            </div>
+        <div className="flex max-lg:flex-wrap mt-4 gap-3">
 
-      
-            <div className="input-div">
-                <label htmlFor="state">State</label>
-                <select
-                    id="state"
-                    value={location?.state}
-                    onChange={(e) => setState(e.target.value)}
-                >
-                    <option value="" disabled>
-                        Select State
-                    </option>
-                    {states.map((state) => (
-                        <option key={state.id} value={state.name}>
-                            {state.name}
-                        </option>
-                    ))}
-                </select>
-            </div>
 
-         
-            <div className="input-div">
-                <label htmlFor="country">Country</label>
-                <select
-                    id="country"
-                    value={location?.country}
-                    onChange={(e) => {
-                        const selectedCountry = countries.find((c) => c.name === e.target.value);
-                        setCountry(e.target.value);
-                        setCountryIso2(selectedCountry?.iso2 || ""); 
-                    }}
-                >
-                    <option value="" disabled>
-                        Select Country
-                    </option>
-                    {countries.map((country, index) => (
-                        <option key={index} value={country.name}>
-                            {country.name}
-                        </option>
-                    ))}
-                </select>
-            </div>
+            <Select className="" value={location?.country}
+                onChange={(e) => {
+                    const selectedCountry = countries.find((c) => c.name === e.target.value);
+                    setCountry(e.target.value);
+                    setCountryIso2(selectedCountry?.iso2 || "");
+                }}
+                label="Select Country">
+                {countries.map((country) => (
+                    <SelectItem value={country.name} key={country.name}>{country.name}</SelectItem>
+                ))}
+            </Select>
+
+
+            <Select className="" value={location?.state} 
+            onChange={e => setState(e.target.value)} label="Select State / Province">
+                {states.map((state) => (
+                    <SelectItem value={state.name} key={state.name}>{state.name}</SelectItem>
+                ))}
+            </Select>
+
+
+            <Input
+                label="City"
+                value={location?.city}
+                onChange={e => setCity(e.target.value)}
+                size={"md"}
+                type="text"
+
+            />
+
+
         </div>
     );
 };

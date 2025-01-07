@@ -14,7 +14,7 @@ const Template1 = () => {
   return (
     <>
      
-      <div className="shadow-lg p-4 font-serif">
+      <div className="shadow-lg p-4 font-serif h-[100%]">
         <div className="text-gray-800  rounded bg-slate-100">
           <div className=" p-2 grid  grid-flow-row-dense grid-cols-4 grid-rows-2   ">
             <div className="col-span-3 flex flex-col gap-4">

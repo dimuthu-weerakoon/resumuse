@@ -6,6 +6,8 @@ import { useDispatch } from "react-redux";
 import { addEducation } from "../../redux/slices/EducationSlice";
 import { useNavigate } from "react-router";
 import { generateQualifications } from "../../Ai/AiGeneratives";
+import { Checkbox, Input, Listbox, ListboxItem, Textarea } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 
 
 const InputEducation = () => {
@@ -37,12 +39,14 @@ const InputEducation = () => {
 
 
     const handleAiGenerateEducations = async () => {
-        const generatedEdu: string[] = await generateQualifications(title);
-        setSuggestedEducations(generatedEdu)
-
-    }
-
- 
+        try {
+            const generatedEdu: string[] = await generateQualifications(title);
+            setSuggestedEducations(generatedEdu);
+        } catch (error) {
+            console.error("Error generating qualifications:", error);
+            setSuggestedEducations([]);
+        }
+    };
 
 
 
@@ -50,8 +54,8 @@ const InputEducation = () => {
         setLocation({ state, city, country });
     }, [state, city, country]);
 
-    const handlesubmit = (e: React.FormEvent) => {
-        e.preventDefault()
+    const handlesubmit = () => {
+
         dispatch(addEducation(newEducation))
     }
 
@@ -72,10 +76,10 @@ const InputEducation = () => {
     }
     const handleNext = () => {
         navigate("/create/experience");
-      };
-      const handleBack = () => {
+    };
+    const handleBack = () => {
         navigate("/create/social-link");
-      };
+    };
 
     return (
         <div className="w-full">
@@ -84,84 +88,85 @@ const InputEducation = () => {
 
 
 
-                <div className="">
+                <div className="flex flex-col gap-3">
 
-                    <div className="input-div">
-                        <label htmlFor="">Title</label>
-                        <input type="text" id="" value={title} onChange={e => {
+                    <Input label="Qualification / Certifications"
+                        value={title}
+                        onChange={(e) => {
                             handleAiGenerateEducations()
                             setTitle(e.target.value)
-                        }} />
+                        }}
+                        size={"md"}
+                        type="text" />
+                    {title && suggestedEducations.length > 0 && (
+                        <Listbox
 
+                            selectionMode="single" onAction={(key) => {
 
-                        {title && suggestedEducations.length > 0 && (
-                            <ul className="shadow-xl bg-white w-full z-10 flex flex-col items-start overflow-y-auto max-h-40 absolute top-full left-0">
-                                {suggestedEducations.map((edu, index) => (
-                                    <li key={index} className="w-full cursor-pointer hover:bg-slate-100 hover:rounded">
-                                        <button
-                                            type="button"
-                                            className="font-medium text-left w-full p-1"
-                                            onClick={() => {
-                                                setTitle(edu);
+                                setTitle(key as string)
+                                setSuggestedEducations([])
 
-                                                setSuggestedEducations([]);
-                                            }}
-                                        >
-                                            {edu}
-                                        </button>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
+                            }
+                            }>
+
+                            {suggestedEducations.map((edu: string) => (
+
+                                <ListboxItem textValue={edu} key={edu}>{edu}</ListboxItem>
+                            ))}
+                        </Listbox>)}
 
 
 
-                    </div>
+
+
+
+                    <Input label="Institute / Collage"
+                        value={institute}
+                        onChange={(e) => {
+                            setInstitute(e.target.value)
+                        }}
+                        size={"md"}
+                        type="text" />
+
+
                     <div>
-                        <div className="input-div">
-                            <label htmlFor="">Collage/Institute/University</label>
-                            <input type="text" value={institute} onChange={e => { 
-                                
-                                setInstitute(e.target.value) }} />
+
+                        <Checkbox onChange={() => {
+                            if (!studying) setEndDate("");
+                            setStudying(prev => !prev)
+                        }} >I'm currently follwing this</Checkbox>
 
 
-                        </div>
+                        <div className="flex gap-3 flex-nowrap">
 
 
-                        <div className="input-div">
-                            <label htmlFor="">Description</label>
-                            <textarea name="" value={description} onChange={e => setDescription(e.target.value)}></textarea>
-                        </div>
-                    </div>
-                    <div>
-                        <div className="flex gap-4 p-2 ">
-                            <input type="checkbox" onChange={() => { if (!studying) setEndDate(""); setStudying(prevStudying => !prevStudying) }} id="" />
-                            <p>I'm currently follwing this</p>
-                        </div>
-                        <div className="flex">
-                            <div className="input-div">
-                                <label htmlFor="start-date">Start Date</label>
-                                <input
-                                    type="date"
-                                    id="start-date"
-                                    value={startDate}
-                                    onChange={(e) => setStartDate(e.target.value)}
 
-                                />
-                            </div>
-                            <div className="input-div" hidden={studying}>
-                                <label htmlFor="end-date">
-                                    End Date
-                                </label>
-                                <input
 
+
+
+                            <Input
+                                label="Start Date"
+                                type="date"
+                                id="start-date"
+                                value={startDate}
+                                onChange={(e) => setStartDate(e.target.value)}
+
+                            />
+                            {!studying &&
+
+                                <Input
+                                    label="End Date"
                                     type="date"
                                     id="end-date"
                                     value={endDate !== "present" ? endDate || "" : ""}
                                     onChange={handleEndDate}
                                     disabled={studying}
+                                    hidden={studying}
                                 />
-                            </div>
+
+
+                            }
+
                         </div>
 
                     </div>
@@ -171,16 +176,21 @@ const InputEducation = () => {
                         setState={setState}
                         setCountry={setCountry} />
 
-                    <button type="button" onClick={handlesubmit}>add Education</button>
+                    <Textarea label="Description - (optional)" onChange={e => setDescription(e.target.value)} />
+
+                    <Button variant="flat" color="secondary" className="max-w-fit" type="button" onPress={handlesubmit}>add Education</Button>
                 </div>
 
 
-            </form>
+            </form >
 
-            <button onClick={handleBack}>back</button>
-            <button onClick={handleNext}>next</button>
+            <div className="flex justify-between mt-3">
+                <Button onPress={handleBack} variant="flat">back</Button>
+                <Button onPress={handleNext} variant="flat">next</Button>
+            </div>
 
-        </div>
+
+        </div >
 
 
     )

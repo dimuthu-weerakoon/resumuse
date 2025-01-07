@@ -1,8 +1,14 @@
-import { FormEvent, useState } from "react"
+import { useState } from "react"
 import { SocialLink } from "../../types/SocialLinks";
 import { useDispatch } from "react-redux";
 import { addSocialLink } from "../../redux/slices/SocialLinksSlice";
 import { useNavigate } from "react-router";
+import { Button, Input, Select, SelectItem } from "@nextui-org/react";
+import { faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
+import { faGlobe, faArrowCircleRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+
 
 
 const InputSocialLink = () => {
@@ -11,8 +17,8 @@ const InputSocialLink = () => {
     const [platform, setPlatform] = useState<string>('');
     const [link, setLink] = useState<string>('')
 
-    const handleSubmit = (e: FormEvent) => {
-        e.preventDefault();
+    const handleSubmit = () => {
+
 
         try {
             const checkUrl = new URL(link)
@@ -35,41 +41,42 @@ const InputSocialLink = () => {
     }
     const handleNext = () => {
         navigate("/create/education");
-      };
-      const handleBack = () => {
+    };
+    const handleBack = () => {
         navigate("/create/contact-info");
-      };
+    };
 
     return (
-        <div className="flex w-full  items-center">
+        <div className=" w-full  ">
 
-            <div className="flex w-full justify-center items-center max-lg:flex-wrap">
-                <div className="input-div">
-                    <label htmlFor="">Platform</label>
-                    <select
-                        className="font-medium text-sm"
-                        id="platform"
-                        value={platform}
-                        onChange={(e) => setPlatform(e.target.value)}>
-                        <option value="" disabled selected>
-                            Select Platform
-                        </option>
-                        <option value="github">Github</option>
-                        <option value="linkedin">Linkedin</option>
-                        <option value="portfolio">Portfolio</option>
-                    </select>
-                </div>
+            <div className="flex w-full justify-center items-center gap-3 max-lg:flex-wrap">
 
-                <div className="input-div flex items-center justify-center">
-                    <label htmlFor="">Url</label>
-                    <input type="url" className="rounded-s rounded-e-none" value={link} placeholder="https://" pattern="https://.*" onChange={e => setLink(e.target.value)} />
-
-                    <button type="button" className="text-white rounded-e translate-x-[-10%] border-2 border-black outline-none bg-black border-l rounded-none p-2" onClick={handleSubmit}>add</button>
-                </div>
+                <Select className="max-w-xs" value={platform}
+                    onChange={e => setPlatform(e.target.value)} label="Select Platform">
+                    <SelectItem value={"github"} key={"github"}
+                        startContent={<FontAwesomeIcon icon={faGithub} color="black" />}>Github</SelectItem>
+                    <SelectItem value={"linkedin"} key={"linkedin"}
+                        startContent={<FontAwesomeIcon icon={faLinkedin} color="rgb(0 122 185)" />}>Linkedln</SelectItem>
+                    <SelectItem value={"portfolio"} key={"portfolio"}
+                        startContent={<FontAwesomeIcon icon={faGlobe} />}>Portfolio</SelectItem>
+                </Select>
+                <Input
+                    size="md"
+                    type="url"
+                    label="URL"
+                    value={link}
+                    required
+                    endContent={<Button isIconOnly onPress={handleSubmit} >
+                        <FontAwesomeIcon size="lg" icon={faArrowCircleRight} />
+                    </Button>}
+                    onChange={e => setLink(e.target.value)} />
             </div>
-            <button onClick={handleBack} >Back</button>
 
-        <button onClick={handleNext} >Next</button>
+            <div className="flex items-center justify-between mt-4">
+                <Button onPress={handleBack} variant="flat" color="secondary" >Back</Button>
+                <Button onPress={handleNext} variant="flat" color="secondary" >Next</Button>
+            </div>
+
         </div>
     )
 }

@@ -2,7 +2,8 @@ import { FormEvent, useEffect, useState } from "react"
 import { PersonalInfo } from "../../types/PersonalInfo";
 import { useDispatch, } from "react-redux";
 import { addPersonalInfo } from "../../redux/slices/PersonalInfoSlice";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
+import {Input,Button} from "@nextui-org/react";
 
 
 const InputPersonalInfo = () => {
@@ -21,38 +22,31 @@ const InputPersonalInfo = () => {
     lastName: lastName
   }
 
-  useEffect(() => {
-    dispatch(addPersonalInfo(newPersonalInfo))
-  })
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault()
+ 
 
-  }
 
+useEffect(()=>{
+  dispatch(addPersonalInfo(newPersonalInfo))
+
+},[dispatch,newPersonalInfo])
 
 
   return (
 
-    <div className="">
+    <div >
 
-      <div className="flex justify-center items-center max-lg:flex-wrap w-full">
+      <div className="flex justify-center gap-3 items-center max-lg:flex-wrap w-full">
 
-        <div className="input-div">
-          <label htmlFor="" className="" >First Name</label>
-          <input type="text" className="" value={firstName} onChange={e => setFirstName(e.target.value)} id="firstname" />
-        </div>
-        <div className="input-div">
-          <label htmlFor="">Middle Name</label>
-          <input type="text" value={middleName} onChange={e => setMiddleName(e.target.value)} id="firstname" className="" />
-        </div>
-        <div className="input-div">
-          <label htmlFor="">Last Name</label>
-          <input type="text" value={lastName} onChange={e => setLastName(e.target.value)} id="lastname" className="" />
-        </div>
+       
+      <Input label="First Name"  value={firstName} onChange={e=>setFirstName(e.target.value)} size={"md"} type="text" />
+      <Input label="Middle Name" value={middleName} onChange={e=>setMiddleName(e.target.value)} size={"md"} type="text" />
+      <Input label="Last Name" value={lastName} onChange={e=>setLastName(e.target.value)} size={"md"} type="text" />
+
+       
       </div>
-      <div className="flex justify-end">
+      <div className="flex justify-end mt-3">
 
-        <button onClick={handleNext} >Next</button>
+        <Button onPress={handleNext} variant="flat" color="secondary" >Next</Button>
       </div>
     </div>
 

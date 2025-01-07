@@ -7,12 +7,13 @@ import {
 } from "../../redux/slices/SkillsSlice";
 import Skill from "../../types/Skill";
 import { generateSkills } from "../../Ai/AiGeneratives";
+import { Input } from "@nextui-org/react";
 
 
 
 
 const InputSkills = ({ jobRole }: { jobRole: string }) => {
-  const {  skills,selectedSkills } = useSelector(
+  const { skills, selectedSkills } = useSelector(
     (state: any) => state.skills
   );
 
@@ -30,19 +31,18 @@ const InputSkills = ({ jobRole }: { jobRole: string }) => {
 
 
   useEffect(() => {
-    if(jobRole !== "" && searchQuery !== ""){
-    fetchAiSkills()
+    if (jobRole !== "" && searchQuery !== "") {
+      fetchAiSkills()
     }
-  }, [dispatch,searchQuery]);
+  }, [dispatch, searchQuery]);
 
 
   return (
     <div className="input-div">
-      <label htmlFor="skills-input" className="z-40">
-        Enter Skills you gained
-      </label>
+
       <div className="grid grid-cols-1 w-full relative">
-        <input
+        <Input
+          label="Improved Skills"
           type="text"
           id="skills-input"
           className="skill-input"
@@ -70,7 +70,7 @@ const InputSkills = ({ jobRole }: { jobRole: string }) => {
               </li>
             ))}
           </ul>
-        ):("")}
+        ) : ("")}
 
         <div className="selected-skills flex gap-2 mt-2">
           {selectedSkills.map((skill: Skill, index: number) => (
@@ -80,8 +80,12 @@ const InputSkills = ({ jobRole }: { jobRole: string }) => {
             >
               {skill.skill}
               <button
-                className="remove-skill p-1 rounded-full text-slate-600"
-                onClick={() => dispatch(removeSelectedSkill(skill))}
+                type="button"
+                className="remove-skill p-1 rounded-full text-slate-600 "
+
+                onClick={() =>
+                  dispatch(removeSelectedSkill(skill))
+                }
               >
                 x
               </button>

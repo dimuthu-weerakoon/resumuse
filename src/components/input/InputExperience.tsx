@@ -8,6 +8,7 @@ import { addExperience } from '../../redux/slices/ExpSlice';
 import { clearSelectedSkills } from '../../redux/slices/SkillsSlice';
 import { useNavigate } from 'react-router';
 import { suggestJobRole } from '../../Ai/AiGeneratives';
+import { Button, Input, Textarea, Listbox, ListboxItem, Select, SelectItem, Checkbox } from '@nextui-org/react';
 
 
 
@@ -113,62 +114,46 @@ const InputExperience = () => {
     }
     const handleNext = () => {
         navigate("/create/summery");
-      };
-      const handleBack = () => {
+    };
+    const handleBack = () => {
         navigate("/create/education");
-      };
+    };
 
 
     return (
         <div className='w-full'>
 
             <form>
-                <div className=''>
-                    <div className='input-div'>
-                        <label htmlFor="title">Podition / Job Role</label>
-                        <input type="text" id="title" value={title} onChange={(e) => {
-                            handleAiSuggestTitle()
-                            setTitle(e.target.value)
-                        }} />
+                <div className='flex flex-col gap-3'>
 
 
-                        {title && suggestedJobRoles.length > 0 && (
-                            <ul className="shadow-xl bg-white w-full z-10 flex flex-col items-start overflow-y-auto max-h-40 absolute top-full left-0">
-                                {suggestedJobRoles.map((job, index) => (
-                                    <li key={index} className="w-full cursor-pointer hover:bg-slate-100 hover:rounded">
-                                        <button
-                                            type="button"
-                                            className="font-medium text-left w-full p-1"
-                                            onClick={() => {
-                                                setTitle(job);
+                    <Input type="text" label="Podition / Job Role" value={title} onChange={(e) => {
+                        handleAiSuggestTitle()
+                        setTitle(e.target.value)
+                    }} />
 
-                                                setSuggestedJobRoles([]);
-                                            }}
-                                        >
-                                            {job}
-                                        </button>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
+                    {title && suggestedJobRoles.length > 0 && (
+                        <Listbox className='max-h-40' onAction={key => {
 
-
-
-                    </div>
-                    <div className='input-div'>
-                        <label htmlFor="type">Type</label>
-                        <select id="type" value={type} onChange={(e) => setType(e.target.value)}>
-                            {employeeTypes.map((type, index) => (
-                                <option key={index} value={type}>
-                                    {type}
-                                </option>
+                            setTitle(key as string)
+                            setSuggestedJobRoles([])
+                        }}>
+                            {suggestedJobRoles.map((job) => (
+                                <ListboxItem key={job} textValue={job}>{job}</ListboxItem>
                             ))}
-                        </select>
-                    </div>
-                    <div className='input-div'>
-                        <label htmlFor="company">Company / Organization</label>
-                        <input type="text" id="company" value={company} onChange={(e) => setCompany(e.target.value)} />
-                    </div>
+                        </Listbox>)}
+                    <Select label="Select Employment Type" value={type} onChange={e => setType(e.target.value)}>
+                        {employeeTypes.map((type) => (
+                            <SelectItem key={type} value={type}>
+                                {type}
+                            </SelectItem>
+                        ))}
+                    </Select>
+
+
+                    <Input type="text" label="Company / Organization" value={company} onChange={(e) => {
+                        setCompany(e.target.value)
+                    }} />
 
                     <InputLocation
                         location={location}
@@ -176,48 +161,47 @@ const InputExperience = () => {
                         setState={setState}
                         setCountry={setCountry} />
 
-                    <div className='flex gap-4 p-2'>
-                        <input type="checkbox" id="current-job" checked={status} onChange={() => setStatus(!status)} />
 
-                        <p >I'm currently working here</p>
-                    </div>
-                    <div className='flex'>
-                        <div className='input-div'>
-                            <label htmlFor="start-date">Start Date</label>
-                            <input
-                                type="date"
-                                id="start-date"
-                                value={startDate}
-                                onChange={(e) => setStartDate(e.target.value)}
+                    <Checkbox type="checkbox" id="current-job" checked={status} onChange={() => setStatus(!status)} >I'm currently working here</Checkbox>
 
-                            />
-                        </div>
-                        <div className='input-div' hidden={status}>
-                            <label htmlFor="end-date">
-                                End Date
-                            </label>
-                            <input
 
+
+                    <div className='flex gap-2 flex-nowrap'>
+
+                        <Input
+                            label="Start Date"
+                            type="date"
+                            id="start-date"
+                            value={startDate}
+                            onChange={(e) => setStartDate(e.target.value)}
+
+                        />
+
+
+                        {!status &&
+                            <Input
+                                hidden={status}
+                                label="End Date"
                                 type="date"
                                 id="end-date"
                                 value={endDate !== "present" ? endDate || "" : ""}
                                 onChange={handleEndDate}
                                 disabled={status}
-                            />
-                        </div>
+                            />}
+
                     </div>
 
                     <InputSkills jobRole={title} />
 
                     <div className='input-div'>
-                        <label htmlFor="description">Description</label>
-                        <textarea
-                            id="description"
+
+                        <Textarea
+                            label="Description"
                             value={currentInput}
                             onChange={(e) => setCurrentInput(e.target.value)}
                             onKeyUp={handleKeyUp}
-                            placeholder="- Enter some decriptions about your work and press Enter"
-                        ></textarea>
+                            placeholder="- Enter some decriptions about your work as a list and press Enter"
+                        ></Textarea>
                     </div>
                     <div className='p-2'>
                         <button type="button" className='bg-black text-white rounded p-2' onClick={handleSubmit}>
@@ -226,8 +210,11 @@ const InputExperience = () => {
                     </div>
                 </div>
             </form>
-            <button onClick={handleBack}>back</button>
-            <button onClick={handleNext}>next</button>
+
+            <div className="flex justify-between">
+                <Button onPress={handleBack} variant="flat">back</Button>
+                <Button onPress={handleNext} variant="flat">next</Button>
+            </div>
         </div>
     );
 };
