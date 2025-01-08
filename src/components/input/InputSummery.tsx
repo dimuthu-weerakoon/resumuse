@@ -5,6 +5,7 @@ import { addSummery } from "../../redux/slices/SummerySlice"
 import { generateAiSummery } from "../../Ai/AiGeneratives"
 import { Experience } from "../../types/Experience"
 import { useNavigate } from "react-router"
+import { Textarea } from "@nextui-org/react"
 
 
 
@@ -36,18 +37,20 @@ const InputSummery = () => {
       };
 
     return (
-        <div className="input-div">
-            <label htmlFor="">Enter some summary about your career</label>
-            <form >
-                <textarea className="p-4" value={summery} cols={5} rows={5} onChange={e => setSummery(e.target.value)}></textarea>
-                <div className="flex justify-end gap-5">
-                <button type="button" className="p-2 rounded bg-black text-white" onClick={handleSubmit}>add</button>
-                <button type="button" className="p-2 rounded bg-black text-white" onClick={handleAiSummery}>Generate Ai</button>
+    
+         <div className="w-full">
+            <form className="w-full">
+                <Textarea label="Enter your Summery or Generate Using AI" className="p-4" value={summery} cols={5} rows={5} onChange={e => setSummery(e.target.value)}></Textarea>
+                <div className="flex justify-between gap-5 w-full">
+                
+                    <div className="flex gap-3">
+                    <button type="button" className="p-2 rounded bg-black text-white" onClick={handleSubmit}>add</button>
+                    <button type="button" className="p-2 rounded bg-black text-white" onClick={handleAiSummery}>Generate Ai</button>
+                    </div>
                 </div>
-
             </form>
             <button onClick={handleBack}>back</button>
-        </div>
+            </div>
     )
 }
 
