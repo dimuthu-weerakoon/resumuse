@@ -10,6 +10,7 @@ import InputSocialLink from "./components/input/InputSocialLink";
 import InputEducation from "./components/input/InputEducation";
 import InputExperience from "./components/input/InputExperience";
 import InputSummery from "./components/input/InputSummery";
+import Template2 from "./cv_templates/Template2";
 
 library.add(faFacebook, faGithub, faLinkedin, faGlobe);
 
@@ -18,6 +19,7 @@ export default function App() {
     createRoutesFromElements(
       <>
         <Route index element={<Home />} />
+        <Route path="temp" element={<Template2/>}/>
         <Route path="create" element={<CreateCV />}>
           <Route index element={<InputPersonalInfo />} />
           <Route path="contact-info" element={<InputContactInfo />} />
