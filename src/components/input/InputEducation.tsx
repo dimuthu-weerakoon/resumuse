@@ -10,7 +10,7 @@ import { Checkbox, Input, Listbox, ListboxItem, Textarea } from "@nextui-org/rea
 import { Button } from "@nextui-org/react";
 
 
-const InputEducation = () => {
+const InputEducation = ({templateId}:{templateId:number}) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [title, setTitle] = useState<string>("");
@@ -75,10 +75,12 @@ const InputEducation = () => {
 
     }
     const handleNext = () => {
-        navigate("/create/experience");
+        navigate(`/templates/template/${templateId}/create/experience`);
+
+    
     };
     const handleBack = () => {
-        navigate("/create/social-link");
+        navigate(`/templates/template/${templateId}/create/social-link`);
     };
 
     return (

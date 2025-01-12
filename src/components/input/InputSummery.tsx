@@ -11,7 +11,7 @@ import { Textarea } from "@nextui-org/react"
 
 
 
-const InputSummery = () => {
+const InputSummery = ({templateId}:{templateId:number}) => {
 
     const experience: Experience[] = useSelector((state: any) => state.experience)
     const navigate = useNavigate()
@@ -32,9 +32,14 @@ const InputSummery = () => {
     }
 
 
-      const handleBack = () => {
-        navigate("/create/experience");
-      };
+    const handleNext = () => {
+        navigate(`/templates/template/${templateId}/create/experience`);
+
+    
+    };
+    const handleBack = () => {
+        navigate(`/templates/template/${templateId}/create/custom-section`);
+    };
 
     return (
     

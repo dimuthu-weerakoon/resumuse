@@ -10,10 +10,10 @@ import Summery from "../../components/Summery"
 
 
 const Template1Preview = () => {
-
+const templateId = 1
   return (
-    <>
-      <div className=" p-4 w-[21cm] h-[29.7cm] font-serif">
+ 
+      <div className=" p-4 w-[21cm] h-[29.7cm]  font-serif">
 
         <div className="p-2  grid  grid-flow-dense grid-cols-7   ">
           <div className="p-4 col-span-7  text-gray-800   rounded bg-slate-100">
@@ -50,15 +50,8 @@ const Template1Preview = () => {
 
         </div>
 
-
-
-
-
-
-
-
       </div>
-    </>
+   
   )
 }
 

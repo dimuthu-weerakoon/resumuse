@@ -6,6 +6,7 @@ import experienceReducer from "./slices/ExpSlice";
 import educationReducer from "./slices/EducationSlice";
 import socialLinkReducer from "./slices/SocialLinksSlice";
 import summeryReducer from "./slices/SummerySlice";
+import customReducer from "./slices/CustomSlice";
 
 const Store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const Store = configureStore({
     education: educationReducer,
     socialLink: socialLinkReducer,
     summery: summeryReducer,
+    custom: customReducer,
   },
 });
 

@@ -7,7 +7,11 @@ import { Button, Input } from "@nextui-org/react";
 import ContactInfo from "../../types/ContactInfo";
 
 
-const InputContactInfo = () => {
+const InputContactInfo = ({templateId}:{templateId:number}) => {
+
+    
+
+
     const contactInfo: ContactInfo = useSelector((state: any) => state.contactInfo)
     const dispatch = useDispatch()
     const [address, setAddress] = useState<string>(contactInfo.address);
@@ -19,10 +23,12 @@ const InputContactInfo = () => {
 
     const navigate = useNavigate();
     const handleNext = () => {
-        navigate("/create/social-link");
+        navigate(`/templates/template/${templateId}/create/social-link`);
+
     };
     const handleBack = () => {
-        navigate(("/create"), { state: { preserveState: true }, replace: false });
+        navigate(`/templates/template/${templateId}/create`);
+
     };
 
     const handleDispatch = () => {

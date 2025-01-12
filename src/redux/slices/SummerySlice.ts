@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-
 const initialState: string = "";
 
 const summerySlice = createSlice({
@@ -8,7 +7,7 @@ const summerySlice = createSlice({
   initialState: initialState,
   reducers: {
     addSummery(state, action: PayloadAction<string>) {
-      return action.payload;
+       state = action.payload;
     },
     clearSummery() {
       return "";
@@ -16,6 +15,6 @@ const summerySlice = createSlice({
   },
 });
 
-export const {addSummery,clearSummery} =summerySlice.actions
+export const { addSummery, clearSummery } = summerySlice.actions;
 
-export default summerySlice.reducer
+export default summerySlice.reducer;

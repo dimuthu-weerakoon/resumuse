@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 
-const InputSocialLink = () => {
+const InputSocialLink = ({templateId}:{templateId:number}) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [platform, setPlatform] = useState<string>('');
@@ -40,10 +40,12 @@ const InputSocialLink = () => {
         setLink(" ")
     }
     const handleNext = () => {
-        navigate("/create/education");
+        navigate(`/templates/template/${templateId}/create/education`);
+
+    
     };
     const handleBack = () => {
-        navigate("/create/contact-info");
+        navigate(`/templates/template/${templateId}/create/contact-info`);
     };
 
     return (
@@ -51,7 +53,7 @@ const InputSocialLink = () => {
 
             <div className="flex w-full justify-center items-center gap-3 max-lg:flex-wrap">
 
-                <Select className="max-w-xs" value={platform}
+                <Select className="" value={platform}
                     onChange={e => setPlatform(e.target.value)} label="Select Platform">
                     <SelectItem value={"github"} key={"github"}
                         startContent={<FontAwesomeIcon icon={faGithub} color="black" />}>Github</SelectItem>

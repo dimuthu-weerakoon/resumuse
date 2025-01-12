@@ -1,4 +1,4 @@
-import {  useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import { PersonalInfo } from "../../types/PersonalInfo";
 import { useDispatch, useSelector, } from "react-redux";
 import { addPersonalInfo } from "../../redux/slices/PersonalInfoSlice";
@@ -6,7 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { Input, Button } from "@nextui-org/react";
 
 
-const InputPersonalInfo = () => {
+const InputPersonalInfo = ({templateId}:{templateId:number}) => {
+
   const personalInfo = useSelector((state: any) => state.personalInfo)
 
   const [firstName, setFirstName] = useState<string>(personalInfo.firstName);
@@ -17,7 +18,7 @@ const InputPersonalInfo = () => {
 
 
   const handleNext = () => {
-    navigate("/create/contact-info");
+    navigate(`/templates/template/${templateId}/create/contact-Info`);
   };
   const newPersonalInfo: PersonalInfo = {
     firstName: firstName,
@@ -39,7 +40,6 @@ const InputPersonalInfo = () => {
     <div >
       <form>
         <div className="flex justify-center gap-3 items-center max-lg:flex-wrap w-full">
-
 
           <Input label="First Name" value={firstName} onChange={e => setFirstName(e.target.value)} size={"md"} type="text" />
           <Input label="Middle Name" value={middleName} onChange={e => setMiddleName(e.target.value)} size={"md"} type="text" />

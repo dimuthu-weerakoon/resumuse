@@ -15,7 +15,7 @@ import { Button, Input, Textarea, Listbox, ListboxItem, Select, SelectItem, Chec
 
 
 
-const InputExperience = () => {
+const InputExperience = ({templateId}:{templateId:number}) => {
 
     const { selectedSkills } = useSelector((state: any) => state.skills);
     const navigate = useNavigate()
@@ -110,13 +110,16 @@ const InputExperience = () => {
         if (status) {
             setEndDate("Present")
         }
-
     }
-    const handleNext = () => {
-        navigate("/create/summery");
+
+
+  const handleNext = () => {
+        navigate(`/templates/template/${templateId}/create/custom-section`);
+
+    
     };
     const handleBack = () => {
-        navigate("/create/education");
+        navigate(`/templates/template/${templateId}/create/education`);
     };
 
 
