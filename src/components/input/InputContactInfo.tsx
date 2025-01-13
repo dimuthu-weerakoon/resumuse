@@ -1,25 +1,21 @@
-import { useEffect,  useMemo,  useState } from "react";
+
 import InputLocation from "./InputLocation";
 import { useDispatch, useSelector } from "react-redux";
 import { addContactInfo } from "../../redux/slices/ContactInfoSlice";
 import { useNavigate } from "react-router";
 import { Button, Input } from "@nextui-org/react";
 import ContactInfo from "../../types/ContactInfo";
+import { Location } from "../../types/Location";
+import { motion } from "framer-motion";
 
 
-const InputContactInfo = ({templateId}:{templateId:number}) => {
+const InputContactInfo = ({ templateId }: { templateId: number }) => {
 
-    
+
 
 
     const contactInfo: ContactInfo = useSelector((state: any) => state.contactInfo)
     const dispatch = useDispatch()
-    const [address, setAddress] = useState<string>(contactInfo.address);
-    const [city, setCity] = useState<string>(contactInfo.location?.city);
-    const [state, setState] = useState<string>(contactInfo.location?.state);
-    const [country, setCountry] = useState<string>(contactInfo.location?.country);
-    const [phone, setPhone] = useState<string>(contactInfo.phone);
-    const [email, setEmail] = useState<string>(contactInfo.email);
 
     const navigate = useNavigate();
     const handleNext = () => {
@@ -31,74 +27,91 @@ const InputContactInfo = ({templateId}:{templateId:number}) => {
 
     };
 
-    const handleDispatch = () => {
+    const handleDispatch = (key: keyof ContactInfo | keyof Location, value: string) => {
 
-        dispatch(addContactInfo(updatedContactInfo))
+        if (key === "state" || key === "city" || key === "country") {
+            dispatch(addContactInfo({
+                ...contactInfo,
+                location: {
+                    ...contactInfo.location,
+                    [key]: value
+                }
 
-
+            }))
+        } else {
+            dispatch(addContactInfo({
+                ...contactInfo,
+                [key]: value
+            }))
+        }
     }
 
-    const updatedLocation =  useMemo(()=>({ city, state, country }),[city, state, country])
- 
-
-    const updatedContactInfo = { address, location: updatedLocation, phone, email }
-       
-
-   
-    
-
-useEffect(() => {
-
-    handleDispatch()
-}, [dispatch, updatedContactInfo])
-
-return (
-    <div className="w-full ">
-        <div className="flex max-lg:flex-wrap gap-3">
-
-
-            <Input
-                size="md"
-                type="tel"
-                label="Phone"
-                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                value={phone}
-                required
-                onChange={e => setPhone(e.target.value)} />
-
-
-            <Input
-                size="md"
-                type="email"
-                label="Email Address"
-                pattern="example@mail.com"
-                value={email}
-                required
-                onChange={e => setEmail(e.target.value)} />
-
-            <Input
-                size="md"
-                type="text"
-                label="Street No / Apartment No"
-                value={address}
-                required
-                errorMessage={"Please Enter valid Email Address"}
-                onChange={e => setAddress(e.target.value)} />
+    const updatedLocation: Location = {
+        city: contactInfo.location.city,
+        state: contactInfo.location.state,
+        country: contactInfo.location.country
+    }
 
 
 
-        </div>
 
 
-        <InputLocation location={updatedLocation} setCity={setCity} setState={setState} setCountry={setCountry} />
-        <div className="flex justify-between mt-3">
-            <Button variant="flat" color="secondary" onPress={handleBack}>back</Button>
-            <Button variant="flat" color="secondary" onPress={handleNext}>next</Button>
-        </div>
 
 
-    </div>
-);
+
+
+
+    return (
+        <motion.div initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -50 }}
+        transition={{ duration: 0.8, }}  className="w-full ">
+            <div className="flex max-lg:flex-wrap gap-3">
+
+
+                <Input
+                    size="md"
+                    type="tel"
+                    label="Phone"
+                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                    value={contactInfo.phone}
+                    required
+                    onChange={e => handleDispatch("phone", e.target.value)} />
+
+
+                <Input
+                    size="md"
+                    type="email"
+                    label="Email Address"
+                    pattern="example@mail.com"
+                    value={contactInfo.email}
+                    required
+                    errorMessage={"Please Enter valid Email Address"}
+                    onChange={e => handleDispatch("email", e.target.value)} />
+
+                <Input
+                    size="md"
+                    type="text"
+                    label="Street No / Apartment No"
+                    value={contactInfo.address}
+                    required
+                    onChange={e => handleDispatch("address", e.target.value)} />
+            </div>
+
+
+            <InputLocation location={updatedLocation}
+                setCity={value => handleDispatch("city", value)}
+                setState={value => handleDispatch("state", value)}
+                setCountry={value => handleDispatch("country", value)} />
+
+            <div className="flex justify-between mt-3">
+                <Button variant="flat" color="secondary" onPress={handleBack}>back</Button>
+                <Button variant="flat" color="secondary" onPress={handleNext}>next</Button>
+            </div>
+
+
+        </motion.div>
+    );
 };
 
 export default InputContactInfo;

@@ -1,18 +1,17 @@
-import { useEffect, useState } from "react"
+
 import { PersonalInfo } from "../../types/PersonalInfo";
 import { useDispatch, useSelector, } from "react-redux";
 import { addPersonalInfo } from "../../redux/slices/PersonalInfoSlice";
 import { useNavigate } from "react-router-dom";
 import { Input, Button } from "@nextui-org/react";
+import { motion } from "framer-motion";
 
 
-const InputPersonalInfo = ({templateId}:{templateId:number}) => {
+const InputPersonalInfo = ({ templateId }: { templateId: number }) => {
 
-  const personalInfo = useSelector((state: any) => state.personalInfo)
+  const personalInfo: PersonalInfo = useSelector((state: any) => state.personalInfo)
 
-  const [firstName, setFirstName] = useState<string>(personalInfo.firstName);
-  const [middleName, setMiddleName] = useState<string>(personalInfo.middleName);
-  const [lastName, setLastName] = useState<string>(personalInfo.lastName);
+
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -20,30 +19,21 @@ const InputPersonalInfo = ({templateId}:{templateId:number}) => {
   const handleNext = () => {
     navigate(`/templates/template/${templateId}/create/contact-Info`);
   };
-  const newPersonalInfo: PersonalInfo = {
-    firstName: firstName,
-    middleName: middleName,
-    lastName: lastName
-  }
 
-
-
-
-  useEffect(() => {
-    dispatch(addPersonalInfo(newPersonalInfo))
-
-  }, [dispatch, newPersonalInfo])
 
 
   return (
 
-    <div >
+    <motion.div initial={{ opacity: 0, x: -50 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -50 }}
+      transition={{ duration: 0.8, }}  >
       <form>
         <div className="flex justify-center gap-3 items-center max-lg:flex-wrap w-full">
 
-          <Input label="First Name" value={firstName} onChange={e => setFirstName(e.target.value)} size={"md"} type="text" />
-          <Input label="Middle Name" value={middleName} onChange={e => setMiddleName(e.target.value)} size={"md"} type="text" />
-          <Input label="Last Name" value={lastName} onChange={e => setLastName(e.target.value)} size={"md"} type="text" />
+          <Input label="First Name" value={personalInfo.firstName} onChange={e => dispatch(addPersonalInfo({ ...personalInfo, firstName: e.target.value }))} size={"md"} type="text" />
+          <Input label="Middle Name" value={personalInfo.middleName} onChange={e => dispatch(addPersonalInfo({ ...personalInfo, middleName: e.target.value }))} size={"md"} type="text" />
+          <Input label="Last Name" value={personalInfo.lastName} onChange={e => dispatch(addPersonalInfo({ ...personalInfo, lastName: e.target.value }))} size={"md"} type="text" />
 
 
         </div>
@@ -53,7 +43,7 @@ const InputPersonalInfo = ({templateId}:{templateId:number}) => {
 
         <Button onPress={handleNext} variant="flat" color="secondary" >Next</Button>
       </div>
-    </div>
+    </motion.div>
 
 
 

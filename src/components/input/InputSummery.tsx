@@ -6,12 +6,13 @@ import { generateAiSummery } from "../../Ai/AiGeneratives"
 import { Experience } from "../../types/Experience"
 import { useNavigate } from "react-router"
 import { Textarea } from "@nextui-org/react"
+import { motion } from "framer-motion"
 
 
 
 
 
-const InputSummery = ({templateId}:{templateId:number}) => {
+const InputSummery = ({ templateId }: { templateId: number }) => {
 
     const experience: Experience[] = useSelector((state: any) => state.experience)
     const navigate = useNavigate()
@@ -32,30 +33,29 @@ const InputSummery = ({templateId}:{templateId:number}) => {
     }
 
 
-    const handleNext = () => {
-        navigate(`/templates/template/${templateId}/create/experience`);
 
-    
-    };
     const handleBack = () => {
         navigate(`/templates/template/${templateId}/create/custom-section`);
     };
 
     return (
-    
-         <div className="w-full">
+
+        <motion.div initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.8, }} className="w-full">
             <form className="w-full">
                 <Textarea label="Enter your Summery or Generate Using AI" className="p-4" value={summery} cols={5} rows={5} onChange={e => setSummery(e.target.value)}></Textarea>
                 <div className="flex justify-between gap-5 w-full">
-                
+
                     <div className="flex gap-3">
-                    <button type="button" className="p-2 rounded bg-black text-white" onClick={handleSubmit}>add</button>
-                    <button type="button" className="p-2 rounded bg-black text-white" onClick={handleAiSummery}>Generate Ai</button>
+                        <button type="button" className="p-2 rounded bg-black text-white" onClick={handleSubmit}>add</button>
+                        <button type="button" className="p-2 rounded bg-black text-white" onClick={handleAiSummery}>Generate Ai</button>
                     </div>
                 </div>
             </form>
             <button onClick={handleBack}>back</button>
-            </div>
+        </motion.div>
     )
 }
 

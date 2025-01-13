@@ -8,9 +8,10 @@ import { useNavigate } from "react-router";
 import { generateQualifications } from "../../Ai/AiGeneratives";
 import { Checkbox, Input, Listbox, ListboxItem, Textarea } from "@nextui-org/react";
 import { Button } from "@nextui-org/react";
+import {  easeInOut, motion } from "framer-motion";
 
 
-const InputEducation = ({templateId}:{templateId:number}) => {
+const InputEducation = ({ templateId }: { templateId: number }) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [title, setTitle] = useState<string>("");
@@ -77,14 +78,17 @@ const InputEducation = ({templateId}:{templateId:number}) => {
     const handleNext = () => {
         navigate(`/templates/template/${templateId}/create/experience`);
 
-    
+
     };
     const handleBack = () => {
         navigate(`/templates/template/${templateId}/create/social-link`);
     };
 
     return (
-        <div className="w-full">
+        <motion.div initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.8,  }} className="w-full">
 
             <form >
 
@@ -192,7 +196,7 @@ const InputEducation = ({templateId}:{templateId:number}) => {
             </div>
 
 
-        </div >
+        </motion.div >
 
 
     )

@@ -8,6 +8,7 @@ import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { faArrowCircleRight, faLink } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { addCustom, setHeading } from '../../redux/slices/CustomSlice';
+import { motion } from 'framer-motion';
 
 
 
@@ -111,7 +112,10 @@ const InputCustom = ({templateId}:{templateId:number}) => {
     };
 
     return (
-        <div className='w-full'>
+        <motion.div initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -50 }}
+        transition={{ duration: 0.8, }}  className='w-full'>
 
             <form onSubmit={handleSubmit}>
                 <div className='flex flex-col gap-3'>
@@ -193,7 +197,7 @@ const InputCustom = ({templateId}:{templateId:number}) => {
                 <Button onPress={handleBack} variant="flat">back</Button>
                 <Button onPress={handleNext} variant="flat">next</Button>
             </div>
-        </div>
+        </motion.div>
     );
 };
 

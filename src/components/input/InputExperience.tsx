@@ -9,6 +9,7 @@ import { clearSelectedSkills } from '../../redux/slices/SkillsSlice';
 import { useNavigate } from 'react-router';
 import { suggestJobRole } from '../../Ai/AiGeneratives';
 import { Button, Input, Textarea, Listbox, ListboxItem, Select, SelectItem, Checkbox } from '@nextui-org/react';
+import { motion } from 'framer-motion';
 
 
 
@@ -124,7 +125,10 @@ const InputExperience = ({templateId}:{templateId:number}) => {
 
 
     return (
-        <div className='w-full'>
+        <motion.div initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -50 }}
+        transition={{ duration: 0.8, }}  className='w-full'>
 
             <form>
                 <div className='flex flex-col gap-3'>
@@ -218,7 +222,7 @@ const InputExperience = ({templateId}:{templateId:number}) => {
                 <Button onPress={handleBack} variant="flat">back</Button>
                 <Button onPress={handleNext} variant="flat">next</Button>
             </div>
-        </div>
+        </motion.div>
     );
 };
 

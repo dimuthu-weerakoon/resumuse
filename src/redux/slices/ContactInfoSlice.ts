@@ -3,7 +3,11 @@ import ContactInfo from "../../types/ContactInfo";
 
 const initialState:ContactInfo={
     address: "",
-    location: undefined,
+    location: {
+        city: "",
+        state: "",
+        country: ""
+    },
     phone: "",
     email: ""
 }
