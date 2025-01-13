@@ -15,7 +15,7 @@ import { motion } from 'framer-motion';
 
 
 
-const InputCustom = ({templateId}:{templateId:number}) => {
+const InputCustom = ({ templateId }: { templateId: number }) => {
 
     const { heading, customs }: { heading: string, customs: Custom[] } = useSelector((state: any) => state.custom)
     const dispatch = useDispatch()
@@ -97,7 +97,7 @@ const InputCustom = ({templateId}:{templateId:number}) => {
         console.log(customs);
 
         console.log(heading);
-        
+
 
 
     }
@@ -105,7 +105,7 @@ const InputCustom = ({templateId}:{templateId:number}) => {
     const handleNext = () => {
         navigate(`/templates/template/${templateId}/create/summery`);
 
-    
+
     };
     const handleBack = () => {
         navigate(`/templates/template/${templateId}/create/experience`);
@@ -113,9 +113,9 @@ const InputCustom = ({templateId}:{templateId:number}) => {
 
     return (
         <motion.div initial={{ opacity: 0, x: -50 }}
-        animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: -50 }}
-        transition={{ duration: 0.8, }}  className='w-full'>
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.8, }} className='w-full'>
 
             <form onSubmit={handleSubmit}>
                 <div className='flex flex-col gap-3'>
@@ -133,7 +133,7 @@ const InputCustom = ({templateId}:{templateId:number}) => {
 
                     <div className='flex gap-2 flex-nowrap'>
 
-                     
+
 
                         <Input
                             label="Start Date"
@@ -153,7 +153,7 @@ const InputCustom = ({templateId}:{templateId:number}) => {
                         />
                     </div>
 
-                    <div className=''>
+                    <div >
 
                         <Textarea
                             label="Description"
@@ -161,32 +161,33 @@ const InputCustom = ({templateId}:{templateId:number}) => {
                             onChange={(e) => setCurrentInput(e.target.value)}
                             onKeyUp={handleKeyUp}
                             placeholder="- Enter some decriptions about your work as a list and press Enter">
-                        </Textarea>
-                        <div>
-
-                            <Select className="max-w-xs" value={platform}
-                                onChange={e => setPlatform(e.target.value)} label="Select Platform">
-                                <SelectItem value={"github"} key={"github"}
-                                    startContent={<FontAwesomeIcon icon={faGithub} color="black" />}>Github</SelectItem>
-                                <SelectItem value={"linkedin"} key={"linkedin"}
-                                    startContent={<FontAwesomeIcon icon={faLinkedin} color="rgb(0 122 185)" />}>Linkedln</SelectItem>
-                                <SelectItem value={"portfolio"} key={"portfolio"}
-                                    startContent={<FontAwesomeIcon icon={faLink} />}>Portfolio</SelectItem>
-                            </Select>
-                            <Input
-                                size="md"
-                                type="url"
-                                label="URL"
-                                value={link}
-                                required
-                                endContent={<Button isIconOnly onPress={handleUrls} >
-                                    <FontAwesomeIcon size="lg" icon={faArrowCircleRight} />
-                                </Button>}
-                                onChange={e => setLink(e.target.value)} />
+                        </Textarea>  
                         </div>
+                    <div className='flex w-full justify-center items-center gap-3 max-lg:flex-wrap'>
+
+                        <Select className="max-w-xs" value={platform}
+                            onChange={e => setPlatform(e.target.value)} label="Select Platform">
+                            <SelectItem value={"github"} key={"github"}
+                                startContent={<FontAwesomeIcon icon={faGithub} color="black" />}>Github</SelectItem>
+                            <SelectItem value={"linkedin"} key={"linkedin"}
+                                startContent={<FontAwesomeIcon icon={faLinkedin} color="rgb(0 122 185)" />}>Linkedln</SelectItem>
+                            <SelectItem value={"portfolio"} key={"portfolio"}
+                                startContent={<FontAwesomeIcon icon={faLink} />}>Portfolio</SelectItem>
+                        </Select>
+                        <Input
+                            size="md"
+                            type="url"
+                            label="URL"
+                            value={link}
+                            required
+                            endContent={<Button isIconOnly onPress={handleUrls} >
+                                <FontAwesomeIcon size="lg" icon={faArrowCircleRight} />
+                            </Button>}
+                            onChange={e => setLink(e.target.value)} />
                     </div>
+
                     <div className='p-2'>
-                        <Button type="submit" variant='flat'  color='secondary' className=' p-2' >
+                        <Button type="submit" variant='flat' color='secondary' className=' p-2' >
                             Add
                         </Button>
                     </div>
