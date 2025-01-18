@@ -33,7 +33,9 @@ const InputSummery = ({ templateId }: { templateId: number }) => {
     }
 
 
-
+    const handleNext = () => {
+        navigate(`/templates/template/${templateId}/create/refrees`);
+    };
     const handleBack = () => {
         navigate(`/templates/template/${templateId}/create/custom-section`);
     };
@@ -54,7 +56,16 @@ const InputSummery = ({ templateId }: { templateId: number }) => {
                     </div>
                 </div>
             </form>
-            <button onClick={handleBack}>back</button>
+            <div className="flex justify-between">
+                <button onClick={handleBack}>back</button>
+                {
+
+
+                    templateId === 2 && (<button onClick={handleNext}>Next</button>) 
+                }
+            </div>
+
+
         </motion.div>
     )
 }

@@ -63,9 +63,10 @@ const InputContactInfo = ({ templateId }: { templateId: number }) => {
 
     return (
         <motion.div initial={{ opacity: 0, x: -50 }}
-        animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: -50 }}
-        transition={{ duration: 0.8, }}  className="w-full ">
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.8, }}
+            className="w-full ">
             <div className="flex max-lg:flex-wrap gap-3">
 
 
@@ -83,7 +84,6 @@ const InputContactInfo = ({ templateId }: { templateId: number }) => {
                     size="md"
                     type="email"
                     label="Email Address"
-                    pattern="example@mail.com"
                     value={contactInfo.email}
                     required
                     errorMessage={"Please Enter valid Email Address"}

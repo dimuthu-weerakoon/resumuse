@@ -1,13 +1,16 @@
 import { Outlet, useOutlet } from "react-router-dom"
 
-import Template1Preview from "./preview/Template1Preview"
+
 import Template2Preview from "./preview/Template2Preview"
+import PreviewPanel from "../components/Preview"
+import { useState } from "react"
 
 
 
 
 
 const Template1 = () => {
+  const [open, setOpen] = useState<boolean>(false)
 
   return (
     <>
@@ -30,6 +33,11 @@ const Template1 = () => {
 
 
       </div>
+      <PreviewPanel open={open} setOpen={setOpen} >
+        <Template2Preview />
+      </PreviewPanel>
+
+      <button onClick={() => setOpen(!open)} type="button">Preview</button>
     </>
   )
 }

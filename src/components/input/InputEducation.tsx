@@ -4,14 +4,14 @@ import { Education } from "../../types/Education";
 import InputLocation from "./InputLocation";
 import { useDispatch } from "react-redux";
 import { addEducation } from "../../redux/slices/EducationSlice";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { generateQualifications } from "../../Ai/AiGeneratives";
 import { Checkbox, Input, Listbox, ListboxItem, Textarea } from "@nextui-org/react";
 import { Button } from "@nextui-org/react";
 import {  easeInOut, motion } from "framer-motion";
 
 
-const InputEducation = ({ templateId }: { templateId: number }) => {
+const InputEducation = ({templateId}:{templateId:number}) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [title, setTitle] = useState<string>("");

@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import Custom from "../../types/Custom";
 
-interface InitialStateProps {
+export interface CustomInitialStateProps {
   heading: string;
   customs: Custom[];
 }
 
-const initialState: InitialStateProps = {
+const initialState: CustomInitialStateProps = {
   heading: "",
   customs: [],
 };

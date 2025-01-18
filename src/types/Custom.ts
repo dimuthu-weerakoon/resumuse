@@ -4,7 +4,7 @@ import { SocialLink } from "./SocialLinks";
 export default interface Custom {
   
   title: string;
-  dates?: Dates;
+  dates: Dates;
   urls: SocialLink[];
   description: string[];
 }

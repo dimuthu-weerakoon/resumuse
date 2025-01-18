@@ -2,7 +2,7 @@
 import { PersonalInfo } from "../../types/PersonalInfo";
 import { useDispatch, useSelector, } from "react-redux";
 import { addPersonalInfo } from "../../redux/slices/PersonalInfoSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Input, Button } from "@nextui-org/react";
 import { motion } from "framer-motion";
 
@@ -28,6 +28,9 @@ const InputPersonalInfo = ({ templateId }: { templateId: number }) => {
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -50 }}
       transition={{ duration: 0.8, }}  >
+
+        
+        
       <form>
         <div className="flex justify-center gap-3 items-center max-lg:flex-wrap w-full">
 

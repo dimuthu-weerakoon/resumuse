@@ -10,6 +10,8 @@ import InputCustom from "./components/input/InputCustom";
 import { templateRoutes } from "./TemplateRoutes/TemplateRoutes";
 import TemplateBlock from "./pages/TemplateBlock";
 import InputSteps from "./components/input/InputSteps";
+import InputRefrees from "./components/input/InputRefrees";
+import Navbar from "./components/Navbar";
 
 export default function App() {
   const router = createBrowserRouter(
@@ -18,7 +20,7 @@ export default function App() {
         <Route index element={<Home />} />
         <Route path="templates" element={<TemplateBlock />}>
           {templateRoutes.map(temp => (
-            <Route key={temp.templateId} path={temp.path} element={<temp.element />}>
+            <Route key={temp.templateId} path={`template/${temp.templateId}`} element={<temp.element />}>
               <Route path="create" element={<InputSteps />}>
                 <Route index element={<InputPersonalInfo templateId={temp.templateId} />} />
                 <Route path="contact-info" element={<InputContactInfo templateId={temp.templateId} />} />
@@ -27,10 +29,15 @@ export default function App() {
                 <Route path="experience" element={<InputExperience templateId={temp.templateId} />} />
                 <Route path="summery" element={<InputSummery templateId={temp.templateId} />} />
                 <Route path="custom-section" element={<InputCustom templateId={temp.templateId} />} />
+                <Route path={"refrees"} element={<InputRefrees templateId={temp.templateId}/>} />
               </Route>
+
             </Route>
           ))}
-        </Route>
+          </Route>
+
+          <Route path="nav" element={<Navbar/>}/>
+
       </>
     )
   );

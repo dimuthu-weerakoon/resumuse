@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { Button, Calendar, Input, Select, SelectItem, Textarea } from '@nextui-org/react';
+import { Button, Input, Select, SelectItem, Textarea } from '@nextui-org/react';
 import Custom from '../../types/Custom';
 import { SocialLink } from '../../types/SocialLinks';
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
@@ -9,10 +9,6 @@ import { faArrowCircleRight, faLink } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { addCustom, setHeading } from '../../redux/slices/CustomSlice';
 import { motion } from 'framer-motion';
-
-
-
-
 
 
 const InputCustom = ({ templateId }: { templateId: number }) => {
@@ -161,8 +157,8 @@ const InputCustom = ({ templateId }: { templateId: number }) => {
                             onChange={(e) => setCurrentInput(e.target.value)}
                             onKeyUp={handleKeyUp}
                             placeholder="- Enter some decriptions about your work as a list and press Enter">
-                        </Textarea>  
-                        </div>
+                        </Textarea>
+                    </div>
                     <div className='flex w-full justify-center items-center gap-3 max-lg:flex-wrap'>
 
                         <Select className="max-w-xs" value={platform}
@@ -179,7 +175,6 @@ const InputCustom = ({ templateId }: { templateId: number }) => {
                             type="url"
                             label="URL"
                             value={link}
-                            required
                             endContent={<Button isIconOnly onPress={handleUrls} >
                                 <FontAwesomeIcon size="lg" icon={faArrowCircleRight} />
                             </Button>}
