@@ -76,12 +76,12 @@ const InputEducation = ({templateId}:{templateId:number}) => {
 
     }
     const handleNext = () => {
-        navigate(`/templates/template/${templateId}/create/experience`);
+        navigate(`/template/${templateId}/create/experience`);
 
 
     };
     const handleBack = () => {
-        navigate(`/templates/template/${templateId}/create/social-link`);
+        navigate(`/template/${templateId}/create/social-link`);
     };
 
     return (

@@ -59,12 +59,12 @@ const InputSocialLink = ({ templateId }: { templateId: number }) => {
         setLink(" ")
     }
     const handleNext = () => {
-        navigate(`/templates/template/${templateId}/create/education`);
+        navigate(`/template/${templateId}/create/education`);
 
 
     };
     const handleBack = () => {
-        navigate(`/templates/template/${templateId}/create/contact-info`);
+        navigate(`/template/${templateId}/create/contact-info`);
     };
 
     return (
@@ -75,7 +75,7 @@ const InputSocialLink = ({ templateId }: { templateId: number }) => {
 
             <div className="flex w-full justify-center items-center gap-3 max-lg:flex-wrap">
 
-                <Select required className="" value={platform}
+                <Select required  value={platform}
                     onChange={e => setPlatform(e.target.value)} label="Select Platform">
                     <SelectItem value={"github"} key={"github"}
                         startContent={<FontAwesomeIcon icon={faGithub} color="black" />}>Github</SelectItem>

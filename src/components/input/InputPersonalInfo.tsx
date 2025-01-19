@@ -17,7 +17,7 @@ const InputPersonalInfo = ({ templateId }: { templateId: number }) => {
 
 
   const handleNext = () => {
-    navigate(`/templates/template/${templateId}/create/contact-Info`);
+    navigate(`/template/${templateId}/create/contact-Info`);
   };
 
 

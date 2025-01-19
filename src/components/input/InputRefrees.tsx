@@ -51,7 +51,7 @@ const InputRefrees = ({ templateId }: { templateId: number }) => {
 
 
     const handleBack = () => {
-        navigate(`/templates/template/${templateId}/create/summery`);
+        navigate(`/template/${templateId}/create/summery`);
     };
 
     return (

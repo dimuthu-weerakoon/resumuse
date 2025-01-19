@@ -34,10 +34,10 @@ const InputSummery = ({ templateId }: { templateId: number }) => {
 
 
     const handleNext = () => {
-        navigate(`/templates/template/${templateId}/create/refrees`);
+        navigate(`/template/${templateId}/create/refrees`);
     };
     const handleBack = () => {
-        navigate(`/templates/template/${templateId}/create/custom-section`);
+        navigate(`/template/${templateId}/create/custom-section`);
     };
 
     return (

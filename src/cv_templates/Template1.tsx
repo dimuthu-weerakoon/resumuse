@@ -15,25 +15,27 @@ const Template1 = () => {
   return (
     <>
       <div className="grid grid-cols-2 max-md:grid-cols-1 gap-4 p-2 items-start ">
-        
+
         <div>
           {useOutlet()}
-          
+
         </div>
 
-        <div className="flex flex-col justify-center">
-          <div className="scale-50 origin-top shadow-2xl " >
+
+        <div className="flex  justify-center">
+          <div className="scale-50 origin-top shadow-2xl h-full" >
             <Template1Preview />
           </div>
-          <button onClick={() => setOpen(!open)} type="button">Preview</button>
         </div>
+
 
       </div>
       <PreviewPanel open={open} setOpen={setOpen} >
         <Template1Preview />
       </PreviewPanel>
 
-    
+      <button onClick={() => setOpen(!open)} type="button">Preview</button>
+
 
     </>
   )

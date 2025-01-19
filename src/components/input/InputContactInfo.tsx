@@ -19,11 +19,11 @@ const InputContactInfo = ({ templateId }: { templateId: number }) => {
 
     const navigate = useNavigate();
     const handleNext = () => {
-        navigate(`/templates/template/${templateId}/create/social-link`);
+        navigate(`/template/${templateId}/create/social-link`);
 
     };
     const handleBack = () => {
-        navigate(`/templates/template/${templateId}/create`);
+        navigate(`/template/${templateId}/create`);
 
     };
 

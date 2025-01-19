@@ -99,12 +99,12 @@ const InputCustom = ({ templateId }: { templateId: number }) => {
     }
 
     const handleNext = () => {
-        navigate(`/templates/template/${templateId}/create/summery`);
+        navigate(`/template/${templateId}/create/summery`);
 
 
     };
     const handleBack = () => {
-        navigate(`/templates/template/${templateId}/create/experience`);
+        navigate(`/template/${templateId}/create/experience`);
     };
 
     return (
@@ -161,7 +161,7 @@ const InputCustom = ({ templateId }: { templateId: number }) => {
                     </div>
                     <div className='flex w-full justify-center items-center gap-3 max-lg:flex-wrap'>
 
-                        <Select className="max-w-xs" value={platform}
+                        <Select  value={platform} 
                             onChange={e => setPlatform(e.target.value)} label="Select Platform">
                             <SelectItem value={"github"} key={"github"}
                                 startContent={<FontAwesomeIcon icon={faGithub} color="black" />}>Github</SelectItem>

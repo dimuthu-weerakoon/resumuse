@@ -24,7 +24,7 @@ const Template1 = () => {
 
         </div>
 
-        <div className="flex justify-center">
+        <div className="flex flex-wrap justify-center">
           <div className="scale-50 origin-top shadow-2xl " >
             <Template2Preview />
           </div>

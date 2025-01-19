@@ -12,31 +12,38 @@ import TemplateBlock from "./pages/TemplateBlock";
 import InputSteps from "./components/input/InputSteps";
 import InputRefrees from "./components/input/InputRefrees";
 import Navbar from "./components/Navbar";
+import Layout from "./layout/Layout";
+import Templates from "./pages/Templates";
 
 export default function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-        <Route index element={<Home />} />
-        <Route path="templates" element={<TemplateBlock />}>
-          {templateRoutes.map(temp => (
-            <Route key={temp.templateId} path={`template/${temp.templateId}`} element={<temp.element />}>
-              <Route path="create" element={<InputSteps />}>
-                <Route index element={<InputPersonalInfo templateId={temp.templateId} />} />
-                <Route path="contact-info" element={<InputContactInfo templateId={temp.templateId} />} />
-                <Route path="social-link" element={<InputSocialLink templateId={temp.templateId} />} />
-                <Route path="education" element={<InputEducation templateId={temp.templateId} />} />
-                <Route path="experience" element={<InputExperience templateId={temp.templateId} />} />
-                <Route path="summery" element={<InputSummery templateId={temp.templateId} />} />
-                <Route path="custom-section" element={<InputCustom templateId={temp.templateId} />} />
-                <Route path={"refrees"} element={<InputRefrees templateId={temp.templateId}/>} />
-              </Route>
 
-            </Route>
-          ))}
+        <Route path="/" element={<Layout />}>
+
+          <Route index element={<Home />} />
+          <Route path="template" element={<TemplateBlock />}>
+            {templateRoutes.map(temp => (
+              <Route key={temp.templateId} path={`${temp.templateId}`} element={<temp.element />}>
+                <Route path="create" element={<InputSteps />}>
+                  <Route index element={<InputPersonalInfo templateId={temp.templateId} />} />
+                  <Route path="contact-info" element={<InputContactInfo templateId={temp.templateId} />} />
+                  <Route path="social-link" element={<InputSocialLink templateId={temp.templateId} />} />
+                  <Route path="education" element={<InputEducation templateId={temp.templateId} />} />
+                  <Route path="experience" element={<InputExperience templateId={temp.templateId} />} />
+                  <Route path="summery" element={<InputSummery templateId={temp.templateId} />} />
+                  <Route path="custom-section" element={<InputCustom templateId={temp.templateId} />} />
+                  <Route path={"refrees"} element={<InputRefrees templateId={temp.templateId} />} />
+                </Route>
+
+              </Route>
+            ))}
           </Route>
 
-          <Route path="nav" element={<Navbar/>}/>
+          <Route path="/templates" element={<Templates />} />
+        </Route>
+
 
       </>
     )

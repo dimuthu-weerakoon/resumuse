@@ -115,12 +115,12 @@ const InputExperience = ({templateId}:{templateId:number}) => {
 
 
   const handleNext = () => {
-        navigate(`/templates/template/${templateId}/create/custom-section`);
+        navigate(`/template/${templateId}/create/custom-section`);
 
     
     };
     const handleBack = () => {
-        navigate(`/templates/template/${templateId}/create/education`);
+        navigate(`/template/${templateId}/create/education`);
     };
 
 
