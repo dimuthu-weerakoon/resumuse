@@ -18,7 +18,7 @@ const Navbar = () => {
             transition={{ duration: 0.5 }}
             className="fixed right-0 z-50 h-screen w-80 p-3 font-serif bg-blue-900 bg-opacity-30 backdrop-blur-sm"
           >
-            <div className="flex justify-between mb-3">
+            <div className="flex justify-between mb-3 ">
               <NavLink to={"/"}><h3 className="text-2xl font-semibold text-blue-900">ResuMuse</h3></NavLink>
 
               <button
@@ -74,7 +74,7 @@ const Navbar = () => {
 
 
       {/* Navbar */}
-      <div className="flex justify-between p-3 items-center shadow font-serif">
+      <div className="sticky z-[200] backdrop-blur-lg  top-0 flex justify-between p-3 items-center shadow font-serif">
         {/* Logo */}
         <div>
           <NavLink to={"/"}><h3 className="text-2xl font-semibold text-blue-900">ResuMuse</h3></NavLink>

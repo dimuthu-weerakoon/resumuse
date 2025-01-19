@@ -36,7 +36,6 @@ export default function App() {
                   <Route path="custom-section" element={<InputCustom templateId={temp.templateId} />} />
                   <Route path={"refrees"} element={<InputRefrees templateId={temp.templateId} />} />
                 </Route>
-
               </Route>
             ))}
           </Route>
