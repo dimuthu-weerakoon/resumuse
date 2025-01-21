@@ -7,6 +7,8 @@ import { Button, Input } from "@nextui-org/react";
 import ContactInfo from "../../types/ContactInfo";
 import { Location } from "../../types/Location";
 import { motion } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 
 const InputContactInfo = ({ templateId }: { templateId: number }) => {
@@ -105,8 +107,8 @@ const InputContactInfo = ({ templateId }: { templateId: number }) => {
                 setCountry={value => handleDispatch("country", value)} />
 
             <div className="flex justify-between mt-3">
-                <Button variant="flat" color="secondary" onPress={handleBack}>back</Button>
-                <Button variant="flat" color="secondary" onPress={handleNext}>next</Button>
+                <Button variant="flat" className="input-nav-btn" onPress={handleBack}> <FontAwesomeIcon icon={faArrowLeft}/> </Button>
+                <Button variant="flat" className="input-nav-btn" onPress={handleNext}> <FontAwesomeIcon icon={faArrowRight}/> </Button>
             </div>
 
 

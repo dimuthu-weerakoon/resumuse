@@ -25,3 +25,14 @@
     @apply relative p-2 w-full;
   }
 } */
+
+
+@layer utilities {
+
+  .input-nav-btn{
+    @apply text-blue-900 bg-blue-900/15 shadow-xl font-medium font-serif;
+  }
+  .input-action-btn{
+    @apply bg-blue-900 text-blue-200 shadow-xl font-medium font-serif;
+  }
+}

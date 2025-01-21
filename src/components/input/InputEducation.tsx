@@ -9,6 +9,8 @@ import { generateQualifications } from "../../Ai/AiGeneratives";
 import { Checkbox, Input, Listbox, ListboxItem, Textarea } from "@nextui-org/react";
 import { Button } from "@nextui-org/react";
 import {  easeInOut, motion } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faArrowRight, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 
 
 const InputEducation = ({templateId}:{templateId:number}) => {
@@ -184,15 +186,16 @@ const InputEducation = ({templateId}:{templateId:number}) => {
 
                     <Textarea label="Description - (optional)" onChange={e => setDescription(e.target.value)} />
 
-                    <Button variant="flat" color="secondary" className="max-w-fit" type="button" onPress={handlesubmit}>add Education</Button>
+                    <Button variant="flat"  className="input-action-btn max-w-fit" type="button" onPress={handlesubmit}>
+                        <FontAwesomeIcon icon={faPlusCircle}/>  Add education</Button>
                 </div>
 
 
             </form >
 
             <div className="flex justify-between mt-3">
-                <Button onPress={handleBack} variant="flat">back</Button>
-                <Button onPress={handleNext} variant="flat">next</Button>
+                <Button onPress={handleBack} className="input-nav-btn" variant="flat"> <FontAwesomeIcon icon={faArrowLeft}/> </Button>
+                <Button onPress={handleNext} className="input-nav-btn" variant="flat"> <FontAwesomeIcon icon={faArrowRight}/> </Button>
             </div>
 
 

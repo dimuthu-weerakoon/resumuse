@@ -5,8 +5,10 @@ import { addSummery } from "../../redux/slices/SummerySlice"
 import { generateAiSummery } from "../../Ai/AiGeneratives"
 import { Experience } from "../../types/Experience"
 import { useNavigate } from "react-router"
-import { Textarea } from "@nextui-org/react"
+import { Textarea,Button } from "@nextui-org/react"
 import { motion } from "framer-motion"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faArrowLeft, faArrowRight, faMagicWandSparkles, faPlusCircle } from "@fortawesome/free-solid-svg-icons"
 
 
 
@@ -47,21 +49,23 @@ const InputSummery = ({ templateId }: { templateId: number }) => {
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.8, }} className="w-full">
             <form className="w-full">
-                <Textarea label="Enter your Summery or Generate Using AI" className="p-4" value={summery} cols={5} rows={5} onChange={e => setSummery(e.target.value)}></Textarea>
+                <Textarea label="Enter your Summery or Generate Using AI" className=" mb-3" value={summery} cols={5} rows={5} onChange={e => setSummery(e.target.value)}></Textarea>
                 <div className="flex justify-between gap-5 w-full">
 
                     <div className="flex gap-3">
-                        <button type="button" className="p-2 rounded bg-black text-white" onClick={handleSubmit}>add</button>
-                        <button type="button" className="p-2 rounded bg-black text-white" onClick={handleAiSummery}>Generate Ai</button>
+                        <Button type="button" className="input-action-btn" onClick={handleSubmit}>
+                           <FontAwesomeIcon icon={faPlusCircle}/>   Add</Button>
+                        <Button type="button" className="input-action-btn" onClick={handleAiSummery}>
+                        <FontAwesomeIcon icon={faMagicWandSparkles}/>  Generate </Button>
                     </div>
                 </div>
             </form>
-            <div className="flex justify-between">
-                <button onClick={handleBack}>back</button>
+            <div className="flex justify-between mt-3">
+                <Button onPress={handleBack} className="input-nav-btn"> <FontAwesomeIcon icon={faArrowLeft}/> </Button>
                 {
 
 
-                    templateId === 2 && (<button onClick={handleNext}>Next</button>) 
+                    templateId === 2 && (<Button onPress={handleNext} className="input-nav-btn"> <FontAwesomeIcon icon={faArrowRight}/> </Button>) 
                 }
             </div>
 

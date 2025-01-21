@@ -5,6 +5,8 @@ import { addPersonalInfo } from "../../redux/slices/PersonalInfoSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import { Input, Button } from "@nextui-org/react";
 import { motion } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 
 const InputPersonalInfo = ({ templateId }: { templateId: number }) => {
@@ -27,12 +29,14 @@ const InputPersonalInfo = ({ templateId }: { templateId: number }) => {
     <motion.div initial={{ opacity: 0, x: -50 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -50 }}
-      transition={{ duration: 0.8, }}  >
+      transition={{ duration: 0.8, }} 
+      className="w-full"
+      >
 
         
         
-      <form>
-        <div className="flex justify-center gap-3 items-center max-lg:flex-wrap w-full">
+      <form >
+        <div className="flex flex-col justify-center gap-3 items-center ">
 
           <Input label="First Name" value={personalInfo.firstName} onChange={e => dispatch(addPersonalInfo({ ...personalInfo, firstName: e.target.value }))} size={"md"} type="text" />
           <Input label="Middle Name" value={personalInfo.middleName} onChange={e => dispatch(addPersonalInfo({ ...personalInfo, middleName: e.target.value }))} size={"md"} type="text" />
@@ -44,7 +48,7 @@ const InputPersonalInfo = ({ templateId }: { templateId: number }) => {
 
       <div className="flex justify-end mt-3">
 
-        <Button onPress={handleNext} variant="flat" color="secondary" >Next</Button>
+        <Button onPress={handleNext} variant="flat" className="input-nav-btn" > <FontAwesomeIcon icon={faArrowRight}/> </Button>
       </div>
     </motion.div>
 

@@ -8,6 +8,8 @@ import { Button } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import { Refree } from "../../types/Refree";
 import { addRefrees } from "../../redux/slices/RefreeSlice";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 const InputRefrees = ({ templateId }: { templateId: number }) => {
@@ -120,7 +122,7 @@ const InputRefrees = ({ templateId }: { templateId: number }) => {
             </form >
 
             <div className="flex justify-between mt-3">
-                <Button onPress={handleBack} variant="flat">back</Button>
+                <Button onPress={handleBack} variant="flat" className="input-nav-btn"> <FontAwesomeIcon icon={faArrowLeft}/> </Button>
             </div>
 
 

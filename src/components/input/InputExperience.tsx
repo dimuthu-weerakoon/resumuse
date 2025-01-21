@@ -10,6 +10,8 @@ import { useNavigate } from 'react-router';
 import { suggestJobRole } from '../../Ai/AiGeneratives';
 import { Button, Input, Textarea, Listbox, ListboxItem, Select, SelectItem, Checkbox } from '@nextui-org/react';
 import { motion } from 'framer-motion';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft, faArrowRight, faPlus, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -211,16 +213,16 @@ const InputExperience = ({templateId}:{templateId:number}) => {
                         ></Textarea>
                     </div>
                     <div className='p-2'>
-                        <button type="button" className='bg-black text-white rounded p-2' onClick={handleSubmit}>
-                            Add experience
-                        </button>
+                        <Button type="button" className='input-action-btn' onClick={handleSubmit}>
+                          <FontAwesomeIcon icon={faPlusCircle}/>  Add experience
+                        </Button>
                     </div>
                 </div>
             </form>
 
             <div className="flex justify-between">
-                <Button onPress={handleBack} variant="flat">back</Button>
-                <Button onPress={handleNext} variant="flat">next</Button>
+                <Button onPress={handleBack} variant="flat" className='input-nav-btn'> <FontAwesomeIcon icon={faArrowLeft}/> </Button>
+                <Button onPress={handleNext} variant="flat" className='input-nav-btn'> <FontAwesomeIcon icon={faArrowRight}/> </Button>
             </div>
         </motion.div>
     );

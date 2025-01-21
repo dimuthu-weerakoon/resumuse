@@ -5,7 +5,7 @@ import { addSocialLink } from "../../redux/slices/SocialLinksSlice";
 import { useNavigate } from "react-router";
 import { Button, Input, Select, SelectItem } from "@nextui-org/react";
 import { faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
-import { faGlobe, faArrowCircleRight } from "@fortawesome/free-solid-svg-icons";
+import { faGlobe, faArrowCircleRight, faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion";
 
@@ -98,8 +98,8 @@ const InputSocialLink = ({ templateId }: { templateId: number }) => {
             </div>
 
             <div className="flex items-center justify-between mt-4">
-                <Button onPress={handleBack} variant="flat" color="secondary" >Back</Button>
-                <Button onPress={handleNext} variant="flat" color="secondary" >Next</Button>
+                <Button onPress={handleBack} variant="flat" className="input-nav-btn" > <FontAwesomeIcon icon={faArrowLeft}/> </Button>
+                <Button onPress={handleNext} variant="flat" className="input-nav-btn"> <FontAwesomeIcon icon={faArrowRight}/> </Button>
             </div>
 
         </motion.div>

@@ -5,7 +5,7 @@ import { Button, Input, Select, SelectItem, Textarea } from '@nextui-org/react';
 import Custom from '../../types/Custom';
 import { SocialLink } from '../../types/SocialLinks';
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
-import { faArrowCircleRight, faLink } from '@fortawesome/free-solid-svg-icons';
+import { faArrowCircleRight, faArrowLeft, faArrowRight, faLink, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { addCustom, setHeading } from '../../redux/slices/CustomSlice';
 import { motion } from 'framer-motion';
@@ -182,16 +182,16 @@ const InputCustom = ({ templateId }: { templateId: number }) => {
                     </div>
 
                     <div className='p-2'>
-                        <Button type="submit" variant='flat' color='secondary' className=' p-2' >
-                            Add
+                        <Button type="submit" variant='flat'  className=' input-action-btn' >
+                          <FontAwesomeIcon icon={faPlusCircle}/>  Add
                         </Button>
                     </div>
                 </div>
             </form>
 
             <div className="flex justify-between">
-                <Button onPress={handleBack} variant="flat">back</Button>
-                <Button onPress={handleNext} variant="flat">next</Button>
+                <Button onPress={handleBack} variant="flat" className='input-nav-btn'> <FontAwesomeIcon icon={faArrowLeft}/> </Button>
+                <Button onPress={handleNext} variant="flat" className='input-nav-btn'> <FontAwesomeIcon icon={faArrowRight}/> </Button>
             </div>
         </motion.div>
     );
