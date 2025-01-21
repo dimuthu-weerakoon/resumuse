@@ -20,4 +20,12 @@ export const templateRoutes = [
     element: Template2,
     previewElement: Template2Preview,
   },
+  {
+    templateId: 3,
+    imgUrl:
+      "https://www.getyourcv.net/wp-content/uploads/2023/05/professional-cv-template-word.jpg.webp",
+    path: "template/3", 
+    element: Template2,
+    previewElement: Template2Preview,
+  },
 ];
