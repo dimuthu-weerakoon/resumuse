@@ -14,6 +14,7 @@ import InputRefrees from "./components/input/InputRefrees";
 import Navbar from "./components/Navbar";
 import Layout from "./layout/Layout";
 import Templates from "./pages/Templates";
+import InputPicture from "./components/input/InputPicture";
 
 export default function App() {
   const router = createBrowserRouter(
@@ -34,7 +35,8 @@ export default function App() {
                   <Route path="experience" element={<InputExperience templateId={temp.templateId} />} />
                   <Route path="summery" element={<InputSummery templateId={temp.templateId} />} />
                   <Route path="custom-section" element={<InputCustom templateId={temp.templateId} />} />
-                  <Route path={"refrees"} element={<InputRefrees templateId={temp.templateId} />} />
+                  <Route path="refrees" element={<InputRefrees templateId={temp.templateId} />} />
+                  <Route path="picture" element={<InputPicture templateId={temp.templateId}/>}/>
                 </Route>
               </Route>
             ))}

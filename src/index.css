@@ -26,6 +26,19 @@
   }
 } */
 
+@layer base {
+
+
+  input {
+    @apply font-serif ;
+  }
+
+  label {
+    @apply font-serif;
+  }
+}
+
+
 
 @layer utilities {
 
@@ -35,4 +48,7 @@
   .input-action-btn{
     @apply bg-blue-900 text-blue-200 shadow-xl font-medium font-serif;
   }
+
+  
 }
+

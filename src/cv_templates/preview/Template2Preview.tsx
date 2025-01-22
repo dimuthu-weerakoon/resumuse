@@ -9,6 +9,8 @@ import { PersonalInfo } from "../../types/PersonalInfo";
 import { iconNames } from "../../common_functions/SocialIconObject";
 import { Refree } from "../../types/Refree";
 import { CustomInitialStateProps } from "../../redux/slices/CustomSlice";
+import { useEffect, useMemo } from "react";
+import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 
 
 const Template2Preview = () => {
@@ -21,6 +23,12 @@ const Template2Preview = () => {
   const refree: Refree[] = useSelector((state: any) => state.refree)
   const summery: string = useSelector((state: any) => state.summery)
   const custom: CustomInitialStateProps = useSelector((state: any) => state.custom)
+  const pictureFile: File | null = useSelector(
+    (state: { picture: { pictureFile: File | null } }) => state.picture.pictureFile
+  );
+  const pictureUrl = useMemo(() => (pictureFile ? URL.createObjectURL(pictureFile) : null), [pictureFile])
+
+  
 
   return (
 
@@ -30,11 +38,22 @@ const Template2Preview = () => {
 
           <div className="bg-slate-50 h-full p-4 rounded-s-md">
             <div className="flex justify-center items-start">
-              <img
-                className="w-36 h-36  object-cover object-top border-2 border-white rounded-full"
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQn9zilY2Yu2hc19pDZFxgWDTUDy5DId7ITqA&s"
-                alt=""
-              />
+
+              {pictureUrl ? (
+                <img
+                  className="w-36 h-36  object-cover object-top border-2 border-white rounded-full"
+                  src={pictureUrl}
+                  alt={"profile"}
+                />
+              ) :
+                (
+                  <FontAwesomeIcon icon={faUserCircle} size='10x' className={`w-36 h-36 rounded-full text-blue-100`} />)
+              }
+
+
+
+
+
             </div>
             <div className="flex justify-center mt-4 mb-10 items-center ">
               <h3 className="text-gray-800 font-semibold text-xl text-center">{personalInfo.firstName} {personalInfo.middleName} {personalInfo.lastName}</h3>
@@ -161,10 +180,10 @@ const Template2Preview = () => {
                       </ul>
                       <span className="text-[0.65rem]">{formattedDate(custom.dates)}</span>
                       <ul className="text-xs">
-                      {custom.description.map((des, index) => (
-                        <li key={index}>- {des}</li>
-                      ))}
-                    </ul>
+                        {custom.description.map((des, index) => (
+                          <li key={index}>- {des}</li>
+                        ))}
+                      </ul>
                     </div>
                   ))}
                 </div>

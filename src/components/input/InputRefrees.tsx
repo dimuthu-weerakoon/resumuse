@@ -8,7 +8,7 @@ import { Button } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import { Refree } from "../../types/Refree";
 import { addRefrees } from "../../redux/slices/RefreeSlice";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faArrowRight, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
@@ -51,6 +51,9 @@ const InputRefrees = ({ templateId }: { templateId: number }) => {
 
 
 
+    const handleNext = () => {
+        navigate(`/template/${templateId}/create/picture`);
+    };
 
     const handleBack = () => {
         navigate(`/template/${templateId}/create/summery`);
@@ -117,12 +120,17 @@ const InputRefrees = ({ templateId }: { templateId: number }) => {
                         setState={setState}
                         setCountry={setCountry} />
 
-                    <Button variant="flat" color="secondary" onPress={handleSubmit} className="max-w-fit" type="button" >add Refree</Button>
+                    <Button variant="flat" color="secondary" onPress={handleSubmit} className="input-action-btn max-w-fit" type="button" >
+                     <FontAwesomeIcon icon={faPlusCircle}/>   Add Refree
+                    </Button>
                 </div>
             </form >
 
             <div className="flex justify-between mt-3">
+             
                 <Button onPress={handleBack} variant="flat" className="input-nav-btn"> <FontAwesomeIcon icon={faArrowLeft}/> </Button>
+                <Button onPress={handleNext} variant="flat" className="input-nav-btn"> <FontAwesomeIcon icon={faArrowRight}/> </Button>
+
             </div>
 
 

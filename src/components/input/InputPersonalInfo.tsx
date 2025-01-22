@@ -2,7 +2,7 @@
 import { PersonalInfo } from "../../types/PersonalInfo";
 import { useDispatch, useSelector, } from "react-redux";
 import { addPersonalInfo } from "../../redux/slices/PersonalInfoSlice";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Input, Button } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -46,7 +46,7 @@ const InputPersonalInfo = ({ templateId }: { templateId: number }) => {
         </div>
       </form>
 
-      <div className="flex justify-end mt-3">
+      <div className="flex justify-between mt-3">
 
         <Button onPress={handleNext} variant="flat" className="input-nav-btn" > <FontAwesomeIcon icon={faArrowRight}/> </Button>
       </div>

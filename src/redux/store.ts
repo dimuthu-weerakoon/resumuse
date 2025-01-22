@@ -7,7 +7,8 @@ import educationReducer from "./slices/EducationSlice";
 import socialLinkReducer from "./slices/SocialLinksSlice";
 import summeryReducer from "./slices/SummerySlice";
 import customReducer from "./slices/CustomSlice";
-import refreeReducer from "./slices/RefreeSlice"
+import refreeReducer from "./slices/RefreeSlice";
+import pictureReducer from "./slices/PictureSlice";
 
 const Store = configureStore({
   reducer: {
@@ -19,7 +20,8 @@ const Store = configureStore({
     socialLink: socialLinkReducer,
     summery: summeryReducer,
     custom: customReducer,
-    refree:refreeReducer
+    refree: refreeReducer,
+    picture: pictureReducer,
   },
 });
 
