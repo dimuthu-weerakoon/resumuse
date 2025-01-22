@@ -8,12 +8,12 @@ import { useNavigate, useParams } from "react-router";
 import { generateQualifications } from "../../Ai/AiGeneratives";
 import { Checkbox, Input, Listbox, ListboxItem, Textarea } from "@nextui-org/react";
 import { Button } from "@nextui-org/react";
-import {  easeInOut, motion } from "framer-motion";
+import { easeInOut, motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 
 
-const InputEducation = ({templateId}:{templateId:number}) => {
+const InputEducation = ({ templateId }: { templateId: number }) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [title, setTitle] = useState<string>("");
@@ -90,12 +90,13 @@ const InputEducation = ({templateId}:{templateId:number}) => {
         <motion.div initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.8,  }} className="w-full">
+            transition={{ duration: 0.8, }} className="w-full">
 
+            <div className="mb-4">
+                <h2 className=" input-heading">Education</h2>
+                <p className="input-sub-heading">Enter your academic background, including degrees, institutions, and graduation dates.</p>
+            </div>
             <form >
-
-
-
                 <div className="flex flex-col gap-3">
 
                     <Input label="Qualification / Certifications"
@@ -139,10 +140,11 @@ const InputEducation = ({templateId}:{templateId:number}) => {
 
                     <div>
 
-                        <Checkbox onChange={() => {
+                        <Checkbox className="mb-1" onChange={() => {
+                            
                             if (!studying) setEndDate("");
                             setStudying(prev => !prev)
-                        }} >I'm currently follwing this</Checkbox>
+                        }} ><span className="text-blue-950 text-xs">I'm currently follwing this</span></Checkbox>
 
 
                         <div className="flex gap-3 flex-nowrap">
@@ -186,16 +188,16 @@ const InputEducation = ({templateId}:{templateId:number}) => {
 
                     <Textarea label="Description - (optional)" onChange={e => setDescription(e.target.value)} />
 
-                    <Button variant="flat"  className="input-action-btn max-w-fit" type="button" onPress={handlesubmit}>
-                        <FontAwesomeIcon icon={faPlusCircle}/>  Add education</Button>
+                    <Button variant="flat" className="input-action-btn max-w-fit" type="button" onPress={handlesubmit}>
+                        <FontAwesomeIcon icon={faPlusCircle} />  Add education</Button>
                 </div>
 
 
             </form >
 
             <div className="flex justify-between mt-3">
-                <Button onPress={handleBack} className="input-nav-btn" variant="flat"> <FontAwesomeIcon icon={faArrowLeft}/> </Button>
-                <Button onPress={handleNext} className="input-nav-btn" variant="flat"> <FontAwesomeIcon icon={faArrowRight}/> </Button>
+                <Button onPress={handleBack} className="input-nav-btn" variant="flat"> <FontAwesomeIcon icon={faArrowLeft} /> </Button>
+                <Button onPress={handleNext} className="input-nav-btn" variant="flat"> <FontAwesomeIcon icon={faArrowRight} /> </Button>
             </div>
 
 

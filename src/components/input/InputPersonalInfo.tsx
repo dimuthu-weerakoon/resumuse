@@ -36,6 +36,11 @@ const InputPersonalInfo = ({ templateId }: { templateId: number }) => {
         
         
       <form >
+        <div className="mb-4">
+        <h2 className=" input-heading">Personal Information</h2>
+        <p className="input-sub-heading">Enter your personal information to get started</p>
+        </div>
+
         <div className="flex flex-col justify-center gap-3 items-center ">
 
           <Input label="First Name" value={personalInfo.firstName} onChange={e => dispatch(addPersonalInfo({ ...personalInfo, firstName: e.target.value }))} size={"md"} type="text" />
@@ -46,7 +51,7 @@ const InputPersonalInfo = ({ templateId }: { templateId: number }) => {
         </div>
       </form>
 
-      <div className="flex justify-between mt-3">
+      <div className="flex justify-end mt-3">
 
         <Button onPress={handleNext} variant="flat" className="input-nav-btn" > <FontAwesomeIcon icon={faArrowRight}/> </Button>
       </div>

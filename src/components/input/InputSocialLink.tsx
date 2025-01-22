@@ -72,10 +72,13 @@ const InputSocialLink = ({ templateId }: { templateId: number }) => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.8, }} className=" w-full  ">
-
+            <div className="mb-4">
+                <h2 className=" input-heading">Links</h2>
+                <p className="input-sub-heading">Provide relevant links (e.g., portfolio, LinkedIn) to showcase your work and professional profile.</p>
+            </div>
             <div className="flex w-full justify-center items-center gap-3 max-lg:flex-wrap">
 
-                <Select required  value={platform}
+                <Select required value={platform}
                     onChange={e => setPlatform(e.target.value)} label="Select Platform">
                     <SelectItem value={"github"} key={"github"}
                         startContent={<FontAwesomeIcon icon={faGithub} color="black" />}>Github</SelectItem>
@@ -92,14 +95,14 @@ const InputSocialLink = ({ templateId }: { templateId: number }) => {
                     errorMessage={errorMessage}
                     isInvalid={inValid}
                     endContent={<Button isIconOnly onPress={handleSubmit} >
-                        <FontAwesomeIcon size="lg" icon={faArrowCircleRight} />
+                        <FontAwesomeIcon className="text-blue-950" size="lg" icon={faArrowCircleRight} />
                     </Button>}
                     onChange={e => setLink(e.target.value)} />
             </div>
 
             <div className="flex items-center justify-between mt-4">
-                <Button onPress={handleBack} variant="flat" className="input-nav-btn" > <FontAwesomeIcon icon={faArrowLeft}/> </Button>
-                <Button onPress={handleNext} variant="flat" className="input-nav-btn"> <FontAwesomeIcon icon={faArrowRight}/> </Button>
+                <Button onPress={handleBack} variant="flat" className="input-nav-btn" > <FontAwesomeIcon icon={faArrowLeft} /> </Button>
+                <Button onPress={handleNext} variant="flat" className="input-nav-btn"> <FontAwesomeIcon icon={faArrowRight} /> </Button>
             </div>
 
         </motion.div>

@@ -66,6 +66,10 @@ const InputRefrees = ({ templateId }: { templateId: number }) => {
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.8, }} className="w-full">
 
+            <div className="mb-4">
+                <h2 className=" input-heading">Refrees</h2>
+                <p className="input-sub-heading">Provide details of individuals who can vouch for your professional or academic background.</p>
+            </div>
             <form >
                 <div className="flex flex-col gap-3">
 
@@ -121,15 +125,15 @@ const InputRefrees = ({ templateId }: { templateId: number }) => {
                         setCountry={setCountry} />
 
                     <Button variant="flat" color="secondary" onPress={handleSubmit} className="input-action-btn max-w-fit" type="button" >
-                     <FontAwesomeIcon icon={faPlusCircle}/>   Add Refree
+                        <FontAwesomeIcon icon={faPlusCircle} />   Add Refree
                     </Button>
                 </div>
             </form >
 
             <div className="flex justify-between mt-3">
-             
-                <Button onPress={handleBack} variant="flat" className="input-nav-btn"> <FontAwesomeIcon icon={faArrowLeft}/> </Button>
-                <Button onPress={handleNext} variant="flat" className="input-nav-btn"> <FontAwesomeIcon icon={faArrowRight}/> </Button>
+
+                <Button onPress={handleBack} variant="flat" className="input-nav-btn"> <FontAwesomeIcon icon={faArrowLeft} /> </Button>
+                <Button onPress={handleNext} variant="flat" className="input-nav-btn"> <FontAwesomeIcon icon={faArrowRight} /> </Button>
 
             </div>
 

@@ -131,6 +131,10 @@ const InputExperience = ({templateId}:{templateId:number}) => {
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: -50 }}
         transition={{ duration: 0.8, }}  className='w-full'>
+            <div className="mb-4">
+                <h2 className=" input-heading">Experience</h2>
+                <p className="input-sub-heading">Add your work experience, highlighting your roles, companies, and key achievements</p>
+            </div>
 
             <form>
                 <div className='flex flex-col gap-3'>
@@ -171,7 +175,7 @@ const InputExperience = ({templateId}:{templateId:number}) => {
                         setCountry={setCountry} />
 
 
-                    <Checkbox type="checkbox" id="current-job" checked={status} onChange={() => setStatus(!status)} >I'm currently working here</Checkbox>
+                    <Checkbox type="checkbox" id="current-job" checked={status} onChange={() => setStatus(!status)} ><span className='text-xs text-blue-950'>I'm currently working here</span></Checkbox>
 
 
 

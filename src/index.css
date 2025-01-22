@@ -26,6 +26,15 @@
   }
 } */
 
+@layer components{
+  .input-heading{
+    @apply  font-serif text-2xl font-medium text-blue-950;
+  }
+  .input-sub-heading{
+    @apply font-serif text-xs font-medium text-blue-950
+  }
+}
+
 @layer base {
 
 

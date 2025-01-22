@@ -73,6 +73,10 @@ const InputPicture = ({ templateId }: { templateId: number }) => {
             transition={{ duration: 0.8, }}
             className="w-full"
         >
+            <div className="mb-4">
+                <h2 className=" input-heading">Photo</h2>
+                <p className="input-sub-heading">Upload a professional photo to personalize your resume and create a strong first impression.</p>
+            </div>
             <div
                 onDrop={handleFileDrop}
                 onDragOver={handleFileDragOver}

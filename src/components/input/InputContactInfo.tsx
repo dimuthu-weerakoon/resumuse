@@ -69,7 +69,11 @@ const InputContactInfo = ({ templateId }: { templateId: number }) => {
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.8, }}
             className="w-full ">
-            <div className="flex max-lg:flex-wrap gap-3">
+            <div className="mb-4">
+                <h2 className=" input-heading">Contact Information</h2>
+                <p className="input-sub-heading">Fill in your contact information</p>
+            </div>
+            <div className="flex flex-col max-lg:flex-wrap gap-3">
 
 
                 <Input
@@ -107,8 +111,8 @@ const InputContactInfo = ({ templateId }: { templateId: number }) => {
                 setCountry={value => handleDispatch("country", value)} />
 
             <div className="flex justify-between mt-3">
-                <Button variant="flat" className="input-nav-btn" onPress={handleBack}> <FontAwesomeIcon icon={faArrowLeft}/> </Button>
-                <Button variant="flat" className="input-nav-btn" onPress={handleNext}> <FontAwesomeIcon icon={faArrowRight}/> </Button>
+                <Button variant="flat" className="input-nav-btn" onPress={handleBack}> <FontAwesomeIcon icon={faArrowLeft} /> </Button>
+                <Button variant="flat" className="input-nav-btn" onPress={handleNext}> <FontAwesomeIcon icon={faArrowRight} /> </Button>
             </div>
 
 

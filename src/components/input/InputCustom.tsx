@@ -112,16 +112,19 @@ const InputCustom = ({ templateId }: { templateId: number }) => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.8, }} className='w-full'>
-
+        <div className="mb-4">
+                <h2 className=" input-heading">Highlights</h2>
+                <p className="input-sub-heading">Showcase your unique accomplishments, such as research, projects, or other notable contributions.</p>
+            </div>
             <form onSubmit={handleSubmit}>
                 <div className='flex flex-col gap-3'>
 
-                    <Input type="text" label="Section Heading" value={heading} onChange={(e) => {
+                    <Input type="text" label="Section Heading (Projects,Researches...)" value={heading} onChange={(e) => {
 
                         dispatch(setHeading(e.target.value))
                     }} />
 
-                    <Input type="text" label="Title" value={title} onChange={(e) => {
+                    <Input type="text" label="Title (Project title,Research Title)" value={title} onChange={(e) => {
 
                         setTitle(e.target.value)
                     }} />
