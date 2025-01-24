@@ -1,11 +1,20 @@
-import { motion } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
 import { templateRoutes } from "../TemplateRoutes/TemplateRoutes"
 import { Link } from "react-router-dom"
 
 
 const Templates = () => {
   return (
-    <div className="h-screen p-6">
+
+    <motion.div
+
+      className="h-screen p-6"
+
+      initial={{ opacity: 0, x: 100 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.9 }}
+      exit={{ opacity: 0, x: -100 }}
+    >
 
       <div className=" flex flex-col justify-center items-center  h-[80vh]">
         <motion.h1
@@ -13,7 +22,7 @@ const Templates = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.9 }}
           exit={{ opacity: 0 }}
-          className="font-serif font-semiBold text-2xl mb-5 text-blue-900 z-20 text-center">Choose from a wide variety of professional, modern, and creative templates designed to make your resume stand out.</motion.h1>
+          className="font-serif font-semiBold text-2xl mb-5 text-blue-900 z-20 text-center md:w-1/2">Choose from a wide variety of professional, modern, and creative templates designed to make your resume stand out.</motion.h1>
         <div className="flex justify-center flex-wrap gap-4 relative ">
           <div className=" bg-gradient-to-r from-blue-900/10 from-30%  absolute blur-3xl bg-slate-500 w-[50vw] h-[50vh] rounded-full z-10"></div>
           {
@@ -36,7 +45,7 @@ const Templates = () => {
                 <div>
                   <div>
                     <h3 className="font-medium text-blue-950">Modern</h3>
-                    
+
                   </div>
                 </div>
               </motion.div>
@@ -44,7 +53,8 @@ const Templates = () => {
           }
         </div>
       </div>
-    </div>
+    </motion.div>
+
   )
 }
 

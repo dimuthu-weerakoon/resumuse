@@ -69,7 +69,7 @@ const InputSummery = ({ templateId }: { templateId: number }) => {
                 <Button onPress={handleBack} className="input-nav-btn"> <FontAwesomeIcon icon={faArrowLeft} /> </Button>
                 {
 
-                    templateId === 2 && (<Button onPress={handleNext} className="input-nav-btn"> <FontAwesomeIcon icon={faArrowRight} /> </Button>)
+                    (templateId === 2 || templateId === 3) && (<Button onPress={handleNext} className="input-nav-btn"> <FontAwesomeIcon icon={faArrowRight} /> </Button>)
                 }
 
             </div>

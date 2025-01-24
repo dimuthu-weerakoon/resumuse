@@ -1,9 +1,9 @@
-import { faArrowLeft, faArrowRight, faUpload, faUserCircle } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft, faArrowRight, faCancel, faClose, faUpload, faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Button } from '@nextui-org/react'
+import { Button} from '@nextui-org/react'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setPicture } from '../../redux/slices/PictureSlice'
+import { clearPicture, setPicture } from '../../redux/slices/PictureSlice'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 
@@ -55,6 +55,11 @@ const InputPicture = ({ templateId }: { templateId: number }) => {
         }
     }
 
+    const handleFileRemove = ()=>{
+        if (pictureFile) {
+            dispatch(clearPicture())            
+        }
+    }
 
     useEffect(() => {
         return () => {
@@ -89,9 +94,16 @@ const InputPicture = ({ templateId }: { templateId: number }) => {
                     (<FontAwesomeIcon icon={faUserCircle} size='10x' className={`text-${dragging ? 'blue-500' : 'blue-100'}`} />)
                 }
 
-                <Button onPress={handleFileClick} className='shadow-blue-700 shadow-xl input-action-btn'>
-                    <FontAwesomeIcon icon={faUpload} /> Upload
+                <div className='flex justify-between flex-nowrap gap-3'>
+
+                    <Button onPress={handleFileClick} className='shadow-blue-700 shadow-xl input-action-btn'>
+                        <FontAwesomeIcon icon={faUpload} /> Upload
+                    </Button>
+                    <Button onPress={handleFileRemove} className='text-red-700 font-medium  '>
+                    <FontAwesomeIcon icon={faClose} /> Remove
                 </Button>
+                </div>
+
             </div>
 
             <div className='flex justify-between mt-3'>

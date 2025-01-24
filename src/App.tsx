@@ -1,4 +1,4 @@
-import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router";
 import Home from "./pages/Home";
 import InputPersonalInfo from "./components/input/InputPersonalInfo";
 import InputContactInfo from "./components/input/InputContactInfo";
@@ -11,11 +11,11 @@ import { templateRoutes } from "./TemplateRoutes/TemplateRoutes";
 import TemplateBlock from "./pages/TemplateBlock";
 import InputSteps from "./components/input/InputSteps";
 import InputRefrees from "./components/input/InputRefrees";
-import Navbar from "./components/Navbar";
 import Layout from "./layout/Layout";
 import Templates from "./pages/Templates";
 import InputPicture from "./components/input/InputPicture";
 import NotFound from "./pages/NotFound";
+import Finalize from "./components/Finalize";
 
 export default function App() {
   const router = createBrowserRouter(
@@ -38,14 +38,15 @@ export default function App() {
                   <Route path="custom-section" element={<InputCustom templateId={temp.templateId} />} />
                   <Route path="refrees" element={<InputRefrees templateId={temp.templateId} />} />
                   <Route path="picture" element={<InputPicture templateId={temp.templateId} />} />
+                  <Route path="finalize" element={<Finalize previewTemplate={<temp.previewElement />} templateId={temp.templateId} />} />
                 </Route>
               </Route>
             ))}
           </Route>
           <Route path="/templates" element={<Templates />} />
           <Route path="*" element={<NotFound />} />
-
         </Route>
+
 
       </>
     )

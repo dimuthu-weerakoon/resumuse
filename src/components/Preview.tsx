@@ -14,11 +14,11 @@ export default function PreviewPanel({ open, setOpen, children }: { open: boolea
     return (
 
 
-        <div>
+        <div className=''>
 
 
 
-            <Dialog open={open} onClose={setOpen} className="relative z-50 ">
+            <Dialog open={open} onClose={setOpen} className="relative  z-[300]">
 
 
                 <DialogBackdrop
