@@ -26,20 +26,28 @@
   }
 } */
 
-@layer components{
-  .input-heading{
-    @apply  font-serif text-2xl font-medium text-blue-950;
+@layer components {
+  .input-heading {
+    @apply font-serif text-2xl font-medium text-blue-950;
   }
-  .input-sub-heading{
-    @apply font-serif text-xs font-medium text-blue-950
+  .input-sub-heading {
+    @apply font-serif text-xs font-medium text-blue-950;
+  }
+
+  .template-grid {
+    @apply grid grid-cols-2 max-md:grid-cols-1 gap-4 p-2 items-start;
+  }
+  .template-preview-container {
+    @apply flex flex-wrap justify-center;
+  }
+  .scaled-template {
+    @apply scale-50 origin-top shadow-2xl mt-5;
   }
 }
 
 @layer base {
-
-
   input {
-    @apply font-serif ;
+    @apply font-serif;
   }
 
   label {
@@ -47,17 +55,11 @@
   }
 }
 
-
-
 @layer utilities {
-
-  .input-nav-btn{
+  .input-nav-btn {
     @apply text-blue-900 bg-blue-900/15 shadow-xl font-medium font-serif;
   }
-  .input-action-btn{
+  .input-action-btn {
     @apply bg-blue-900 text-blue-200 shadow-xl font-medium font-serif;
   }
-
-  
 }
-

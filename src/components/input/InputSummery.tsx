@@ -9,6 +9,7 @@ import { Textarea, Button } from "@nextui-org/react"
 import { motion } from "framer-motion"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowLeft, faArrowRight, faMagicWandSparkles, faPlusCircle } from "@fortawesome/free-solid-svg-icons"
+import RouteRules from "../../TemplateRoutes/RouteRules"
 
 
 
@@ -35,9 +36,7 @@ const InputSummery = ({ templateId }: { templateId: number }) => {
     }
 
 
-    const handleNext = () => {
-        navigate(`/template/${templateId}/create/refrees`);
-    };
+ 
     const handleBack = () => {
         navigate(`/template/${templateId}/create/custom-section`);
     };
@@ -67,11 +66,7 @@ const InputSummery = ({ templateId }: { templateId: number }) => {
             </form>
             <div className="flex justify-between mt-3">
                 <Button onPress={handleBack} className="input-nav-btn"> <FontAwesomeIcon icon={faArrowLeft} /> </Button>
-                {
-
-                    (templateId === 2 || templateId === 3) && (<Button onPress={handleNext} className="input-nav-btn"> <FontAwesomeIcon icon={faArrowRight} /> </Button>)
-                }
-
+                <RouteRules templateId={templateId}/>
             </div>
 
 

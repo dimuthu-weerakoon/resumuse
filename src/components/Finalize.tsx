@@ -1,22 +1,18 @@
 import { Button } from "@nextui-org/react"
 import PreviewPanel from "./Preview"
-import { useRef, useState } from "react"
-import { useReactToPrint } from "react-to-print";
+import { useState } from "react"
 import { motion } from "framer-motion";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationTriangle, faFile } from "@fortawesome/free-solid-svg-icons";
 
-const Finalize = ({ previewTemplate, templateId }: { previewTemplate: JSX.Element, templateId: number }) => {
+const Finalize = ({ previewTemplate }: { previewTemplate: JSX.Element }) => {
   const [open, setOpen] = useState<boolean>(false)
-  const contentRef = useRef<HTMLDivElement>(null)
-  const documentTitle = "my-resume"
-  const reactToPrintFn = useReactToPrint({ contentRef, documentTitle });
-  const navigate = useNavigate()
-  const handleNext = () => {
-    navigate(`/template/${templateId}/create/refrees`);
-  };
+
+
+
   return (
+
     <motion.div
       initial={{ opacity: 0, y: -50 }}
       animate={{ opacity: 1, y: 0 }}
@@ -28,6 +24,7 @@ const Finalize = ({ previewTemplate, templateId }: { previewTemplate: JSX.Elemen
           Preview and download your professionally formatted resume.
         </p>
       </div>
+
       <motion.div
         initial={{ opacity: 0, y: 80 }}
         animate={{ opacity: 1, y: 0 }}
@@ -50,12 +47,7 @@ const Finalize = ({ previewTemplate, templateId }: { previewTemplate: JSX.Elemen
 
 
       <PreviewPanel open={open} setOpen={setOpen} >
-        <div ref={contentRef}>
-          {previewTemplate}
-        </div>
-
-        <Button onPress={() => reactToPrintFn()}>Download</Button>
-
+        {previewTemplate}
       </PreviewPanel>
     </motion.div>
   )

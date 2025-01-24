@@ -16,6 +16,7 @@ import Templates from "./pages/Templates";
 import InputPicture from "./components/input/InputPicture";
 import NotFound from "./pages/NotFound";
 import Finalize from "./components/Finalize";
+import RouteInvalid from "./TemplateRoutes/RouteInvalid";
 
 export default function App() {
   const router = createBrowserRouter(
@@ -36,8 +37,11 @@ export default function App() {
                   <Route path="experience" element={<InputExperience templateId={temp.templateId} />} />
                   <Route path="summery" element={<InputSummery templateId={temp.templateId} />} />
                   <Route path="custom-section" element={<InputCustom templateId={temp.templateId} />} />
-                  <Route path="refrees" element={<InputRefrees templateId={temp.templateId} />} />
-                  <Route path="picture" element={<InputPicture templateId={temp.templateId} />} />
+                  <Route element={<RouteInvalid templateId={temp.templateId} />}>
+                    <Route path="refrees" element={<InputRefrees templateId={temp.templateId} />} />
+                    <Route path="picture" element={<InputPicture templateId={temp.templateId} />} />
+                  </Route>
+
                   <Route path="finalize" element={<Finalize previewTemplate={<temp.previewElement />} templateId={temp.templateId} />} />
                 </Route>
               </Route>

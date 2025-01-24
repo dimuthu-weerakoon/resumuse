@@ -11,6 +11,7 @@ export const templateRoutes = [
     path: "template/1", 
     element: Template1,
     previewElement: Template1Preview,
+    category:"ATS / Modern"
   },
   {
     templateId: 2,
@@ -19,6 +20,8 @@ export const templateRoutes = [
     path: "template/2", 
     element: Template2,
     previewElement: Template2Preview,
+    category:"Traditional"
+
   },
   {
     templateId: 3,
@@ -27,5 +30,7 @@ export const templateRoutes = [
     path: "template/3", 
     element: Template2,
     previewElement: Template2Preview,
+    category:"ATS / Classic"
+
   },
 ];
