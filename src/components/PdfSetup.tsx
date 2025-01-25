@@ -12,7 +12,7 @@ const PdfSetup = ({ canvas }: { canvas: React.RefObject<ContentNode> }) => {
     contentRef: canvas,
     documentTitle: pdfTitle,
   });
-  return <Button className="bg-blue-100 text-blue-950 font-semibold shadow-lg shadow-blue-900" onPress={() => handlePrint()}><FontAwesomeIcon icon={faPrint}/> Print </Button>;
+  return <Button className="bg-white text-blue-950 font-medium transition-colors  duration-700 hover:text-blue-100 hover:bg-blue-950" onPress={() => handlePrint()}><FontAwesomeIcon icon={faPrint}/> Print </Button>;
 };
 
 export default PdfSetup;

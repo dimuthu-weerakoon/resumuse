@@ -17,6 +17,7 @@ import InputPicture from "./components/input/InputPicture";
 import NotFound from "./pages/NotFound";
 import Finalize from "./components/Finalize";
 import RouteInvalid from "./TemplateRoutes/RouteInvalid";
+import Template3Preview from "./cv_templates/preview/Template3Preview";
 
 export default function App() {
   const router = createBrowserRouter(
@@ -41,14 +42,14 @@ export default function App() {
                     <Route path="refrees" element={<InputRefrees templateId={temp.templateId} />} />
                     <Route path="picture" element={<InputPicture templateId={temp.templateId} />} />
                   </Route>
-
-                  <Route path="finalize" element={<Finalize previewTemplate={<temp.previewElement />} templateId={temp.templateId} />} />
+                  <Route path="finalize" element={<Finalize previewTemplate={<temp.previewElement />} />} />
                 </Route>
               </Route>
             ))}
           </Route>
           <Route path="/templates" element={<Templates />} />
           <Route path="*" element={<NotFound />} />
+          <Route path={"temp3"} element={<Template3Preview/>}/>
         </Route>
 
 

@@ -12,9 +12,11 @@ export default {
   ],
   theme: {
     fontFamily: {
-      'serif': ['Poppins', 'serif']
+      'serif': ['Poppins', 'serif'],
+      'sans-serif': ['Roboto', 'sans-serif']
     },
-    extend: {},
+    extend: {
+    },
   },
   darkMode: "class",
   plugins: [nextui()]
