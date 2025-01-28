@@ -20,7 +20,7 @@ const RouteRules = ({ templateId }: { templateId: number }) => {
     }
 
     return (
-        <Button onPress={handleNext} variant="flat" className="input-nav-btn"> <FontAwesomeIcon icon={faArrowRight} /> </Button>
+        <Button size="sm" onPress={handleNext} variant="flat" className="input-nav-btn"> <FontAwesomeIcon icon={faArrowRight} /> </Button>
 
     )
 

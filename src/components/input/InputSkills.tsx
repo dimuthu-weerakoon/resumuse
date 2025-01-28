@@ -38,7 +38,7 @@ const InputSkills = ({ jobRole }: { jobRole: string }) => {
 
 
   return (
-    <div className="input-div">
+    <div className="">
 
       <div className="grid grid-cols-1 w-full relative">
         <Input

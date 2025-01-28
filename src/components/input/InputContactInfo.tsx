@@ -9,12 +9,10 @@ import { Location } from "../../types/Location";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { phoneNumberAutoFormat } from "../../common_functions/phonenumberAutoFormat";
 
 
 const InputContactInfo = ({ templateId }: { templateId: number }) => {
-
-
-
 
     const contactInfo: ContactInfo = useSelector((state: any) => state.contactInfo)
     const dispatch = useDispatch()
@@ -56,34 +54,34 @@ const InputContactInfo = ({ templateId }: { templateId: number }) => {
 
 
 
-
-
-
-
-
-
-
     return (
         <motion.div initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.8, }}
             className="w-full ">
+
+            <div className="flex justify-between mb-3">
+                <Button variant="flat" size="sm" className="input-nav-btn" onPress={handleBack}> <FontAwesomeIcon icon={faArrowLeft} /> </Button>
+                <Button variant="flat" size="sm" className="input-nav-btn" onPress={handleNext}> <FontAwesomeIcon icon={faArrowRight} /> </Button>
+            </div>
             <div className="mb-4">
                 <h2 className=" input-heading">Contact Information</h2>
                 <p className="input-sub-heading">Fill in your contact information</p>
             </div>
-            <div className="flex flex-col max-lg:flex-wrap gap-3">
+            <div className="flex flex-col max-lg:flex-wrap gap-3 mb-3">
 
 
                 <Input
                     size="md"
                     type="tel"
                     label="Phone"
-                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                     value={contactInfo.phone}
                     required
-                    onChange={e => handleDispatch("phone", e.target.value)} />
+                    onChange={e => {
+                        const targetValue = e.target.value
+                        handleDispatch("phone", phoneNumberAutoFormat(targetValue))
+                    }} />
 
 
                 <Input
@@ -109,12 +107,6 @@ const InputContactInfo = ({ templateId }: { templateId: number }) => {
                 setCity={value => handleDispatch("city", value)}
                 setState={value => handleDispatch("state", value)}
                 setCountry={value => handleDispatch("country", value)} />
-
-            <div className="flex justify-between mt-3">
-                <Button variant="flat" className="input-nav-btn" onPress={handleBack}> <FontAwesomeIcon icon={faArrowLeft} /> </Button>
-                <Button variant="flat" className="input-nav-btn" onPress={handleNext}> <FontAwesomeIcon icon={faArrowRight} /> </Button>
-            </div>
-
 
         </motion.div>
     );

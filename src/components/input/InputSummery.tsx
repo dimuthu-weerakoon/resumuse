@@ -36,7 +36,7 @@ const InputSummery = ({ templateId }: { templateId: number }) => {
     }
 
 
- 
+
     const handleBack = () => {
         navigate(`/template/${templateId}/create/custom-section`);
     };
@@ -47,6 +47,10 @@ const InputSummery = ({ templateId }: { templateId: number }) => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.8, }} className="w-full">
+            <div className="flex justify-between mb-4">
+                <Button size="sm" onPress={handleBack} className="input-nav-btn"> <FontAwesomeIcon icon={faArrowLeft} /> </Button>
+                <RouteRules templateId={templateId} />
+            </div>
 
             <div className="mb-4">
                 <h2 className=" input-heading">Career Overview</h2>
@@ -64,10 +68,6 @@ const InputSummery = ({ templateId }: { templateId: number }) => {
                     </div>
                 </div>
             </form>
-            <div className="flex justify-between mt-3">
-                <Button onPress={handleBack} className="input-nav-btn"> <FontAwesomeIcon icon={faArrowLeft} /> </Button>
-                <RouteRules templateId={templateId}/>
-            </div>
 
 
         </motion.div>

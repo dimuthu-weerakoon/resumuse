@@ -1,6 +1,6 @@
 import { faArrowLeft, faArrowRight, faCancel, faClose, faUpload, faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Button} from '@nextui-org/react'
+import { Button } from '@nextui-org/react'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearPicture, setPicture } from '../../redux/slices/PictureSlice'
@@ -55,9 +55,9 @@ const InputPicture = ({ templateId }: { templateId: number }) => {
         }
     }
 
-    const handleFileRemove = ()=>{
+    const handleFileRemove = () => {
         if (pictureFile) {
-            dispatch(clearPicture())            
+            dispatch(clearPicture())
         }
     }
 
@@ -76,8 +76,13 @@ const InputPicture = ({ templateId }: { templateId: number }) => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.8, }}
-            className="w-full"
-        >
+            className="w-full" >
+
+            <div className='flex justify-between mb-4'>
+
+                <Button size='sm' onPress={handleBack} variant="flat" className="input-nav-btn"> <FontAwesomeIcon icon={faArrowLeft} /> </Button>
+                <Button size='sm' onPress={handleNext} variant="flat" className="input-nav-btn"> <FontAwesomeIcon icon={faArrowRight} /> </Button>
+            </div>
             <div className="mb-4">
                 <h2 className=" input-heading">Photo</h2>
                 <p className="input-sub-heading">Upload a professional photo to personalize your resume and create a strong first impression.</p>
@@ -100,17 +105,12 @@ const InputPicture = ({ templateId }: { templateId: number }) => {
                         <FontAwesomeIcon icon={faUpload} /> Upload
                     </Button>
                     <Button onPress={handleFileRemove} className='text-red-700 font-medium  '>
-                    <FontAwesomeIcon icon={faClose} /> Remove
-                </Button>
+                        <FontAwesomeIcon icon={faClose} /> Remove
+                    </Button>
                 </div>
 
             </div>
 
-            <div className='flex justify-between mt-3'>
-
-                <Button onPress={handleBack} variant="flat" className="input-nav-btn"> <FontAwesomeIcon icon={faArrowLeft} /> </Button>
-                <Button onPress={handleNext} variant="flat" className="input-nav-btn"> <FontAwesomeIcon icon={faArrowRight} /> </Button>
-            </div>
         </motion.div>
 
     )

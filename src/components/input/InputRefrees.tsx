@@ -10,6 +10,7 @@ import { Refree } from "../../types/Refree";
 import { addRefrees } from "../../redux/slices/RefreeSlice";
 import { faArrowLeft, faArrowRight, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { phoneNumberAutoFormat } from "../../common_functions/phonenumberAutoFormat";
 
 
 const InputRefrees = ({ templateId }: { templateId: number }) => {
@@ -66,6 +67,12 @@ const InputRefrees = ({ templateId }: { templateId: number }) => {
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.8, }} className="w-full">
 
+            <div className="flex justify-between mb-4">
+
+                <Button size="sm" onPress={handleBack} variant="flat" className="input-nav-btn"> <FontAwesomeIcon icon={faArrowLeft} /> </Button>
+                <Button size="sm" onPress={handleNext} variant="flat" className="input-nav-btn"> <FontAwesomeIcon icon={faArrowRight} /> </Button>
+
+            </div>
             <div className="mb-4">
                 <h2 className=" input-heading">Refrees</h2>
                 <p className="input-sub-heading">Provide details of individuals who can vouch for your professional or academic background.</p>
@@ -102,10 +109,11 @@ const InputRefrees = ({ templateId }: { templateId: number }) => {
                         size="md"
                         type="tel"
                         label="Phone"
-                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                         value={phone}
                         required
-                        onChange={e => setPhone(e.target.value)} />
+                        onChange={e =>{ 
+                            const targetValue = e.target.value
+                            setPhone(phoneNumberAutoFormat(targetValue))}} />
 
 
                     <Input
@@ -130,12 +138,6 @@ const InputRefrees = ({ templateId }: { templateId: number }) => {
                 </div>
             </form >
 
-            <div className="flex justify-between mt-3">
-
-                <Button onPress={handleBack} variant="flat" className="input-nav-btn"> <FontAwesomeIcon icon={faArrowLeft} /> </Button>
-                <Button onPress={handleNext} variant="flat" className="input-nav-btn"> <FontAwesomeIcon icon={faArrowRight} /> </Button>
-
-            </div>
 
 
         </motion.div >

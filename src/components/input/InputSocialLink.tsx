@@ -72,6 +72,10 @@ const InputSocialLink = ({ templateId }: { templateId: number }) => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.8, }} className=" w-full  ">
+                  <div className="flex items-center justify-between mb-4">
+                <Button onPress={handleBack} size="sm" variant="flat" className="input-nav-btn" > <FontAwesomeIcon icon={faArrowLeft} /> </Button>
+                <Button onPress={handleNext} size="sm" variant="flat" className="input-nav-btn"> <FontAwesomeIcon icon={faArrowRight} /> </Button>
+            </div>
             <div className="mb-4">
                 <h2 className=" input-heading">Links</h2>
                 <p className="input-sub-heading">Provide relevant links (e.g., portfolio, LinkedIn) to showcase your work and professional profile.</p>
@@ -100,10 +104,7 @@ const InputSocialLink = ({ templateId }: { templateId: number }) => {
                     onChange={e => setLink(e.target.value)} />
             </div>
 
-            <div className="flex items-center justify-between mt-4">
-                <Button onPress={handleBack} variant="flat" className="input-nav-btn" > <FontAwesomeIcon icon={faArrowLeft} /> </Button>
-                <Button onPress={handleNext} variant="flat" className="input-nav-btn"> <FontAwesomeIcon icon={faArrowRight} /> </Button>
-            </div>
+          
 
         </motion.div>
     )

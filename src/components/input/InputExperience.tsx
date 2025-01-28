@@ -18,7 +18,7 @@ import { faArrowLeft, faArrowRight, faPlus, faPlusCircle } from '@fortawesome/fr
 
 
 
-const InputExperience = ({templateId}:{templateId:number}) => {
+const InputExperience = ({ templateId }: { templateId: number }) => {
 
     const { selectedSkills } = useSelector((state: any) => state.skills);
     const navigate = useNavigate()
@@ -37,7 +37,7 @@ const InputExperience = ({templateId}:{templateId:number}) => {
     const [location, setLocation] = useState<Location>()
     const [suggestedJobRoles, setSuggestedJobRoles] = useState<string[]>([]);
 
-    const employeeTypes = ["Intership", "Contract", "Employee"];
+    const employeeTypes = ["Intership", "Contract", "Employee","Freelance"];
 
     const newExp: Experience = {
         title: title,
@@ -116,10 +116,10 @@ const InputExperience = ({templateId}:{templateId:number}) => {
     }
 
 
-  const handleNext = () => {
+    const handleNext = () => {
         navigate(`/template/${templateId}/create/custom-section`);
 
-    
+
     };
     const handleBack = () => {
         navigate(`/template/${templateId}/create/education`);
@@ -128,9 +128,15 @@ const InputExperience = ({templateId}:{templateId:number}) => {
 
     return (
         <motion.div initial={{ opacity: 0, x: -50 }}
-        animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: -50 }}
-        transition={{ duration: 0.8, }}  className='w-full'>
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.8, }} className='w-full'>
+
+            <div className="flex justify-between mb-4">
+                <Button size='sm' onPress={handleBack} variant="flat" className='input-nav-btn'> <FontAwesomeIcon icon={faArrowLeft} /> </Button>
+                <Button size='sm' onPress={handleNext} variant="flat" className='input-nav-btn'> <FontAwesomeIcon icon={faArrowRight} /> </Button>
+            </div>
+
             <div className="mb-4">
                 <h2 className=" input-heading">Experience</h2>
                 <p className="input-sub-heading">Add your work experience, highlighting your roles, companies, and key achievements</p>
@@ -140,7 +146,7 @@ const InputExperience = ({templateId}:{templateId:number}) => {
                 <div className='flex flex-col gap-3'>
 
 
-                    <Input type="text" label="Podition / Job Role" value={title} onChange={(e) => {
+                    <Input type="text" label="Podition / Job Role"  value={title} onChange={(e) => {
                         handleAiSuggestTitle()
                         setTitle(e.target.value)
                     }} />
@@ -164,7 +170,7 @@ const InputExperience = ({templateId}:{templateId:number}) => {
                     </Select>
 
 
-                    <Input type="text" label="Company / Organization" value={company} onChange={(e) => {
+                    <Input type="text" label="Company / Organization"  value={company} onChange={(e) => {
                         setCompany(e.target.value)
                     }} />
 
@@ -175,13 +181,14 @@ const InputExperience = ({templateId}:{templateId:number}) => {
                         setCountry={setCountry} />
 
 
-                    <Checkbox type="checkbox" id="current-job" checked={status} onChange={() => setStatus(!status)} ><span className='text-xs text-blue-950'>I'm currently working here</span></Checkbox>
+                    <Checkbox type="checkbox" id="current-job" checked={status} onChange={() => setStatus(prev=>!prev)} ><span className='text-xs text-blue-950'>I'm currently working here</span></Checkbox>
 
 
 
                     <div className='flex gap-2 flex-nowrap'>
 
                         <Input
+                 
                             label="Start Date"
                             type="date"
                             id="start-date"
@@ -193,6 +200,7 @@ const InputExperience = ({templateId}:{templateId:number}) => {
 
                         {!status &&
                             <Input
+                       
                                 hidden={status}
                                 label="End Date"
                                 type="date"
@@ -206,9 +214,10 @@ const InputExperience = ({templateId}:{templateId:number}) => {
 
                     <InputSkills jobRole={title} />
 
-                    <div className='input-div'>
+                    <div className=''>
 
                         <Textarea
+                        
                             label="Description"
                             value={currentInput}
                             onChange={(e) => setCurrentInput(e.target.value)}
@@ -218,16 +227,13 @@ const InputExperience = ({templateId}:{templateId:number}) => {
                     </div>
                     <div className='p-2'>
                         <Button type="button" className='input-action-btn' onClick={handleSubmit}>
-                          <FontAwesomeIcon icon={faPlusCircle}/>  Add experience
+                            <FontAwesomeIcon icon={faPlusCircle} />  Add experience
                         </Button>
                     </div>
                 </div>
             </form>
 
-            <div className="flex justify-between">
-                <Button onPress={handleBack} variant="flat" className='input-nav-btn'> <FontAwesomeIcon icon={faArrowLeft}/> </Button>
-                <Button onPress={handleNext} variant="flat" className='input-nav-btn'> <FontAwesomeIcon icon={faArrowRight}/> </Button>
-            </div>
+
         </motion.div>
     );
 };

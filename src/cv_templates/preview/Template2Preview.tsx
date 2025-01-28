@@ -10,7 +10,7 @@ import { iconNames } from "../../common_functions/SocialIconObject";
 import { Refree } from "../../types/Refree";
 import { CustomInitialStateProps } from "../../redux/slices/CustomSlice";
 import { useMemo } from "react";
-import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
+import { faLocation, faLocationArrow, faLocationDot, faMapLocation, faNavicon, faPhone, faUserCircle } from "@fortawesome/free-solid-svg-icons";
 
 const Template2Preview = () => {
   const experience: Experience[] = useSelector(
@@ -41,10 +41,10 @@ const Template2Preview = () => {
   );
 
   return (
-    <div className=" w-[21cm] h-[29.7cm]  ">
-      <div className="shadow-lg p-4 bg-white font-serif  h-[100%] ">
+    <div className=" h-[29.7cm]   w-full ">
+      <div className="shadow-lg p-4 bg-white font-sans-serif w-full h-full ">
         <div className="grid grid-cols-3 h-full">
-          <div className="bg-slate-50 h-full p-4 rounded-s-md">
+          <div className=" h-full p-4 rounded-s-md">
             <div className="flex justify-center items-start">
               {pictureUrl ? (
                 <img
@@ -67,17 +67,17 @@ const Template2Preview = () => {
               </h3>
             </div>
 
-            <div className="flex flex-col mb-2">
-              <h3 className="mb-2 font-medium"> Contact Infomation</h3>
-
-              <div className="bg-slate-100 p-4 rounded-md">
-                <ul className="text-[0.65rem] italic">
+            <div className="flex flex-col mb-4">
+              <h3 className="mb-1 font-medium"> Contact Infomation</h3>
+              <hr className="border-blue-400 rounded-lg border-1 mb-4" />
+              <div className=" rounded-md">
+                <ul className="text-[0.75rem] italic">
                   {contactInfo && (
                     <>
                       <li className="mb-1">
-                        {contactInfo.address} ,{contactInfo.location.city}
+                  <FontAwesomeIcon icon={faLocationDot}/>{" "} {contactInfo.address} ,{contactInfo.location.city} ,{contactInfo.location.country}
                       </li>
-                      <li className="mb-1">{contactInfo.phone}</li>
+                         <li className="mb-1"> <FontAwesomeIcon icon={faPhone}/>{" "} {contactInfo.phone}</li>
                     </>
                   )}
 
@@ -112,15 +112,16 @@ const Template2Preview = () => {
             </div> */}
 
             <div className="flex flex-col">
-              <h3 className="mb-2 font-medium"> Refrees</h3>
-              <div className="bg-slate-100 p-3 rounded-md ">
+              <h3 className="font-medium mb-1"> Refrees</h3>
+              <hr className="border-blue-400 rounded-lg border-1 mb-2" />
+              <div className=" rounded-md ">
                 {refree &&
                   refree.map((ref, index) => (
                     <div className="flex flex-col mb-2" key={index}>
-                      <h4 className="font-medium capitalize">
+                      <h4 className="font-medium text-sm capitalize">
                         {ref.refreeName}
                       </h4>
-                      <span className="text-sm capitalize ">
+                      <span className="text-xs capitalize ">
                         {ref.positions}
                       </span>
                       <span className="text-xs ">{ref.institute} </span>
@@ -135,36 +136,40 @@ const Template2Preview = () => {
             </div>
           </div>
 
-          <div className="bg-slate-100 col-span-2 p-4 rounded-e-md">
+          <div className=" col-span-2 p-4 rounded-e-md">
             <div className="mb-2">
-              <h3 className="mb-2">
+              <h3 className="mb-1">
                 <span className="font-medium">Profile</span>
               </h3>
-
-              <p className="bg-slate-50 p-4 rounded-md text-xs text-justify">
+              <hr className="border-blue-400 rounded-lg border-1 mb-2" />
+              <p className="  rounded-md text-xs font-light">
                 {summery}
               </p>
             </div>
 
             <div className="mb-2">
-              <h3 className="mb-2">
+              <h3 className="mb-1">
                 <span className="font-medium">Work Experience</span>
               </h3>
-              <div className="bg-slate-50 p-4 rounded-md ">
+              <hr className="border-blue-400 rounded-lg border-1 mb-2" />
+              <div className="  rounded-md ">
                 {experience &&
                   experience.map((exp, index) => (
                     <div className="flex flex-col mb-2" key={index}>
                       <h4 className="font-medium text-sm">{exp.company}</h4>
-                      <span className="text-[0.65rem]">
-                        {formattedDate(exp.dates)}
-                      </span>
+                      <div className="flex justify-between items-center mb-1">
                       <span className="text-[0.65rem]">
                         {exp.location?.city} ,{exp.location?.state}
                       </span>
+                      <span className="text-[0.65rem]">
+                        {formattedDate(exp.dates)}
+                      </span>
+                      </div>
+                     
                       <h5 className="text-xs font-medium">{exp.title}</h5>
-                      <ul className="text-xs">
+                      <ul className="text-xs mx-4">
                         {exp.description.map((des, index) => (
-                          <li key={index}>- {des}</li>
+                          <li className=" list-disc font-light" key={index}>{des}</li>
                         ))}
                       </ul>
                     </div>
@@ -173,25 +178,28 @@ const Template2Preview = () => {
             </div>
 
             <div className="mb-2">
-              <h3 className="mb-2">
+              <h3 className="mb-1">
                 <span className="font-medium">
                   {" "}
                   Education and Academic Qualification
                 </span>
               </h3>
-              <div className="bg-slate-50 p-4 rounded-md ">
+              <hr className="border-blue-400 rounded-lg border-1 mb-2" />
+              <div className="  rounded-md ">
                 {educations &&
                   educations.map((edu, index) => (
                     <div className="flex flex-col mb-2" key={index}>
                       <h4 className="font-medium text-sm">{edu.title}</h4>
-                      <h5 className="text-xs font-medium">{edu.institute}</h5>
+                      <h5 className="text-xs ">{edu.institute}</h5>
+                      <div className="flex justify-between items-center mb-1">
+                      <span className="text-[0.65rem]">
+                        {edu.location?.city} ,{edu.location?.state}
+                      </span>
                       <span className="text-[0.65rem]">
                         {formattedDate(edu.dates)}
                       </span>
-                      <span className="text-[0.65rem]">
-                        {edu.location?.city},{edu.location?.state}
-                      </span>
-                      <p className="text-[.7rem]">{edu.description}</p>
+                      </div>
+                      <p className="text-[.7rem] font-light">{edu.description}</p>
                     </div>
                   ))}
               </div>
@@ -199,10 +207,11 @@ const Template2Preview = () => {
 
             {custom && custom.customs.length > 0 && (
               <div className="mb-2">
-                <h3 className="mb-2">
+                <h3 className="mb-1">
                   <span className="font-medium"> {custom.heading}</span>
                 </h3>
-                <div className="bg-slate-50 p-4 rounded-md ">
+              <hr className="border-blue-400 rounded-lg border-1 mb-2" />
+                <div className=" rounded-md ">
                   {custom.customs.map((custom, index) => (
                     <div className="flex flex-col mb-2" key={index}>
                       <h4 className="font-medium text-sm">{custom.title}</h4>
@@ -224,9 +233,9 @@ const Template2Preview = () => {
                       <span className="text-[0.65rem]">
                         {formattedDate(custom.dates)}
                       </span>
-                      <ul className="text-xs">
+                      <ul className="text-xs mx-4">
                         {custom.description.map((des, index) => (
-                          <li key={index}>- {des}</li>
+                          <li className="list-disc font-light" key={index}>{des}</li>
                         ))}
                       </ul>
                     </div>

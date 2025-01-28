@@ -37,3 +37,22 @@ export const  fetchStates = async (iso2:string) => {
     throw error;
   }
 };
+
+export const  fetchCities = async (countryIso2:string,stateIso2:string) => {
+  try {
+    
+    const res = await axios.get(
+      `https://api.countrystatecity.in/v1/countries/${countryIso2}/states/${stateIso2}/cities`,
+      {
+        headers: {
+          "X-CSCAPI-KEY": apiKey,
+        },
+      }
+    );
+    const data = res.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};

@@ -9,7 +9,7 @@ const Template1 = () => {
         <div>{useOutlet()}</div>
 
         <div className="template-preview-container ">
-          <div className="scaled-template">
+          <div className="scaled-template ">
             <Template1Preview />
           </div>
         </div>

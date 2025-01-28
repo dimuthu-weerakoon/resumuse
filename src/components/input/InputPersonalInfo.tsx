@@ -27,6 +27,13 @@ const InputPersonalInfo = ({ templateId }: { templateId: number }) => {
       transition={{ duration: 0.8 }}
       className="w-full"
     >
+      <div className="flex justify-end mb-4">
+        <Button onPress={handleNext} variant="flat" size="sm" className="input-nav-btn">
+          {" "}
+          <FontAwesomeIcon icon={faArrowRight} />{" "}
+        </Button>
+      </div>
+
       <form>
         <div className="mb-4">
           <h2 className=" input-heading">Personal Information</h2>
@@ -72,12 +79,7 @@ const InputPersonalInfo = ({ templateId }: { templateId: number }) => {
         </div>
       </form>
 
-      <div className="flex justify-end mt-3">
-        <Button onPress={handleNext} variant="flat" className="input-nav-btn">
-          {" "}
-          <FontAwesomeIcon icon={faArrowRight} />{" "}
-        </Button>
-      </div>
+
     </motion.div>
   );
 };

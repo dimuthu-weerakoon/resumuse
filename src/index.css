@@ -38,10 +38,10 @@
     @apply grid grid-cols-2 max-md:grid-cols-1 gap-4 p-2 items-start;
   }
   .template-preview-container {
-    @apply flex flex-wrap justify-center;
+    @apply flex flex-wrap justify-center w-[21cm] h-[29.7cm] ;
   }
   .scaled-template {
-    @apply scale-50 origin-top  shadow-2xl mt-5;
+    @apply scale-50 origin-top  shadow-2xl mt-5 w-full h-full;
   }
   .input-wrapper-styles{
     @apply   !bg-white hover:!bg-blue-800/25 focus-within:!bg-blue-800/25 !backdrop-blur-xl

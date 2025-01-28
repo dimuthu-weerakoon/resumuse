@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import { Button, Input, Select, SelectItem, Textarea } from '@nextui-org/react';
 import Custom from '../../types/Custom';
 import { SocialLink } from '../../types/SocialLinks';
-import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faArrowCircleRight, faArrowLeft, faArrowRight, faLink, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { addCustom, setHeading } from '../../redux/slices/CustomSlice';
@@ -24,35 +24,61 @@ const InputCustom = ({ templateId }: { templateId: number }) => {
     const [currentInput, setCurrentInput] = useState<string>();
     const [platform, setPlatform] = useState<string>("");
     const [link, setLink] = useState<string>("");
+    const [inValid, setInvalid] = useState<boolean>(false)
+    const [errorMessage, setErrorMessage] = useState<string | null>();
 
 
 
 
 
-
-    const clearCust = () => {
+    const clearCustom = () => {
         setTitle("");
         setStartDate("");
         setEndDate("");
         setDescription([]);
+        setUrls([])
     };
 
 
     const handleUrls = () => {
-
-
-        try {
-            const newUrl: SocialLink = {
-                platform: platform,
-                link: link
-            }
-            setUrls(prev => [...prev, newUrl])
-
-        } catch (err) {
-            console.log(err)
+        const trimmedLink = link.trim();
+        if (!platform && !trimmedLink) {
+            setPlatform("");
+            setLink("");
+            setInvalid(false);
+            setErrorMessage(null);
+          
         }
-
-
+        try {
+            const checkUrl = new URL(trimmedLink)
+            if (checkUrl.protocol !== "https:" || !platform) {
+                setInvalid(true)
+                setErrorMessage("Invalid URL")
+                return
+            }
+            if ((platform === "github" && checkUrl.hostname !== "github.com")) {
+                setInvalid(true)
+                setErrorMessage("Enter a Valid Platform URL")
+                return
+            }
+        } catch (error) {
+            setInvalid(true)
+            setErrorMessage("Invalid URL")
+            return
+        }
+        if (!platform && !link) {
+            setInvalid(false);
+            setErrorMessage(null);
+        }
+        setInvalid(false);
+        setErrorMessage(null);
+        const newUrl: SocialLink = {
+            platform: platform,
+            link: link
+        }
+        setUrls(prev => [...prev, newUrl])
+        setPlatform("")
+        setLink("")
         console.log(urls)
     }
 
@@ -60,25 +86,18 @@ const InputCustom = ({ templateId }: { templateId: number }) => {
     const handleKeyUp = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.key === ("Enter")) {
             const value = e.currentTarget.value.trim()
-
             if (value !== "") {
                 setDescription(prevDesc => [...prevDesc, value])
                 setCurrentInput("")
             }
             e.preventDefault()
             console.log(description);
-
         }
-
-
     }
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-
-
         const newCustom: Custom = {
-
             title: title,
             dates: {
                 startDate: startDate,
@@ -87,15 +106,8 @@ const InputCustom = ({ templateId }: { templateId: number }) => {
             urls: urls,
             description: description
         };
-
         dispatch(addCustom(newCustom))
-
-        console.log(customs);
-
-        console.log(heading);
-
-
-
+        clearCustom()
     }
 
     const handleNext = () => {
@@ -112,6 +124,12 @@ const InputCustom = ({ templateId }: { templateId: number }) => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.8, }} className='w-full'>
+
+            <div className="flex justify-between mb-4">
+                <Button size='sm' onPress={handleBack} variant="flat" className='input-nav-btn'> <FontAwesomeIcon icon={faArrowLeft} /> </Button>
+                <Button size='sm' onPress={handleNext} variant="flat" className='input-nav-btn'> <FontAwesomeIcon icon={faArrowRight} /> </Button>
+            </div>
+
             <div className="mb-4">
                 <h2 className=" input-heading">Highlights</h2>
                 <p className="input-sub-heading">Showcase your unique accomplishments, such as research, projects, or other notable contributions.</p>
@@ -168,16 +186,16 @@ const InputCustom = ({ templateId }: { templateId: number }) => {
                             onChange={e => setPlatform(e.target.value)} label="Select Platform">
                             <SelectItem value={"github"} key={"github"}
                                 startContent={<FontAwesomeIcon icon={faGithub} color="black" />}>Github</SelectItem>
-                            <SelectItem value={"linkedin"} key={"linkedin"}
-                                startContent={<FontAwesomeIcon icon={faLinkedin} color="rgb(0 122 185)" />}>Linkedln</SelectItem>
                             <SelectItem value={"portfolio"} key={"portfolio"}
-                                startContent={<FontAwesomeIcon icon={faLink} />}>Portfolio</SelectItem>
+                                startContent={<FontAwesomeIcon icon={faLink} />}>Website</SelectItem>
                         </Select>
                         <Input
                             size="md"
                             type="url"
                             label="URL"
                             value={link}
+                            isInvalid={inValid}
+                            errorMessage={errorMessage}
                             endContent={<Button isIconOnly onPress={handleUrls} >
                                 <FontAwesomeIcon size="lg" icon={faArrowCircleRight} />
                             </Button>}
@@ -192,10 +210,7 @@ const InputCustom = ({ templateId }: { templateId: number }) => {
                 </div>
             </form>
 
-            <div className="flex justify-between">
-                <Button onPress={handleBack} variant="flat" className='input-nav-btn'> <FontAwesomeIcon icon={faArrowLeft} /> </Button>
-                <Button onPress={handleNext} variant="flat" className='input-nav-btn'> <FontAwesomeIcon icon={faArrowRight} /> </Button>
-            </div>
+
         </motion.div>
     );
 };
