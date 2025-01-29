@@ -10,7 +10,7 @@ import { iconNames } from "../../common_functions/SocialIconObject";
 import { Refree } from "../../types/Refree";
 import { CustomInitialStateProps } from "../../redux/slices/CustomSlice";
 import { useMemo } from "react";
-import { faLocation, faLocationArrow, faLocationDot, faMapLocation, faNavicon, faPhone, faUserCircle } from "@fortawesome/free-solid-svg-icons";
+import { faLocationDot, faPhone, faUserCircle } from "@fortawesome/free-solid-svg-icons";
 
 const Template2Preview = () => {
   const experience: Experience[] = useSelector(
@@ -20,7 +20,7 @@ const Template2Preview = () => {
   const contactInfo: ContactInfo = useSelector(
     (state: any) => state.contactInfo
   );
-  const socialLinks: SocialLink[] = useSelector(
+  const {links}: {links:SocialLink[]} = useSelector(
     (state: any) => state.socialLink
   );
   const personalInfo: PersonalInfo = useSelector(
@@ -81,8 +81,8 @@ const Template2Preview = () => {
                     </>
                   )}
 
-                  {socialLinks &&
-                    socialLinks.map((social, index) => (
+                  {links &&
+                    links.map((social, index) => (
                       <li key={index} className="mb-2">
                         <FontAwesomeIcon icon={iconNames[social.platform]} />{" "}
                         <a

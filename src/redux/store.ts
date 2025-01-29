@@ -9,6 +9,7 @@ import summeryReducer from "./slices/SummerySlice";
 import customReducer from "./slices/CustomSlice";
 import refreeReducer from "./slices/RefreeSlice";
 import pictureReducer from "./slices/PictureSlice";
+import editModeSliceReducer from "./slices/editModeSlice";
 
 const Store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ const Store = configureStore({
     custom: customReducer,
     refree: refreeReducer,
     picture: pictureReducer,
+    editmode: editModeSliceReducer,
   },
 });
 

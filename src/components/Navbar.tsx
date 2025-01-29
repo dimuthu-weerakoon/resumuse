@@ -1,12 +1,28 @@
 import { faBarsStaggered, faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button } from "@nextui-org/react";
 import { AnimatePresence, motion } from "framer-motion";
-import  { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useLocation } from "react-router-dom";
+import { disableEditmode, enableEditmode } from "../redux/slices/editModeSlice";
 
 const Navbar = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const location = useLocation()
+  const splitedPath = location.pathname.split("/")
+  const isTemplateRoute = splitedPath.includes("template")
+  const editMode: boolean = useSelector((state: any) => state.editmode)
 
+  const dispatch = useDispatch();
+
+  const handleEditMode = () => {
+    if (editMode) {
+      dispatch(disableEditmode())
+    } else {
+      dispatch(enableEditmode())
+    }
+  }
   return (
     <>
       <AnimatePresence>
@@ -122,13 +138,21 @@ const Navbar = () => {
           </ul>
         </div>
 
-        <div className="md:hidden">
-
-
-          <button onClick={() => setIsVisible(!isVisible)}>
-            <FontAwesomeIcon icon={faBarsStaggered} size="lg" className="text-blue-900"/>
-          </button>
-
+        <div className="flex items-center gap-4">
+          <div>
+            {isTemplateRoute &&
+              <Button variant="flat"
+                onPress={ handleEditMode}
+                color={editMode ? "warning" : "primary"}>
+                {editMode ? "Disable Edit Mode" : "Enable Edit Mode"}
+              </Button>
+            }
+          </div>
+          <div className="md:hidden">
+            <button onClick={() => setIsVisible(!isVisible)}>
+              <FontAwesomeIcon icon={faBarsStaggered} size="lg" className="text-blue-900" />
+            </button>
+          </div>
         </div>
       </div>
     </>

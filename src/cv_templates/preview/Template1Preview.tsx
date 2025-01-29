@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import formattedDate from "../../common_functions/dateformat";
@@ -8,8 +8,14 @@ import ContactInfo from "../../types/ContactInfo";
 import { iconNames } from "../../common_functions/SocialIconObject";
 import { SocialLink } from "../../types/SocialLinks";
 import { CustomInitialStateProps } from "../../redux/slices/CustomSlice";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { editSocialLink } from "../../redux/slices/SocialLinksSlice";
+import { useNavigate } from "react-router-dom";
 
 const Template1Preview = () => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const editMode: boolean = useSelector((state: any) => state.editmode)
   const experience: Experience[] = useSelector(
     (state: any) => state.experience
   );
@@ -17,7 +23,7 @@ const Template1Preview = () => {
   const contactInfo: ContactInfo = useSelector(
     (state: any) => state.contactInfo
   );
-  const socialLinks: SocialLink[] = useSelector(
+  const { links }: { links: SocialLink[] } = useSelector(
     (state: any) => state.socialLink
   );
   const personalInfo = useSelector((state: any) => state.personalInfo);
@@ -26,6 +32,10 @@ const Template1Preview = () => {
     (state: any) => state.custom
   );
 
+const handleEditSocialMedia = (index:number) =>{
+  dispatch(editSocialLink(index))
+  navigate(`/template/1/create/social-link`);
+}
 
   return (
     <div className=" p-4 bg-white w-full h-[29.7cm]">
@@ -40,11 +50,19 @@ const Template1Preview = () => {
                   {personalInfo.lastName}
                 </h4>
               </div>
-              <div>
-                {socialLinks && (
+              <div className="">
+                {links && (
                   <ul className="text-xs flex gap-5">
-                    {socialLinks.map((social, index) => (
-                      <li key={index}>
+                    {links.map((social, index) => (
+                      <li key={index} className="relative">
+                        {editMode &&
+                        <button onClick={()=>handleEditSocialMedia(index)}>
+                          <FontAwesomeIcon
+                          icon={faEdit} size="lg" 
+                          className="mb-2 cursor-pointer absolute bottom-2 right-0"  />
+                        </button>
+                          
+                        }
                         <FontAwesomeIcon icon={iconNames[social.platform]} />{" "}
                         <a
                           className="italic hover:underline"

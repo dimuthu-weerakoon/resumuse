@@ -18,7 +18,7 @@ const Template3Preview = () => {
   const contactInfo: ContactInfo = useSelector(
     (state: any) => state.contactInfo
   );
-  const socialLinks: SocialLink[] = useSelector(
+  const {links}: {links:SocialLink[]} = useSelector(
     (state: any) => state.socialLink
   );
   const personalInfo: PersonalInfo = useSelector(
@@ -53,7 +53,7 @@ const Template3Preview = () => {
             <li>{contactInfo.email}</li>
           </ul>
           <ul className="flex gap-2 items-center font-light text-xs italic">
-            {socialLinks.map((social, index) => (
+            {links.map((social, index) => (
               <li key={index} className="flex items-center">
                 {index > 0 && (
                   <span className="font-bold not-italic text-sm mr-2 text-blue-950">|</span>
