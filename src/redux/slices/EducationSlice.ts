@@ -19,12 +19,12 @@ const educationSlice = createSlice({
       },
       removeEducation(state, action: PayloadAction<number>) {
         state.educations = state.educations.filter(
-          (edu, index) => index !== action.payload
+          (_, index) => index !== action.payload
         );
       },
       editEducation(state, action: PayloadAction<number>) {
         state.editingEducation = state.educations.find(
-          (e, index) => index === action.payload
+          (_, index) => index === action.payload
         ) || null;
       },
       updateEducation(state, action: PayloadAction<Education>) {

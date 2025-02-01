@@ -6,10 +6,10 @@ export interface Experience {
   title: string;
   type: string;
   company: string;
-  location?:Location;
+  location?:Location|null;
   dates:Dates ;
   description: string[];
   status:boolean;
-  skills: Skill[];
+  skills: Skill[]|null;
 }
 

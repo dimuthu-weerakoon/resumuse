@@ -12,12 +12,13 @@ import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { editSocialLink } from "../../redux/slices/SocialLinksSlice";
 import { useNavigate } from "react-router-dom";
 import { editEducation } from "../../redux/slices/EducationSlice";
+import { editExperience } from "../../redux/slices/ExpSlice";
 
 const Template1Preview = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const editMode: boolean = useSelector((state: any) => state.editmode)
-  const experience: Experience[] = useSelector(
+  const { experiences }: { experiences: Experience[] } = useSelector(
     (state: any) => state.experience
   );
   const { educations }: { educations: Education[] } = useSelector((state: any) => state.education);
@@ -44,6 +45,10 @@ const Template1Preview = () => {
     navigate(`/template/1/create/education`);
   }
 
+  const handleEditExperiences=(index:number)=>{
+    dispatch(editExperience(index))
+    navigate(`/template/1/create/experience`)
+  }
 
   return (
     <div className=" p-4 bg-white w-full h-[29.7cm]">
@@ -114,10 +119,10 @@ const Template1Preview = () => {
             <h3 className="font-semibold -tracking-tighter uppercase">Experience</h3>
             <hr className="my-1 w-full rounded-lg border-2 mb-3 border-blue-100" />
             <div>
-              {experience && (
+              {experiences && (
                 <div className="mb-3 ">
                   <div>
-                    {experience.map((exp, index) => (
+                    {experiences.map((exp, index) => (
                       <div key={index} className=" text-xs mb-3 relative">
                         <div className="flex justify-between items-center mb-1">
                           <div className="flex flex-col">
@@ -140,28 +145,35 @@ const Template1Preview = () => {
                         </div>
 
                         <div className="mb-2">
-                          {exp.description.length > 0 && (
+                          {exp.description!.length > 0 && (
                             <ul className="mx-4  leading-4">
-                              {exp.description.map((desc) => (
+                              {exp.description!.map((desc) => (
                                 <li className="list-disc font-light" key={index}>{desc}</li>
                               ))}
                             </ul>
                           )}
                         </div>
 
-                        {exp.skills.length > 0 && (
+                        {exp.skills!.length > 0 && (
                           <ul>
                             <li>
                               <span>Improved Skills - </span>
                               <span className="font-medium">
-                                {exp.skills
+                                {exp.skills!
                                   .map((skill) => skill.skill)
                                   .join(" , ")}
                               </span>
                             </li>
                           </ul>
                         )}
+                    {editMode &&
+                      <button onClick={() => handleEditExperiences(index)}>
+                        <FontAwesomeIcon
+                          icon={faEdit} size="xl"
+                          className="mb-2 cursor-pointer absolute bottom-0 right-0" />
+                      </button>
 
+                    }
                       </div>
                     ))}
                   </div>

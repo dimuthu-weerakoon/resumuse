@@ -193,7 +193,8 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
 
           <div>
             <Checkbox
-              isSelected={studying}
+            
+             isSelected={ studying}
               className="mb-1"
               onChange={() => setStudying((prev) => !prev)}
             >
