@@ -1,7 +1,7 @@
 import axios from "axios";
 const apiKey = import.meta.env.VITE_CSC_API_KEY;
 
-export const  fetchCountires = async () => {
+export const  fetchCountries = async () => {
   try {
     const res = await axios.get(
       "https://api.countrystatecity.in/v1/countries",

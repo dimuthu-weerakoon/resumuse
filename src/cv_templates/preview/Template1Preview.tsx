@@ -11,6 +11,7 @@ import { CustomInitialStateProps } from "../../redux/slices/CustomSlice";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { editSocialLink } from "../../redux/slices/SocialLinksSlice";
 import { useNavigate } from "react-router-dom";
+import { editEducation } from "../../redux/slices/EducationSlice";
 
 const Template1Preview = () => {
   const dispatch = useDispatch()
@@ -19,7 +20,7 @@ const Template1Preview = () => {
   const experience: Experience[] = useSelector(
     (state: any) => state.experience
   );
-  const educations: Education[] = useSelector((state: any) => state.education);
+  const { educations }: { educations: Education[] } = useSelector((state: any) => state.education);
   const contactInfo: ContactInfo = useSelector(
     (state: any) => state.contactInfo
   );
@@ -32,10 +33,17 @@ const Template1Preview = () => {
     (state: any) => state.custom
   );
 
-const handleEditSocialMedia = (index:number) =>{
-  dispatch(editSocialLink(index))
-  navigate(`/template/1/create/social-link`);
-}
+
+  const handleEditSocialMedia = (index: number) => {
+    dispatch(editSocialLink(index))
+    navigate(`/template/1/create/social-link`);
+  }
+
+  const handleEditEducation = (index: number) => {
+    dispatch(editEducation(index))
+    navigate(`/template/1/create/education`);
+  }
+
 
   return (
     <div className=" p-4 bg-white w-full h-[29.7cm]">
@@ -56,12 +64,12 @@ const handleEditSocialMedia = (index:number) =>{
                     {links.map((social, index) => (
                       <li key={index} className="relative">
                         {editMode &&
-                        <button onClick={()=>handleEditSocialMedia(index)}>
-                          <FontAwesomeIcon
-                          icon={faEdit} size="lg" 
-                          className="mb-2 cursor-pointer absolute bottom-2 right-0"  />
-                        </button>
-                          
+                          <button onClick={() => handleEditSocialMedia(index)}>
+                            <FontAwesomeIcon
+                              icon={faEdit} size="lg"
+                              className="mb-2 cursor-pointer absolute bottom-2 right-0" />
+                          </button>
+
                         }
                         <FontAwesomeIcon icon={iconNames[social.platform]} />{" "}
                         <a
@@ -110,7 +118,7 @@ const handleEditSocialMedia = (index:number) =>{
                 <div className="mb-3 ">
                   <div>
                     {experience.map((exp, index) => (
-                      <div key={index} className=" text-xs mb-3 ">
+                      <div key={index} className=" text-xs mb-3 relative">
                         <div className="flex justify-between items-center mb-1">
                           <div className="flex flex-col">
                             <span className="font-semibold capitalize">
@@ -153,6 +161,7 @@ const handleEditSocialMedia = (index:number) =>{
                             </li>
                           </ul>
                         )}
+
                       </div>
                     ))}
                   </div>
@@ -217,7 +226,7 @@ const handleEditSocialMedia = (index:number) =>{
             {educations && (
               <div className="mb-3">
                 {educations.map((edu, index) => (
-                  <div key={index} className="text-xs mb-3">
+                  <div key={index} className="text-xs mb-3 relative">
                     <div className="flex justify-between items-center mb-1 capitalize">
                       <div className="w-full flex flex-col">
                         <span className="font-semibold ">{edu.title}</span>
@@ -231,6 +240,14 @@ const handleEditSocialMedia = (index:number) =>{
                         </div>
                       </div>
                     </div>
+                    {editMode &&
+                      <button onClick={() => handleEditEducation(index)}>
+                        <FontAwesomeIcon
+                          icon={faEdit} size="lg"
+                          className="mb-2 cursor-pointer absolute top-0 right-0" />
+                      </button>
+
+                    }
                   </div>
                 ))}
               </div>

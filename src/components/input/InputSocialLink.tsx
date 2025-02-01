@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { SocialLink } from "../../types/SocialLinks";
 import { useDispatch, useSelector } from "react-redux";
-import { addSocialLink, clearEditingLink, editSocialLink, updateSocialLink } from "../../redux/slices/SocialLinksSlice";
+import { addSocialLink, clearEditingLink, updateSocialLink } from "../../redux/slices/SocialLinksSlice";
 import { useNavigate } from "react-router";
 import { Button, Input, Select, SelectItem } from "@nextui-org/react";
 import { faArrowCircleRight, faArrowLeft, faArrowRight, faRepeat } from "@fortawesome/free-solid-svg-icons";
@@ -42,7 +42,7 @@ const InputSocialLink = ({ templateId }: { templateId: number }) => {
             setLink("");
         }
     }, [editMode, dispatch])
-    const validateAndDispatch = (isEdit: boolean) => {
+    const handleSubmit = (isEdit: boolean) => {
         try {
             const checkUrl = new URL(link);
             if (checkUrl.protocol !== "https:" || !platform) {
@@ -103,7 +103,7 @@ const InputSocialLink = ({ templateId }: { templateId: number }) => {
                     {socialPlatforms.map((social) => (
                         <SelectItem
                             key={social.platform}
-                            value={platform}
+                            value={social.platform}
                             isDisabled={editMode && platform !== social.platform}
                             startContent={
                                 <FontAwesomeIcon icon={iconNames[social.platform]} color={social.color} />
@@ -122,7 +122,7 @@ const InputSocialLink = ({ templateId }: { templateId: number }) => {
                     errorMessage={errorMessage}
                     isInvalid={inValid}
                     endContent={
-                        <Button isIconOnly onPress={() => validateAndDispatch(editMode)}>
+                        <Button isIconOnly onPress={() => handleSubmit(editMode)}>
                             <FontAwesomeIcon
                                 className="text-blue-950"
                                 size="lg"

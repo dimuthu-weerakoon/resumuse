@@ -30,9 +30,10 @@ const SocialLinkSlice = createSlice({
             link.platform === state.editingLink?.platform &&
             link.link === state.editingLink?.link
         );
-
-        state.links[index] = action.payload;
-        state.editingLink = null;
+        if (index !== -1) {
+          state.links[index] = action.payload;
+          state.editingLink = null;
+        }
       }
     },
     clearSocialLinks(state) {
@@ -50,7 +51,7 @@ export const {
   updateSocialLink,
   removeSocialLink,
   clearSocialLinks,
-  clearEditingLink
+  clearEditingLink,
 } = SocialLinkSlice.actions;
 
 export default SocialLinkSlice.reducer;

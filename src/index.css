@@ -35,10 +35,10 @@
   }
 
   .template-grid {
-    @apply grid grid-cols-2 max-md:grid-cols-1 gap-4 p-2 items-start;
+    @apply grid grid-cols-2 max-md:grid-cols-1 gap-4 p-2 items-start ;
   }
   .template-preview-container {
-    @apply flex flex-wrap justify-center w-[21cm] h-[29.7cm] ;
+    @apply flex flex-wrap  justify-center w-[21cm] h-[29.7cm] place-self-center;
   }
   .scaled-template {
     @apply scale-50 origin-top  shadow-2xl mt-5 w-full h-full;

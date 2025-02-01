@@ -5,7 +5,7 @@ export interface Education {
   title: string;
   institute: string;
   studying:boolean;
-  description?:string|null;
+  description:string|null;
   dates: Dates;
   location?: Location | null ;
 }

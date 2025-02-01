@@ -1,133 +1,147 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { LocationProps } from "../../types/Location";
-import { fetchCities, fetchCountires, fetchStates } from "../../country_API/functions";
+import { fetchCities, fetchCountries, fetchStates } from "../../country_API/functions";
 import { Select, SelectItem } from "@nextui-org/react";
+import { useSelector } from "react-redux";
 
 const InputLocation = ({ location, setCity, setCountry, setState }: LocationProps) => {
   const [countries, setCountries] = useState<{ name: string; iso2: string }[]>([]);
-  const [countryIso2, setCountryIso2] = useState<string>(location?.country || "");
+  const [countryIso2, setCountryIso2] = useState<string | null>(null);
   const [states, setStates] = useState<{ name: string; iso2: string }[]>([]);
-  const [stateIso2, setStateIso2] = useState<string>(location?.state || "");
+  const [stateIso2, setStateIso2] = useState<string | null>(null);
   const [cities, setCities] = useState<{ name: string }[]>([]);
+  const editMode: boolean = useSelector((state: any) => state.editmode);
 
-  async function handleCountries() {
-    try {
-      const fetchedCountries = await fetchCountires();
-      const simplifiedCountries = fetchedCountries.map((c: any) => ({
-        name: c.name,
-        iso2: c.iso2,
-      }));
-      setCountries(simplifiedCountries);
-    } catch (error) {
-      console.error("Error fetching countries:", error);
-    }
-  }
+  const locationRef = useRef(location);
 
-  async function handleStates(iso2: string) {
-    try {
-      if (iso2) {
-        const fetchedStates = await fetchStates(iso2);
-        const simplifiedStates = fetchedStates.map((s: any) => ({
-          name: s.name,
-          iso2: s.iso2,
-        }));
-        setStates(simplifiedStates);
-      } else {
-        setStates([]);
-      }
-    } catch (error) {
-      console.error("Error fetching states:", error);
-    }
-  }
-
-  async function handleCities(iso2: string, stateIso2: string) {
-    try {
-      if (iso2 && stateIso2) {
-        const fetchedCities = await fetchCities(iso2, stateIso2);
-        setCities(fetchedCities);
-      } else {
-        setCities([]);
-      }
-    } catch (error) {
-      console.error("Error fetching cities:", error);
-    }
-  }
-
+  // Fetch countries on component mount
   useEffect(() => {
-    handleCountries();
+    const fetchCountriesData = async () => {
+      try {
+        const fetchedCountries = await fetchCountries();
+        setCountries(fetchedCountries.map((c: any) => ({ name: c.name, iso2: c.iso2 })));
+      } catch (error) {
+        console.error("Error fetching countries:", error);
+      }
+    };
+    fetchCountriesData();
   }, []);
 
+  // Fetch states when countryIso2 changes
   useEffect(() => {
-    if (countryIso2) {
-      handleStates(countryIso2);
-    } else {
-     
-      setStates([]);
-      setStateIso2("");
-      setCities([]);
-      setCity("");
-      setState("");
-    }
+    const fetchStatesData = async () => {
+      if (!countryIso2) return;
+      try {
+        const fetchedStates = await fetchStates(countryIso2);
+        setStates(fetchedStates.map((s: any) => ({ name: s.name, iso2: s.iso2 })));
+        if (location?.state) {
+          const selectedStateIso = fetchedStates.find((s: any) => s.name === location.state)?.iso2;
+          setStateIso2(selectedStateIso || null);
+        }
+      } catch (error) {
+        console.error("Error fetching states:", error);
+      }
+    };
+    fetchStatesData();
   }, [countryIso2]);
 
+  // Fetch cities when stateIso2 changes
   useEffect(() => {
-    if (stateIso2) {
-      handleCities(countryIso2, stateIso2);
-    } else {
-      
-      setCities([]);
-      setCity("");
-    }
+    const fetchCitiesData = async () => {
+      if (!countryIso2 || !stateIso2) return;
+      try {
+        const fetchedCities = await fetchCities(countryIso2, stateIso2);
+        setCities(fetchedCities);
+      } catch (error) {
+        console.error("Error fetching cities:", error);
+      }
+    };
+    fetchCitiesData();
   }, [stateIso2, countryIso2]);
+
+  // Handle edit mode
+  useEffect(() => {
+    if (editMode && location) {
+      const prevLocation = locationRef.current;
+
+      if (prevLocation !== location) {
+        setCountry(location.country);
+        setState(location.state);
+        setCity(location.city);
+
+        const countryIso = countries.find((c) => c.name === location.country)?.iso2;
+        if (countryIso) setCountryIso2(countryIso);
+        const stateIso = states.find((s) => s.name === location.country)?.iso2;
+        if (stateIso) setCountryIso2(stateIso2);
+        locationRef.current = location;
+      }
+    }
+  }, [editMode, location, countries, setCountry, setState, setCity]);
+
+  // Memoize the country options
+  const countryOptions = useMemo(() => {
+    return countries.map((country) => (
+      <SelectItem key={country.name} value={country.name}>
+        {country.name}
+      </SelectItem>
+    ));
+  }, [countries]);
+
+  // Memoize the state options
+  const stateOptions = useMemo(() => {
+    return states.map((state) => (
+      <SelectItem key={state.name} value={state.name}>
+        {state.name}
+      </SelectItem>
+    ));
+  }, [states]);
+
+  // Memoize the city options
+  const cityOptions = useMemo(() => {
+    return cities.map((city) => (
+      <SelectItem key={city.name} value={city.name}>
+        {city.name}
+      </SelectItem>
+    ));
+  }, [cities]);
 
   return (
     <div className="flex max-lg:flex-wrap gap-3">
-    
+      {/* Country Select */}
       <Select
-        value={countryIso2}
+        label="Select Country"
+        selectedKeys={new Set(location?.country ? [location.country] : [])}
         onChange={(e) => {
           const selectedCountry = countries.find((c) => c.name === e.target.value);
           setCountry(e.target.value);
           setCountryIso2(selectedCountry?.iso2 || "");
         }}
-        label="Select Country"
       >
-        {countries.map((country) => (
-          <SelectItem value={country.name} key={country.name}>
-            {country.name}
-          </SelectItem>
-        ))}
+        {countryOptions}
       </Select>
 
+      {/* State Select */}
       <Select
-        value={stateIso2}
+        label="Select State / Province"
+        selectedKeys={new Set(location?.state ? [location.state] : [])}
         onChange={(e) => {
           const selectedState = states.find((s) => s.name === e.target.value);
           setState(e.target.value);
           setStateIso2(selectedState?.iso2 || "");
         }}
-        label="Select State / Province"
-        isDisabled={!countryIso2} 
+        isDisabled={!countryIso2}
       >
-        {states.map((state) => (
-          <SelectItem value={state.name} key={state.name}>
-            {state.name}
-          </SelectItem>
-        ))}
+        {stateOptions}
       </Select>
 
-    
+      {/* City Select */}
       <Select
-        value={location?.city || ""}
-        onChange={(e) => setCity(e.target.value)}
         label="Select City"
-        isDisabled={!stateIso2} 
+        selectedKeys={new Set(location?.city ? [location.city] : [])}
+        onChange={(e) => setCity(e.target.value)}
+        isDisabled={!stateIso2}
       >
-        {cities.map((city) => (
-          <SelectItem value={city.name} key={city.name}>
-            {city.name}
-          </SelectItem>
-        ))}
+        {cityOptions}
       </Select>
     </div>
   );

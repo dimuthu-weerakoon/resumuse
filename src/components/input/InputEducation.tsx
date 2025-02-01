@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { Location } from "../../types/Location";
 import { Education } from "../../types/Education";
 import InputLocation from "./InputLocation";
-import { useDispatch } from "react-redux";
-import { addEducation } from "../../redux/slices/EducationSlice";
-import { useNavigate, useParams } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { addEducation, clearEditingEducation, updateEducation } from "../../redux/slices/EducationSlice";
+import { useNavigate } from "react-router";
 import { generateQualifications } from "../../Ai/AiGeneratives";
 import {
   Checkbox,
@@ -12,42 +12,37 @@ import {
   Listbox,
   ListboxItem,
   Textarea,
+  Button,
 } from "@nextui-org/react";
-import { Button } from "@nextui-org/react";
-import { easeInOut, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowLeft,
   faArrowRight,
   faPlusCircle,
+  faRepeat,
 } from "@fortawesome/free-solid-svg-icons";
 
 const InputEducation = ({ templateId }: { templateId: number }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [title, setTitle] = useState<string>("");
   const [institute, setInstitute] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
+  const [description, setDescription] = useState<string | null>(null);
   const [state, setState] = useState<string>("");
   const [city, setCity] = useState<string>("");
   const [country, setCountry] = useState<string>("");
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
   const [studying, setStudying] = useState<boolean>(false);
-  const [location, setLocation] = useState<Location | undefined>();
+  const [location, setLocation] = useState<Location | undefined | null>();
   const [suggestedEducations, setSuggestedEducations] = useState<string[]>([]);
 
-  const newEducation: Education = {
-    title: title,
-    institute: institute,
-    description: description,
-    dates: {
-      startDate: startDate,
-      endDate: endDate,
-    },
-    location: location,
-    studying: studying,
-  };
+  const editMode: boolean = useSelector((state: any) => state.editmode);
+  const editingEducation: Education | null = useSelector(
+    (state: any) => state.education.editingEducation
+  );
 
   const handleAiGenerateEducations = async () => {
     try {
@@ -62,19 +57,50 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
   const clearForm = () => {
     setTitle("");
     setInstitute("");
-    setDescription("");
+    setDescription(null);
     setStartDate("");
     setEndDate("");
     setStudying(false);
     setSuggestedEducations([]);
+    setLocation(null)
   };
 
   useEffect(() => {
     setLocation({ state, city, country });
   }, [state, city, country]);
 
-  const handlesubmit = () => {
-    dispatch(addEducation(newEducation));
+  useEffect(() => {
+    if (editMode && editingEducation) {
+      setTitle(editingEducation?.title);
+      setInstitute(editingEducation?.institute);
+      setDescription(editingEducation?.description);
+      setStartDate(editingEducation?.dates?.startDate);
+      setEndDate(editingEducation?.dates?.endDate);
+      setStudying(editingEducation?.studying);
+      setLocation(editingEducation?.location || undefined);
+    } 
+  }, [editMode,editingEducation]);
+  useEffect(() => {
+    if (!editMode) {
+
+      dispatch(clearEditingEducation())
+
+      clearForm()
+
+    }
+  }, [editMode, dispatch]);
+
+
+  const handleSubmit = (isEdit: boolean) => {
+    const newEducation: Education = {
+      title,
+      institute,
+      description,
+      dates: { startDate, endDate },
+      location,
+      studying,
+    };
+    dispatch(isEdit ? updateEducation(newEducation) : addEducation(newEducation));
     clearForm();
   };
 
@@ -86,7 +112,7 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
       return;
     }
 
-    if (new Date(selectedEndDate) >= new Date(startDate)) {
+    if (startDate && new Date(selectedEndDate) >= new Date(startDate)) {
       setEndDate(selectedEndDate);
     } else {
       alert("End date cannot be earlier than the start date.");
@@ -113,33 +139,21 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
       className="w-full"
     >
       <div className="flex justify-between mb-4">
-        <Button
-          size="sm"
-          onPress={handleBack}
-          className="input-nav-btn"
-          variant="flat"
-        >
-          {" "}
-          <FontAwesomeIcon icon={faArrowLeft} />{" "}
+        <Button size="sm" onPress={handleBack} className="input-nav-btn" variant="flat">
+          <FontAwesomeIcon icon={faArrowLeft} />
         </Button>
-        <Button
-          size="sm"
-          onPress={handleNext}
-          className="input-nav-btn"
-          variant="flat"
-        >
-          {" "}
-          <FontAwesomeIcon icon={faArrowRight} />{" "}
+        <Button size="sm" onPress={handleNext} className="input-nav-btn" variant="flat">
+          <FontAwesomeIcon icon={faArrowRight} />
         </Button>
       </div>
 
       <div className="mb-4">
-        <h2 className=" input-heading">Education</h2>
+        <h2 className="input-heading">Education</h2>
         <p className="input-sub-heading">
-          Enter your academic background, including degrees, institutions, and
-          graduation dates.
+          Enter your academic background, including degrees, institutions, and graduation dates.
         </p>
       </div>
+
       <form>
         <div className="flex flex-col gap-3">
           <Input
@@ -149,9 +163,10 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
               handleAiGenerateEducations();
               setTitle(e.target.value);
             }}
-            size={"md"}
+            size="md"
             type="text"
           />
+
           {title && suggestedEducations.length > 0 && (
             <Listbox
               selectionMode="single"
@@ -160,7 +175,7 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
                 setSuggestedEducations([]);
               }}
             >
-              {suggestedEducations.map((edu: string) => (
+              {suggestedEducations.map((edu) => (
                 <ListboxItem textValue={edu} key={edu}>
                   {edu}
                 </ListboxItem>
@@ -169,34 +184,26 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
           )}
 
           <Input
-            label="Institute / Collage"
+            label="Institute / College"
             value={institute}
-            onChange={(e) => {
-              setInstitute(e.target.value);
-            }}
-            size={"md"}
+            onChange={(e) => setInstitute(e.target.value)}
+            size="md"
             type="text"
           />
 
           <div>
             <Checkbox
-            checked={studying}
-            isSelected={studying}
+              isSelected={studying}
               className="mb-1"
-              onChange={() => {
-                setStudying((prev) => !prev);
-              }}
+              onChange={() => setStudying((prev) => !prev)}
             >
-              <span className="text-blue-950 text-xs">
-                I'm currently follwing this
-              </span>
+              <span className="text-blue-950 text-xs">I'm currently following this</span>
             </Checkbox>
 
             <div className="flex gap-3 flex-nowrap">
               <Input
                 label="Start Date"
                 type="date"
-                id="start-date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
               />
@@ -204,34 +211,29 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
                 <Input
                   label="End Date"
                   type="date"
-                  id="end-date"
-                  value={endDate !== "present" ? endDate || "" : ""}
+                  value={endDate !== "Present" ? endDate : ""}
                   onChange={handleEndDate}
                   disabled={studying}
-                  hidden={studying}
                 />
               )}
             </div>
           </div>
 
-          <InputLocation
-            location={location}
-            setCity={setCity}
-            setState={setState}
-            setCountry={setCountry}
-          />
+          <InputLocation location={location} setCity={setCity} setState={setState} setCountry={setCountry} />
 
           <Textarea
             label="Description - (optional)"
+            value={description || ""}
             onChange={(e) => setDescription(e.target.value)}
           />
+
           <Button
             variant="flat"
             className="input-action-btn max-w-fit"
             type="button"
-            onPress={handlesubmit}
+            onPress={() => handleSubmit(editMode)}
           >
-            <FontAwesomeIcon icon={faPlusCircle} /> Add education
+            <FontAwesomeIcon icon={editMode ? faRepeat : faPlusCircle} /> {editMode ? "Update" : "Add education"}
           </Button>
         </div>
       </form>
