@@ -7,12 +7,13 @@ import { Education } from "../../types/Education";
 import ContactInfo from "../../types/ContactInfo";
 import { iconNames } from "../../common_functions/SocialIconObject";
 import { SocialLink } from "../../types/SocialLinks";
-import { CustomInitialStateProps } from "../../redux/slices/CustomSlice";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { editSocialLink } from "../../redux/slices/SocialLinksSlice";
 import { useNavigate } from "react-router-dom";
 import { editEducation } from "../../redux/slices/EducationSlice";
 import { editExperience } from "../../redux/slices/ExpSlice";
+import Highlight from "../../types/Highlight";
+import { editHighlight } from "../../redux/slices/HighlightSlice";
 
 const Template1Preview = () => {
   const dispatch = useDispatch()
@@ -30,8 +31,8 @@ const Template1Preview = () => {
   );
   const personalInfo = useSelector((state: any) => state.personalInfo);
   const summery: string = useSelector((state: any) => state.summery);
-  const custom: CustomInitialStateProps = useSelector(
-    (state: any) => state.custom
+  const { highlights, heading }: { highlights: Highlight[], heading: string } = useSelector(
+    (state: any) => state.highlight
   );
 
 
@@ -45,11 +46,14 @@ const Template1Preview = () => {
     navigate(`/template/1/create/education`);
   }
 
-  const handleEditExperiences=(index:number)=>{
+  const handleEditExperiences = (index: number) => {
     dispatch(editExperience(index))
     navigate(`/template/1/create/experience`)
   }
-
+  const handleEditHighlights = (index: number) => {
+    dispatch(editHighlight(index))
+    navigate(`/template/1/create/custom-section`)
+  }
   return (
     <div className=" p-4 bg-white w-full h-[29.7cm]">
       <div className="p-2  grid font-sans-serif  grid-flow-dense grid-cols-7 w-full ">
@@ -166,14 +170,14 @@ const Template1Preview = () => {
                             </li>
                           </ul>
                         )}
-                    {editMode &&
-                      <button onClick={() => handleEditExperiences(index)}>
-                        <FontAwesomeIcon
-                          icon={faEdit} size="xl"
-                          className="mb-2 cursor-pointer absolute bottom-0 right-0" />
-                      </button>
+                        {editMode &&
+                          <button onClick={() => handleEditExperiences(index)}>
+                            <FontAwesomeIcon
+                              icon={faEdit} size="xl"
+                              className="mb-2 cursor-pointer absolute bottom-0 right-0" />
+                          </button>
 
-                    }
+                        }
                       </div>
                     ))}
                   </div>
@@ -183,30 +187,30 @@ const Template1Preview = () => {
           </div>
 
 
-          {custom.customs.length > 0 &&
+          {highlights.length > 0 &&
             <div>
-              <h3 className="font-semibold -tracking-tighter uppercase">{custom.heading}</h3>
+              <h3 className="font-semibold -tracking-tighter uppercase">{heading}</h3>
               <hr className="my-1 w-full rounded-lg border-2 mb-3 border-blue-100" />
               <div>
-                {custom.customs && (
+                {highlights && (
                   <div className="mb-3 ">
                     <div>
-                      {custom.customs.map((custom, index) => (
-                        <div key={index} className=" text-xs mb-3 ">
+                      {highlights.map((highlight, index) => (
+                        <div key={index} className=" text-xs mb-3 relative">
                           <div className="flex justify-between items-center mb-1">
                             <div className="flex flex-col">
                               <span className="font-semibold capitalize">
-                                {custom.title}
+                                {highlight.title}
                               </span>
                             </div>
                             <div className="flex flex-col text-start italic text-[0.7rem] h-fit">
                               <span className="text-nowrap">
-                                {formattedDate(custom.dates)}
+                                {formattedDate(highlight.dates)}
                               </span>
                             </div>
                           </div>
                           <ul className="flex items-center gap-3 mb-1 font-medium text-xs italic">
-                            {custom.urls.map((url, index) => (
+                            {highlight.urls.map((url, index) => (
                               <li key={index}>
                                 <FontAwesomeIcon size="xs" icon={iconNames[url.platform]} className="mr-2" />
                                 <a href={url.link} target="_blank" >{url.link}</a>
@@ -214,14 +218,22 @@ const Template1Preview = () => {
                             ))}
                           </ul>
                           <div className="mb-2">
-                            {custom.description.length > 0 && (
+                            {highlight.description.length > 0 && (
                               <ul className="mx-4  leading-4">
-                                {custom.description.map((desc) => (
+                                {highlight.description.map((desc) => (
                                   <li className="list-disc font-light" key={index}>{desc}</li>
                                 ))}
                               </ul>
                             )}
                           </div>
+                          {editMode &&
+                            <button onClick={() => handleEditHighlights(index)}>
+                              <FontAwesomeIcon
+                                icon={faEdit} size="xl"
+                                className="mb-2 cursor-pointer absolute bottom-0 right-0" />
+                            </button>
+
+                          }
                         </div>
                       ))}
                     </div>

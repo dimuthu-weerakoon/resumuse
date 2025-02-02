@@ -8,7 +8,7 @@ import formattedDate from "../../common_functions/dateformat";
 import { PersonalInfo } from "../../types/PersonalInfo";
 import { iconNames } from "../../common_functions/SocialIconObject";
 import { Refree } from "../../types/Refree";
-import { CustomInitialStateProps } from "../../redux/slices/CustomSlice";
+import { CustomInitialStateProps } from "../../redux/slices/HighlightSlice";
 import { useMemo } from "react";
 import { faLocationDot, faPhone, faUserCircle } from "@fortawesome/free-solid-svg-icons";
 

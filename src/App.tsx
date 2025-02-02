@@ -6,7 +6,6 @@ import InputSocialLink from "./components/input/InputSocialLink";
 import InputEducation from "./components/input/InputEducation";
 import InputExperience from "./components/input/InputExperience";
 import InputSummery from "./components/input/InputSummery";
-import InputCustom from "./components/input/InputCustom";
 import { templateRoutes } from "./TemplateRoutes/TemplateRoutes";
 import TemplateBlock from "./pages/TemplateBlock";
 import InputSteps from "./components/input/InputSteps";
@@ -18,6 +17,7 @@ import NotFound from "./pages/NotFound";
 import Finalize from "./components/Finalize";
 import RouteInvalid from "./TemplateRoutes/RouteInvalid";
 import Template3Preview from "./cv_templates/preview/Template3Preview";
+import InputHighlight from "./components/input/InputHighlight";
 
 export default function App() {
   const router = createBrowserRouter(
@@ -37,7 +37,7 @@ export default function App() {
                   <Route path="education" element={<InputEducation templateId={temp.templateId} />} />
                   <Route path="experience" element={<InputExperience templateId={temp.templateId} />} />
                   <Route path="summery" element={<InputSummery templateId={temp.templateId} />} />
-                  <Route path="custom-section" element={<InputCustom templateId={temp.templateId} />} />
+                  <Route path="custom-section" element={<InputHighlight templateId={temp.templateId} />} />
                   <Route element={<RouteInvalid templateId={temp.templateId} />}>
                     <Route path="refrees" element={<InputRefrees templateId={temp.templateId} />} />
                     <Route path="picture" element={<InputPicture templateId={temp.templateId} />} />
@@ -49,7 +49,7 @@ export default function App() {
           </Route>
           <Route path="/templates" element={<Templates />} />
           <Route path="*" element={<NotFound />} />
-          <Route path={"temp3"} element={<Template3Preview/>}/>
+          <Route path={"temp3"} element={<Template3Preview />} />
         </Route>
 
 

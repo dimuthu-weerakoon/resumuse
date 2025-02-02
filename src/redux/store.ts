@@ -6,7 +6,7 @@ import experienceReducer from "./slices/ExpSlice";
 import educationReducer from "./slices/EducationSlice";
 import socialLinkReducer from "./slices/SocialLinksSlice";
 import summeryReducer from "./slices/SummerySlice";
-import customReducer from "./slices/CustomSlice";
+import highlightReducer from "./slices/HighlightSlice";
 import refreeReducer from "./slices/RefreeSlice";
 import pictureReducer from "./slices/PictureSlice";
 import editModeSliceReducer from "./slices/editModeSlice";
@@ -20,7 +20,7 @@ const Store = configureStore({
     education: educationReducer,
     socialLink: socialLinkReducer,
     summery: summeryReducer,
-    custom: customReducer,
+    highlight: highlightReducer,
     refree: refreeReducer,
     picture: pictureReducer,
     editmode: editModeSliceReducer,

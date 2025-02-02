@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSelector } from "react-redux";
-import { CustomInitialStateProps } from "../../redux/slices/CustomSlice";
+import { CustomInitialStateProps } from "../../redux/slices/HighlightSlice";
 import ContactInfo from "../../types/ContactInfo";
 import { Education } from "../../types/Education";
 import { Experience } from "../../types/Experience";

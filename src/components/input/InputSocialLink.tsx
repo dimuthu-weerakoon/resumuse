@@ -8,6 +8,7 @@ import { faArrowCircleRight, faArrowLeft, faArrowRight, faRepeat } from "@fortaw
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion";
 import { iconNames } from "../../common_functions/SocialIconObject";
+import { socialPlatforms } from "../../common_functions/SocialPlatforms";
 
 const InputSocialLink = ({ templateId }: { templateId: number }) => {
     const navigate = useNavigate();
@@ -20,11 +21,7 @@ const InputSocialLink = ({ templateId }: { templateId: number }) => {
     const { editingLink }: { editingLink: SocialLink | null } = useSelector((state: any) => state.socialLink);
     const editMode: boolean = useSelector((state: any) => state.editmode);
 
-    const socialPlatforms = [
-        { platform: "github", Label: "Github", color: "black" },
-        { platform: "linkedin", Label: "LinkedIn", color: "rgb(0 122 185)" },
-        { platform: "portfolio", Label: "Portfolio", color: "black" },
-    ];
+
 
     useEffect(() => {
         if (editMode && editingLink) {
@@ -35,6 +32,7 @@ const InputSocialLink = ({ templateId }: { templateId: number }) => {
             setLink("");
         }
     }, [editMode, editingLink]);
+
     useEffect(() => {
         if (!editMode) {
             dispatch(clearEditingLink())
@@ -94,7 +92,7 @@ const InputSocialLink = ({ templateId }: { templateId: number }) => {
 
             <div className="flex w-full justify-center items-center gap-3 max-lg:flex-wrap">
                 <Select
-                    selectedKeys={editMode && [editingLink?.platform]}
+                    selectedKeys={new Set(platform ? [platform] : [])}
                     required
                     value={platform}
                     onChange={(e) => setPlatform(e.target.value)}

@@ -1,7 +1,7 @@
 import { Dates } from "./Dates";
 import { SocialLink } from "./SocialLinks";
 
-export default interface Custom {
+export default interface Highlight {
   
   title: string;
   dates: Dates;
