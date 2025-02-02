@@ -30,7 +30,8 @@ const educationSlice = createSlice({
       updateEducation(state, action: PayloadAction<Education>) {
         if (state.editingEducation ) { 
           const index = state.educations.findIndex(
-            (e) => e.title === state.editingEducation?.title && e.institute === state.editingEducation?.institute
+            (e) => e.title === state.editingEducation?.title &&
+             e.institute === state.editingEducation?.institute
           );
           if (index !== -1) {
             state.educations[index] = action.payload;

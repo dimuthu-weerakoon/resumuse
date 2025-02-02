@@ -39,8 +39,10 @@ const experienceSlice = createSlice({
       if (state.editingExperience) {
         const index = state.experiences.findIndex(
           (e) =>
-            e.company === action.payload.company &&
-            e.title === action.payload.title
+            e.title === state.editingExperience?.title &&
+          e.company === state.editingExperience.company
+   
+            
         );
 
         if (index !== -1) {

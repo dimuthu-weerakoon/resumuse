@@ -67,7 +67,7 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
       setCurrentInput(editingExpDescription);
     }
   }, [editMode, editingExpDescription]);
-  
+
 
   async function handleAiSuggestTitle() {
     const aiSuggestJobRoles: string[] = await suggestJobRole(title);
@@ -91,6 +91,7 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
 
   useEffect(() => {
     if (editMode && editingExperience) {
+      
       setTitle(editingExperience.title);
       setType(editingExperience.type);
       setCompany(editingExperience.company);
@@ -108,7 +109,7 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
     }
   }, [editMode, dispatch]);
 
-  const handleKeyUp = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value.trim();
     if (e.key === "Enter" && value) {
       e.preventDefault();
@@ -121,22 +122,25 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
       }
     }
   };
-  
+
 
   const handleSubmit = (isEdit: boolean) => {
     const newExp: Experience = {
-      title: title,
-      type: type,
-      company: company,
-      description: description,
-      status: status,
+      title,
+      type,
+      company,
+      description,
+      status,
       skills: selectedSkills,
-      dates: { startDate: startDate, endDate: endDate },
-      location: location,
+      dates: { startDate, endDate },
+      location,
     };
-    isEdit
-      ? dispatch(updateExpereince(newExp))
-      : dispatch(addExperience(newExp));
+    if (isEdit) {
+      dispatch(updateExpereince(newExp));
+      dispatch(clearEditingExperience()); 
+    } else {
+      dispatch(addExperience(newExp));
+    }
     clearExp();
     dispatch(clearSelectedSkills());
   };
@@ -205,8 +209,9 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
             label="Podition / Job Role"
             value={title}
             onChange={(e) => {
-              handleAiSuggestTitle();
+             
               setTitle(e.target.value);
+              handleAiSuggestTitle();
             }}
           />
 
@@ -291,8 +296,8 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
 
           <div>
             {editMode &&
-            editingExperience?.description &&
-            editingExperience.description.length > 0 ? (
+              editingExperience?.description &&
+              editingExperience.description.length > 0 ? (
               <ul className="text-xs text-slate-900">
                 {editingExperience.description.map((desc, index) => (
                   <li key={index} className="list-disc ml-4 relative">
@@ -316,7 +321,7 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
               label="Description"
               value={currentInput}
               onChange={(e) => setCurrentInput(e.target.value)}
-              onKeyUp={(e) => handleKeyUp(e, editMode)}
+              onKeyUp={(e) => handleKeyUp(e)}
               placeholder="- Enter some decriptions about your work as a list and press Enter"
             ></Textarea>
           </div>
