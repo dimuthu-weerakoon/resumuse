@@ -17,7 +17,7 @@ const InputSkills = ({ jobRole }: { jobRole: string }) => {
     (state: any) => state.skills
   );
 
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<any>("");
   const dispatch = useDispatch();
 
   const fetchAiSkills = async () => {
@@ -28,7 +28,19 @@ const InputSkills = ({ jobRole }: { jobRole: string }) => {
       console.log(err);
     }
   }
-
+  const addSkillManually = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value.trim();
+    if (value !=="" && e.key === "Enter") {
+    
+      const skillExists = selectedSkills.some(
+        (skill: Skill) => skill.skill.toLowerCase() === value.toLowerCase()
+      );
+      if (!skillExists) {
+        dispatch(setSelectedSkills({ skill: value }));
+        setSearchQuery(""); 
+      } 
+    }
+  };
 
   useEffect(() => {
     if (jobRole !== "" && searchQuery !== "") {
@@ -48,6 +60,7 @@ const InputSkills = ({ jobRole }: { jobRole: string }) => {
           className="skill-input"
           placeholder="Type Keywords"
           value={searchQuery}
+          onKeyUp={addSkillManually}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
         {searchQuery ? (
@@ -91,6 +104,7 @@ const InputSkills = ({ jobRole }: { jobRole: string }) => {
               </button>
             </span>
           ))}
+          
         </div>
       </div>
     </div>

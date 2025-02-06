@@ -13,6 +13,7 @@ import {
   ListboxItem,
   Textarea,
   Button,
+  Form,
 } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -78,20 +79,19 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
       setEndDate(editingEducation?.dates?.endDate);
       setStudying(editingEducation?.studying);
       setLocation(editingEducation?.location || undefined);
-    } 
-  }, [editMode,editingEducation]);
+    }
+  }, [editMode, editingEducation]);
+
   useEffect(() => {
     if (!editMode) {
-
       dispatch(clearEditingEducation())
-
       clearForm()
-
     }
   }, [editMode, dispatch]);
 
 
-  const handleSubmit = (isEdit: boolean) => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
     const newEducation: Education = {
       title,
       institute,
@@ -100,8 +100,15 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
       location,
       studying,
     };
-    dispatch(isEdit ? updateEducation(newEducation) : addEducation(newEducation));
-    clearForm();
+    if (title.trim() !== "" &&
+      institute.trim() !== "") {
+      dispatch(editMode ? updateEducation(newEducation) : addEducation(newEducation));
+      clearForm();
+
+    } else {
+      return
+    }
+
   };
 
   const handleEndDate = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -154,16 +161,22 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
         </p>
       </div>
 
-      <form>
-        <div className="flex flex-col gap-3">
+      <Form validationBehavior="native" onSubmit={handleSubmit}>
+        <div className="flex flex-col gap-3 w-full">
           <Input
             label="Qualification / Certifications"
             value={title}
+            isRequired
+            validate={(value) => {
+              if (value.trim() === "") {
+                return "Please fill this field"
+              }
+            }}
             onChange={(e) => {
               handleAiGenerateEducations();
               setTitle(e.target.value);
             }}
-            size="md"
+            size="sm"
             type="text"
           />
 
@@ -186,15 +199,20 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
           <Input
             label="Institute / College"
             value={institute}
+            isRequired
+            validate={(value) => {
+              if (value.trim() === "") {
+                return "Please fill this field"
+              }
+            }}
             onChange={(e) => setInstitute(e.target.value)}
-            size="md"
+            size="sm"
             type="text"
           />
 
           <div>
             <Checkbox
-            
-             isSelected={ studying}
+              isSelected={studying}
               className="mb-1"
               onChange={() => setStudying((prev) => !prev)}
             >
@@ -205,11 +223,13 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
               <Input
                 label="Start Date"
                 type="date"
+                size="sm"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
               />
               {!studying && (
                 <Input
+                size="sm"
                   label="End Date"
                   type="date"
                   value={endDate !== "Present" ? endDate : ""}
@@ -223,21 +243,23 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
           <InputLocation location={location} setCity={setCity} setState={setState} setCountry={setCountry} />
 
           <Textarea
+          size="sm"
             label="Description - (optional)"
             value={description || ""}
             onChange={(e) => setDescription(e.target.value)}
           />
 
           <Button
+          size="sm"
             variant="flat"
             className="input-action-btn max-w-fit"
-            type="button"
-            onPress={() => handleSubmit(editMode)}
+            type="submit"
+            onClick={handleSubmit}
           >
             <FontAwesomeIcon icon={editMode ? faRepeat : faPlusCircle} /> {editMode ? "Update" : "Add education"}
           </Button>
         </div>
-      </form>
+      </Form>
     </motion.div>
   );
 };

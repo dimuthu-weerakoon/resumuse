@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import InputSkills from "./InputSkills";
 import { Experience } from "../../types/Experience";
 import InputLocation from "./InputLocation";
@@ -6,12 +6,14 @@ import { Location } from "../../types/Location";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addExperience,
+  addMoreSkills,
   clearEditingExperience,
   editExperienceDescription,
+  removeExperienceSkill,
   updateExpereince,
   updateExperienceDescription,
 } from "../../redux/slices/ExpSlice";
-import { clearSelectedSkills } from "../../redux/slices/SkillsSlice";
+import { clearSelectedSkills, removeSelectedSkill } from "../../redux/slices/SkillsSlice";
 import { useNavigate } from "react-router";
 import { suggestJobRole } from "../../Ai/AiGeneratives";
 import {
@@ -23,6 +25,7 @@ import {
   Select,
   SelectItem,
   Checkbox,
+  Form,
 } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -33,6 +36,7 @@ import {
   faPlusCircle,
   faRepeat,
 } from "@fortawesome/free-solid-svg-icons";
+import Skill from "../../types/Skill";
 
 const InputExperience = ({ templateId }: { templateId: number }) => {
   const { selectedSkills } = useSelector((state: any) => state.skills);
@@ -52,6 +56,8 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
   const [location, setLocation] = useState<Location | undefined | null>();
   const [suggestedJobRoles, setSuggestedJobRoles] = useState<string[]>([]);
   const editMode: boolean = useSelector((state: any) => state.editmode);
+  const [isInvalidEndDate, setisInvalidDate] = useState<boolean>(false)
+
   const {
     editingExperience,
     editingExpDescription,
@@ -62,11 +68,26 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
 
   const employeeTypes = ["Intership", "Contract", "Employee", "Freelance"];
 
+
+
   useEffect(() => {
     if (editMode && editingExpDescription) {
       setCurrentInput(editingExpDescription);
     }
   }, [editMode, editingExpDescription]);
+
+
+  useEffect(() => {
+    if (editMode && editingExperience?.skills) {
+      const newSkills = selectedSkills.filter(
+        (newSkill: Skill) =>
+          !editingExperience.skills.some(
+            (existingSkill) => existingSkill.skill === newSkill.skill
+          )
+      );
+      if (newSkills.length > 0) dispatch(addMoreSkills(newSkills));
+    }
+  }, [editMode, editingExperience?.skills, selectedSkills, dispatch]);
 
 
   async function handleAiSuggestTitle() {
@@ -91,7 +112,7 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
 
   useEffect(() => {
     if (editMode && editingExperience) {
-      
+
       setTitle(editingExperience.title);
       setType(editingExperience.type);
       setCompany(editingExperience.company);
@@ -113,33 +134,37 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
     const value = e.currentTarget.value.trim();
     if (e.key === "Enter" && value) {
       e.preventDefault();
-      if (editMode) {
-        dispatch(updateExperienceDescription(value));
-        setCurrentInput("");
-      } else {
+      if (editMode && !editingExpDescription) {
         setDescription((prev) => [...prev, value]);
-        setCurrentInput("");
       }
+
+      editMode ? dispatch(updateExperienceDescription(value)) :
+         setDescription((prev) => [...prev, value]);
+
+      setCurrentInput("");
     }
   };
 
 
-  const handleSubmit = (isEdit: boolean) => {
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault()
     const newExp: Experience = {
       title,
       type,
       company,
       description,
       status,
-      skills: selectedSkills,
+      skills: editMode ? editingExperience?.skills : selectedSkills,
       dates: { startDate, endDate },
       location,
     };
-    if (isEdit) {
-      dispatch(updateExpereince(newExp));
-      dispatch(clearEditingExperience()); 
+    if (title.trim() !== "" &&
+      company.trim() !== "" &&
+      startDate.trim() !== "") {
+
+      editMode ? dispatch(updateExpereince(newExp)) : dispatch(addExperience(newExp));
     } else {
-      dispatch(addExperience(newExp));
+      return
     }
     clearExp();
     dispatch(clearSelectedSkills());
@@ -149,11 +174,14 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
     const selectedEndDate = e.target.value;
     if (new Date(selectedEndDate) >= new Date(startDate)) {
       setEndDate(selectedEndDate);
-    } else {
-      alert("End date cannot be earlier than the start date.");
-    }
+      setisInvalidDate(false)
 
+    } else {
+
+      setisInvalidDate(true)
+    }
     if (status) {
+      setisInvalidDate(false)
       setEndDate("Present");
     }
   };
@@ -202,14 +230,21 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
         </p>
       </div>
 
-      <form>
-        <div className="flex flex-col gap-3">
+      <Form validationBehavior="native">
+        <div className="flex flex-col gap-3 w-full">
           <Input
+            size="sm"
             type="text"
             label="Podition / Job Role"
             value={title}
+            isRequired
+            isDisabled={editMode && !editingExperience}
+            validate={(value) => {
+              if (value.trim() === "") {
+                return "Please fill this field"
+              }
+            }}
             onChange={(e) => {
-             
               setTitle(e.target.value);
               handleAiSuggestTitle();
             }}
@@ -231,9 +266,11 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
             </Listbox>
           )}
           <Select
+            size="sm"
             label="Select Employment Type"
             selectedKeys={new Set([type])}
             value={type}
+            isDisabled={editMode && !editingExperience}
             onChange={(e) => setType(e.target.value)}
           >
             {employeeTypes.map((type) => (
@@ -244,9 +281,17 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
           </Select>
 
           <Input
+            size="sm"
+            isDisabled={editMode && !editingExperience}
             type="text"
             label="Company / Organization"
             value={company}
+            isRequired
+            validate={(value) => {
+              if (value.trim() === "") {
+                return "Please fill this field"
+              }
+            }}
             onChange={(e) => {
               setCompany(e.target.value);
             }}
@@ -263,6 +308,7 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
             type="checkbox"
             id="current-job"
             isSelected={status}
+            isDisabled={editMode && !editingExperience}
             onChange={() => setStatus((prev) => !prev)}
           >
             <span className="text-xs text-blue-950">
@@ -272,18 +318,30 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
 
           <div className="flex gap-2 flex-nowrap">
             <Input
+              validate={(value) => {
+                if (value.trim() === "") {
+                  return "Please add Start date"
+                }
+              }}
+              isDisabled={editMode && !editingExperience}
+              size="sm"
               label="Start Date"
               type="date"
               id="start-date"
               value={startDate}
+              isRequired
               onChange={(e) => setStartDate(e.target.value)}
             />
 
             {!status && (
               <Input
+                size="sm"
+                isDisabled={editMode && !editingExperience}
+                isInvalid={isInvalidEndDate}
                 hidden={status}
                 label="End Date"
                 type="date"
+                errorMessage={"Invalid end date"}
                 id="end-date"
                 value={endDate !== "present" ? endDate || "" : ""}
                 onChange={handleEndDate}
@@ -291,7 +349,26 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
               />
             )}
           </div>
+          <div className="selected-skills flex gap-2 mt-2">
+            {editMode && editingExperience?.skills && editingExperience.skills.map((skill: Skill, index: number) => (
 
+              <span
+                className="selected-skill bg-slate-300 px-2 border rounded-md border-slate-400 font-medium text-sm"
+                key={index}
+              >
+                {skill.skill}
+                <button
+                  type="button"
+                  className="remove-skill p-1 rounded-full text-slate-600 "
+                  onClick={() =>
+                    dispatch(removeExperienceSkill(skill.skill))
+                  }
+                >
+                  x
+                </button>
+              </span>
+            ))}
+          </div>
           <InputSkills jobRole={title} />
 
           <div>
@@ -318,6 +395,8 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
             ) : null}
 
             <Textarea
+              size="sm"
+              isDisabled={editMode && !editingExperience}
               label="Description"
               value={currentInput}
               onChange={(e) => setCurrentInput(e.target.value)}
@@ -327,17 +406,19 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
           </div>
           <div className="p-2">
             <Button
+              size="sm"
               variant="flat"
+              isDisabled={editMode && !editingExperience}
               className="input-action-btn max-w-fit"
               type="button"
-              onPress={() => handleSubmit(editMode)}
+              onClick={handleSubmit}
             >
               <FontAwesomeIcon icon={editMode ? faRepeat : faPlusCircle} />{" "}
               {editMode ? "Update" : "Add Experience"}
             </Button>
           </div>
         </div>
-      </form>
+      </Form>
     </motion.div>
   );
 };

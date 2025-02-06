@@ -6,13 +6,13 @@ interface ExpStateProps {
   experiences: Experience[];
   editingExperience: Experience | null;
   editingExpDescription: String | null;
-  editingExpSkill: Skill | null;
+ 
 }
 const initialState: ExpStateProps = {
   experiences: [],
   editingExperience: null,
   editingExpDescription: null,
-  editingExpSkill: null,
+
 };
 
 const experienceSlice = createSlice({
@@ -32,17 +32,14 @@ const experienceSlice = createSlice({
     },
     editExperience(state, action: PayloadAction<number>) {
       state.editingExperience =
-        state.experiences.find((_, index) => index === action.payload) ||
-        null;
+        state.experiences.find((_, index) => index === action.payload) || null;
     },
     updateExpereince(state, action: PayloadAction<Experience>) {
       if (state.editingExperience) {
         const index = state.experiences.findIndex(
           (e) =>
             e.title === state.editingExperience?.title &&
-          e.company === state.editingExperience.company
-   
-            
+            e.company === state.editingExperience.company
         );
 
         if (index !== -1) {
@@ -69,19 +66,20 @@ const experienceSlice = createSlice({
         }
       }
     },
-    removeExperienceSkill(state, action: PayloadAction<number>) {
+    
+    removeExperienceSkill(state, action: PayloadAction<string>) {
       if (state.editingExperience?.skills) {
-        state.editingExperience.skills =
-          state.editingExperience.skills.filter(
-            (_, index) => index !== action.payload
-          );
+        state.editingExperience.skills = state.editingExperience.skills.filter(
+          (skill) => skill.skill !== action.payload
+        );
       }
     },
-    addMoreSkills(state, action: PayloadAction<Skill>) {
+    addMoreSkills(state, action: PayloadAction<Skill[]>) {
       if (state.editingExperience?.skills) {
-        state.editingExperience.skills.push(action.payload);
+        const newSkills = action.payload
+        state.editingExperience.skills = state.editingExperience.skills.concat(newSkills)
       }
-    },
+    }
   },
 });
 
@@ -94,6 +92,6 @@ export const {
   editExperienceDescription,
   clearEditingExperience,
   addMoreSkills,
-  removeExperienceSkill
+  removeExperienceSkill,
 } = experienceSlice.actions;
 export default experienceSlice.reducer;

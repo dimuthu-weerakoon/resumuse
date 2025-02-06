@@ -16,7 +16,6 @@ import InputPicture from "./components/input/InputPicture";
 import NotFound from "./pages/NotFound";
 import Finalize from "./components/Finalize";
 import RouteInvalid from "./TemplateRoutes/RouteInvalid";
-import Template3Preview from "./cv_templates/preview/Template3Preview";
 import InputHighlight from "./components/input/InputHighlight";
 
 export default function App() {
@@ -49,7 +48,7 @@ export default function App() {
           </Route>
           <Route path="/templates" element={<Templates />} />
           <Route path="*" element={<NotFound />} />
-          <Route path={"temp3"} element={<Template3Preview />} />
+          
         </Route>
 
 

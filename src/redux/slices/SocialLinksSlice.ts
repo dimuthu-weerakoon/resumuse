@@ -17,7 +17,7 @@ const SocialLinkSlice = createSlice({
       state.links.push(action.payload);
     },
     removeSocialLink(state, action: PayloadAction<SocialLink>) {
-      state.links = state.links.filter((social) => social !== action.payload);
+      state.links = state.links.filter((social) => social.link !== action.payload.link);
     },
     editSocialLink(state, action: PayloadAction<number>) {
       state.editingLink =

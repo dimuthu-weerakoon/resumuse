@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useSelector } from "react-redux";
-import { CustomInitialStateProps } from "../../redux/slices/HighlightSlice";
+import { useDispatch, useSelector } from "react-redux";
 import ContactInfo from "../../types/ContactInfo";
 import { Education } from "../../types/Education";
 import { Experience } from "../../types/Experience";
@@ -8,26 +7,53 @@ import { PersonalInfo } from "../../types/PersonalInfo";
 import { SocialLink } from "../../types/SocialLinks";
 import { iconNames } from "../../common_functions/SocialIconObject";
 import formattedDate from "../../common_functions/dateformat";
+import Highlight from "../../types/Highlight";
+import { useNavigate } from "react-router-dom";
+import { editSocialLink, removeSocialLink } from "../../redux/slices/SocialLinksSlice";
+import { editEducation, removeEducation } from "../../redux/slices/EducationSlice";
+import { editExperience, removeExperience } from "../../redux/slices/ExpSlice";
+import { editHighlight, removeHighlight } from "../../redux/slices/HighlightSlice";
+import { faClose, faPen } from "@fortawesome/free-solid-svg-icons";
 
 const Template3Preview = () => {
 
-  const experience: Experience[] = useSelector(
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const editMode: boolean = useSelector((state: any) => state.editmode)
+  const { experiences }: { experiences: Experience[] } = useSelector(
     (state: any) => state.experience
   );
-  const educations: Education[] = useSelector((state: any) => state.education);
+  const { educations }: { educations: Education[] } = useSelector((state: any) => state.education);
   const contactInfo: ContactInfo = useSelector(
     (state: any) => state.contactInfo
   );
-  const {links}: {links:SocialLink[]} = useSelector(
+  const { links }: { links: SocialLink[] } = useSelector(
     (state: any) => state.socialLink
   );
-  const personalInfo: PersonalInfo = useSelector(
-    (state: any) => state.personalInfo
-  );
+  const personalInfo: PersonalInfo = useSelector((state: any) => state.personalInfo);
   const summery: string = useSelector((state: any) => state.summery);
-  const custom: CustomInitialStateProps = useSelector(
-    (state: any) => state.custom
+  const { highlights, heading }: { highlights: Highlight[], heading: string } = useSelector(
+    (state: any) => state.highlight
   );
+
+  const handleEditSocialMedia = (index: number) => {
+    dispatch(editSocialLink(index))
+    navigate(`/template/3/create/social-link`);
+  }
+
+  const handleEditEducation = (index: number) => {
+    dispatch(editEducation(index))
+    navigate(`/template/3/create/education`);
+  }
+
+  const handleEditExperiences = (index: number) => {
+    dispatch(editExperience(index))
+    navigate(`/template/3/create/experience`)
+  }
+  const handleEditHighlights = (index: number) => {
+    dispatch(editHighlight(index))
+    navigate(`/template/3/create/custom-section`)
+  }
 
   return (
     <div className=" w-full h-[29.7cm]  ">
@@ -54,12 +80,28 @@ const Template3Preview = () => {
           </ul>
           <ul className="flex gap-2 items-center font-light text-xs italic">
             {links.map((social, index) => (
-              <li key={index} className="flex items-center">
+              <li key={index} className="flex items-center relative">
                 {index > 0 && (
                   <span className="font-bold not-italic text-sm mr-2 text-blue-950">|</span>
                 )}
                 <FontAwesomeIcon icon={iconNames[social.platform]} className="mr-2" />
                 <a href={social.link} target="_blank">{social.link}</a>
+                {editMode &&
+                  <div className="absolute bottom-0 right-0">
+                    <div className="flex gap-2">
+                      <button onClick={() => handleEditSocialMedia(index)}>
+                        <FontAwesomeIcon
+                          icon={faPen} size="xl"
+                          className="mb-2 cursor-pointer " />
+                      </button>
+                      <button onClick={() => dispatch(removeSocialLink(social))}>
+                        <FontAwesomeIcon
+                          icon={faClose} size="xl"
+                          className="mb-2 cursor-pointer text-red-700" />
+                      </button>
+                    </div>
+                  </div>
+                }
               </li>
             ))}
           </ul>
@@ -77,8 +119,8 @@ const Template3Preview = () => {
         <div className="mb-4">
           <h3 className="font-medium text-lg -tracking-tighter uppercase">Work Experience</h3>
           <hr className="border-blue-900 border-1 mb-2" />
-          {experience.map((exp, index) => (
-            <div className="mb-2" key={index}>
+          {experiences.map((exp, index) => (
+            <div className="mb-2 relative" key={index}>
               <div className="flex justify-between flex-nowrap">
                 <div className="flex gap-2 items-center">
                   <h4 className="font-medium text-sm">{exp.company} </h4>
@@ -101,29 +143,47 @@ const Template3Preview = () => {
                   <li className="list-disc mx-4" key={index}>{desc}</li>
                 ))}
               </ul>
-              {exp.skills.length > 0 && (
+              {exp.skills && exp.skills.length > 0 && (
                 <div className="flex items-center gap-3">
                   <h5 className="text-sm font-medium mt-1">Improved skills: </h5>
                   <span className="text-sm ">{exp.skills.join(", ")} </span>
                 </div>
               )}
+
+              {editMode &&
+                <div className="absolute bottom-0 right-0">
+
+                  <div className="flex gap-2">
+                    <button onClick={() => handleEditExperiences(index)}>
+                      <FontAwesomeIcon
+                        icon={faPen} size="xl"
+                        className="mb-2 cursor-pointer " />
+                    </button>
+                    <button onClick={() => dispatch(removeExperience(index))}>
+                      <FontAwesomeIcon
+                        icon={faClose} size="xl"
+                        className="mb-2 cursor-pointer text-red-700" />
+                    </button>
+                  </div>
+                </div>
+              }
             </div>
           ))}
 
         </div>
-        {custom.customs.length > 0 && (
+        {highlights.length > 0 && (
           <div className="mb-4">
-            <h3 className="font-medium text-lg -tracking-tighter uppercase">{custom.heading}</h3>
+            <h3 className="font-medium text-lg -tracking-tighter uppercase">{heading}</h3>
             <hr className="border-blue-900 border-1 mb-2" />
 
-            {custom.customs.map((custom, index) => (
-              <div key={index} className="mb-2">
+            {highlights.map((h, index) => (
+              <div key={index} className="mb-2 relative">
                 <div className="flex justify-between flex-nowrap">
-                  <h5 className="font-medium text-sm">{custom.title}</h5>
-                  <span className="font-medium text-xs" >{formattedDate(custom.dates)}</span>
+                  <h5 className="font-medium text-sm">{h.title}</h5>
+                  <span className="font-medium text-xs" >{formattedDate(h.dates)}</span>
                 </div>
                 <ul className="flex items-center gap-3 text-xs italic">
-                  {custom.urls.map((url, index) => (
+                  {h.urls.map((url, index) => (
                     <li key={index}>
                       <FontAwesomeIcon icon={iconNames[url.platform]} className="mr-2" />
                       <a href={url.link} target="_blank" >{url.link}</a>
@@ -131,10 +191,30 @@ const Template3Preview = () => {
                   ))}
                 </ul>
                 <ul className="text-xs font-light mt-1 mx-4">
-                  {custom.description.map((desc, index) => (
+                  {h.description.map((desc, index) => (
                     <li className="list-disc" key={index}>{desc}</li>
                   ))}
                 </ul>
+                {editMode &&
+                  <div className="absolute bottom-0 right-0">
+
+                    <div className="flex gap-2">
+                      <button onClick={() => handleEditHighlights(index)}>
+                        <FontAwesomeIcon
+                          icon={faPen} size="xl"
+                          className="mb-2 cursor-pointer " />
+                      </button>
+                      <button onClick={() => dispatch(removeHighlight(index))}>
+                        <FontAwesomeIcon
+
+                          icon={faClose} size="xl"
+                          className="mb-2 cursor-pointer text-red-700" />
+                      </button>
+
+                    </div>
+
+                  </div>
+                }
               </div>
             ))}
 
@@ -144,7 +224,7 @@ const Template3Preview = () => {
           <h3 className="font-medium text-lg -tracking-tighter uppercase">Education</h3>
           <hr className="border-blue-900 border-1 mb-2" />
           {educations.map((edu, index) => (
-            <div className="mb-2" key={index}>
+            <div className="mb-2 relative" key={index}>
               <div className="flex justify-between flex-nowrap mb-1">
                 <h5 className="text-sm font-medium">{edu.title}</h5>
                 <span className="font-medium text-xs">{formattedDate(edu.dates)}</span>
@@ -165,6 +245,22 @@ const Template3Preview = () => {
               <p className="text-xs font-light">
                 {edu.description}
               </p>
+              {editMode &&
+                <div className="absolute bottom-0 right-0">
+                  <div className="flex gap-2">
+                    <button onClick={() => handleEditEducation(index)}>
+                      <FontAwesomeIcon
+                        icon={faPen} size="xl"
+                        className="mb-2 cursor-pointer " />
+                    </button>
+                    <button onClick={() => dispatch(removeEducation(index))}>
+                      <FontAwesomeIcon
+                        icon={faClose} size="xl"
+                        className="mb-2 cursor-pointer text-red-700" />
+                    </button>
+                  </div>
+                </div>
+              }
             </div>
           ))}
 

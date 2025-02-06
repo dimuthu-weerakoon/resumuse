@@ -78,7 +78,7 @@ const InputLocation = ({ location, setCity, setCountry, setState }: LocationProp
     }
   }, [editMode, location, countries, setCountry, setState, setCity]);
 
-  // Memoize the country options
+
   const countryOptions = useMemo(() => {
     return countries.map((country) => (
       <SelectItem key={country.name} value={country.name}>
@@ -87,7 +87,7 @@ const InputLocation = ({ location, setCity, setCountry, setState }: LocationProp
     ));
   }, [countries]);
 
-  // Memoize the state options
+
   const stateOptions = useMemo(() => {
     return states.map((state) => (
       <SelectItem key={state.name} value={state.name}>
@@ -96,7 +96,7 @@ const InputLocation = ({ location, setCity, setCountry, setState }: LocationProp
     ));
   }, [states]);
 
-  // Memoize the city options
+
   const cityOptions = useMemo(() => {
     return cities.map((city) => (
       <SelectItem key={city.name} value={city.name}>
@@ -107,8 +107,9 @@ const InputLocation = ({ location, setCity, setCountry, setState }: LocationProp
 
   return (
     <div className="flex max-lg:flex-wrap gap-3">
-      {/* Country Select */}
+   
       <Select
+        size="sm"
         label="Select Country"
         selectedKeys={new Set(location?.country ? [location.country] : [])}
         onChange={(e) => {
@@ -122,6 +123,7 @@ const InputLocation = ({ location, setCity, setCountry, setState }: LocationProp
 
       {/* State Select */}
       <Select
+        size="sm"
         label="Select State / Province"
         selectedKeys={new Set(location?.state ? [location.state] : [])}
         onChange={(e) => {
@@ -136,11 +138,11 @@ const InputLocation = ({ location, setCity, setCountry, setState }: LocationProp
 
       {/* City Select */}
       <Select
+        size="sm"
         label="Select City"
         selectedKeys={new Set(location?.city ? [location.city] : [])}
         onChange={(e) => setCity(e.target.value)}
-        isDisabled={!stateIso2}
-      >
+        isDisabled={!stateIso2}>
         {cityOptions}
       </Select>
     </div>

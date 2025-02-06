@@ -10,6 +10,6 @@ export interface Experience {
   dates:Dates ;
   description: string[];
   status:boolean;
-  skills: Skill[]|null;
+  skills: Skill[];
 }
 

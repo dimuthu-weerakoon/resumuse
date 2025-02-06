@@ -7,13 +7,13 @@ import { Education } from "../../types/Education";
 import ContactInfo from "../../types/ContactInfo";
 import { iconNames } from "../../common_functions/SocialIconObject";
 import { SocialLink } from "../../types/SocialLinks";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { editSocialLink } from "../../redux/slices/SocialLinksSlice";
+import { faClose, faEdit, faPen } from "@fortawesome/free-solid-svg-icons";
+import { editSocialLink, removeSocialLink } from "../../redux/slices/SocialLinksSlice";
 import { useNavigate } from "react-router-dom";
-import { editEducation } from "../../redux/slices/EducationSlice";
-import { editExperience } from "../../redux/slices/ExpSlice";
+import { editEducation, removeEducation } from "../../redux/slices/EducationSlice";
+import { editExperience, removeExperience } from "../../redux/slices/ExpSlice";
 import Highlight from "../../types/Highlight";
-import { editHighlight } from "../../redux/slices/HighlightSlice";
+import { editHighlight, removeHighlight } from "../../redux/slices/HighlightSlice";
 
 const Template1Preview = () => {
   const dispatch = useDispatch()
@@ -73,12 +73,24 @@ const Template1Preview = () => {
                     {links.map((social, index) => (
                       <li key={index} className="relative">
                         {editMode &&
-                          <button onClick={() => handleEditSocialMedia(index)}>
-                            <FontAwesomeIcon
-                              icon={faEdit} size="lg"
-                              className="mb-2 cursor-pointer absolute bottom-2 right-0" />
-                          </button>
+                          <div className="absolute bottom-1 right-0">
 
+                            <div className="flex gap-2">
+                            <button onClick={() => handleEditSocialMedia(index)}>
+                              <FontAwesomeIcon
+                                icon={faPen} size="xl"
+                                className="mb-2 cursor-pointer " />
+                            </button>
+                            <button onClick={() => dispatch(removeSocialLink(social))}>
+                              <FontAwesomeIcon
+                              
+                                icon={faClose} size="xl"
+                                className="mb-2 cursor-pointer text-red-700" />
+                            </button>
+
+                            </div>
+                           
+                          </div>
                         }
                         <FontAwesomeIcon icon={iconNames[social.platform]} />{" "}
                         <a
@@ -171,12 +183,24 @@ const Template1Preview = () => {
                           </ul>
                         )}
                         {editMode &&
-                          <button onClick={() => handleEditExperiences(index)}>
-                            <FontAwesomeIcon
-                              icon={faEdit} size="xl"
-                              className="mb-2 cursor-pointer absolute bottom-0 right-0" />
-                          </button>
+                          <div className="absolute bottom-0 right-0">
 
+                            <div className="flex gap-2">
+                            <button onClick={() => handleEditExperiences(index)}>
+                              <FontAwesomeIcon
+                                icon={faPen} size="xl"
+                                className="mb-2 cursor-pointer " />
+                            </button>
+                            <button onClick={() => dispatch(removeExperience(index))}>
+                              <FontAwesomeIcon
+                              
+                                icon={faClose} size="xl"
+                                className="mb-2 cursor-pointer text-red-700" />
+                            </button>
+
+                            </div>
+                           
+                          </div>
                         }
                       </div>
                     ))}
@@ -227,13 +251,25 @@ const Template1Preview = () => {
                             )}
                           </div>
                           {editMode &&
+                          <div className="absolute bottom-0 right-0">
+
+                            <div className="flex gap-2">
                             <button onClick={() => handleEditHighlights(index)}>
                               <FontAwesomeIcon
-                                icon={faEdit} size="xl"
-                                className="mb-2 cursor-pointer absolute bottom-0 right-0" />
+                                icon={faPen} size="xl"
+                                className="mb-2 cursor-pointer " />
+                            </button>
+                            <button onClick={() => dispatch(removeHighlight(index))}>
+                              <FontAwesomeIcon
+                              
+                                icon={faClose} size="xl"
+                                className="mb-2 cursor-pointer text-red-700" />
                             </button>
 
-                          }
+                            </div>
+                           
+                          </div>
+                        }
                         </div>
                       ))}
                     </div>
@@ -265,13 +301,25 @@ const Template1Preview = () => {
                       </div>
                     </div>
                     {editMode &&
-                      <button onClick={() => handleEditEducation(index)}>
-                        <FontAwesomeIcon
-                          icon={faEdit} size="lg"
-                          className="mb-2 cursor-pointer absolute top-0 right-0" />
-                      </button>
+                          <div className="absolute bottom-0 right-0">
 
-                    }
+                            <div className="flex gap-2">
+                            <button onClick={() => handleEditEducation(index)}>
+                              <FontAwesomeIcon
+                                icon={faPen} size="xl"
+                                className="mb-2 cursor-pointer " />
+                            </button>
+                            <button onClick={() => dispatch(removeEducation(index))}>
+                              <FontAwesomeIcon
+                              
+                                icon={faClose} size="xl"
+                                className="mb-2 cursor-pointer text-red-700" />
+                            </button>
+
+                            </div>
+                           
+                          </div>
+                        }
                   </div>
                 ))}
               </div>

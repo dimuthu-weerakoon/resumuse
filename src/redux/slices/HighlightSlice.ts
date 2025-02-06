@@ -28,8 +28,8 @@ const highlightSlice = createSlice({
     addHighlight(state, action: PayloadAction<Highlight>) {
       state.highlights.unshift(action.payload);
     },
-    removeCustom(state, action: PayloadAction<Highlight>) {
-      state.highlights = state.highlights.filter((e) => e !== action.payload);
+    removeHighlight(state, action: PayloadAction<number>) {
+      state.highlights = state.highlights.filter((_,index) => index !== action.payload);
     },
     editHighlight(state, action: PayloadAction<number>) {
       state.editingHighlight =
@@ -93,7 +93,7 @@ export default highlightSlice.reducer;
 
 export const {
   addHighlight,
-  removeCustom,
+  removeHighlight,
   setHeading,
   editHighlight,
   editHighlightDescription,

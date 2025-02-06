@@ -73,7 +73,7 @@ const InputContactInfo = ({ templateId }: { templateId: number }) => {
 
 
                 <Input
-                    size="md"
+                    size="sm"
                     type="tel"
                     label="Phone"
                     value={contactInfo.phone}
@@ -85,7 +85,7 @@ const InputContactInfo = ({ templateId }: { templateId: number }) => {
 
 
                 <Input
-                    size="md"
+                    size="sm"
                     type="email"
                     label="Email Address"
                     value={contactInfo.email}
@@ -94,7 +94,7 @@ const InputContactInfo = ({ templateId }: { templateId: number }) => {
                     onChange={e => handleDispatch("email", e.target.value)} />
 
                 <Input
-                    size="md"
+                    size="sm"
                     type="text"
                     label="Street No / Apartment No"
                     value={contactInfo.address}

@@ -61,9 +61,9 @@ const InputSummery = ({ templateId }: { templateId: number }) => {
                 <div className="flex justify-between gap-5 w-full">
 
                     <div className="flex gap-3">
-                        <Button type="button" className="input-action-btn" onClick={handleSubmit}>
+                        <Button size="sm" type="button" className="input-action-btn" onClick={handleSubmit}>
                             <FontAwesomeIcon icon={faPlusCircle} />   Add</Button>
-                        <Button type="button" className="input-action-btn" onClick={handleAiSummery}>
+                        <Button size="sm" type="button" className="input-action-btn" onClick={handleAiSummery}>
                             <FontAwesomeIcon icon={faMagicWandSparkles} />  Generate </Button>
                     </div>
                 </div>
