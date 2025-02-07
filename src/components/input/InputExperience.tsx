@@ -6,14 +6,19 @@ import { Location } from "../../types/Location";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addExperience,
+  addMoreDescriptions,
   addMoreSkills,
   clearEditingExperience,
   editExperienceDescription,
+  removeExpDescription,
   removeExperienceSkill,
   updateExpereince,
   updateExperienceDescription,
 } from "../../redux/slices/ExpSlice";
-import { clearSelectedSkills, removeSelectedSkill } from "../../redux/slices/SkillsSlice";
+import {
+  clearSelectedSkills,
+  removeSelectedSkill,
+} from "../../redux/slices/SkillsSlice";
 import { useNavigate } from "react-router";
 import { suggestJobRole } from "../../Ai/AiGeneratives";
 import {
@@ -32,7 +37,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowLeft,
   faArrowRight,
+  faClose,
   faEdit,
+  faPen,
   faPlusCircle,
   faRepeat,
 } from "@fortawesome/free-solid-svg-icons";
@@ -56,7 +63,7 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
   const [location, setLocation] = useState<Location | undefined | null>();
   const [suggestedJobRoles, setSuggestedJobRoles] = useState<string[]>([]);
   const editMode: boolean = useSelector((state: any) => state.editmode);
-  const [isInvalidEndDate, setisInvalidDate] = useState<boolean>(false)
+  const [isInvalidEndDate, setisInvalidDate] = useState<boolean>(false);
 
   const {
     editingExperience,
@@ -68,14 +75,11 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
 
   const employeeTypes = ["Intership", "Contract", "Employee", "Freelance"];
 
-
-
   useEffect(() => {
     if (editMode && editingExpDescription) {
       setCurrentInput(editingExpDescription);
     }
   }, [editMode, editingExpDescription]);
-
 
   useEffect(() => {
     if (editMode && editingExperience?.skills) {
@@ -88,7 +92,6 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
       if (newSkills.length > 0) dispatch(addMoreSkills(newSkills));
     }
   }, [editMode, editingExperience?.skills, selectedSkills, dispatch]);
-
 
   async function handleAiSuggestTitle() {
     const aiSuggestJobRoles: string[] = await suggestJobRole(title);
@@ -112,7 +115,6 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
 
   useEffect(() => {
     if (editMode && editingExperience) {
-
       setTitle(editingExperience.title);
       setType(editingExperience.type);
       setCompany(editingExperience.company);
@@ -126,6 +128,7 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
   useEffect(() => {
     if (!editMode) {
       dispatch(clearEditingExperience());
+      dispatch(clearSelectedSkills());
       clearExp();
     }
   }, [editMode, dispatch]);
@@ -135,19 +138,17 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
     if (e.key === "Enter" && value) {
       e.preventDefault();
       if (editMode && !editingExpDescription) {
-        setDescription((prev) => [...prev, value]);
+        dispatch(addMoreDescriptions(value));
       }
-
-      editMode ? dispatch(updateExperienceDescription(value)) :
-         setDescription((prev) => [...prev, value]);
-
+      editMode
+        ? dispatch(updateExperienceDescription(value))
+        : setDescription((prev) => [...prev, value]);
       setCurrentInput("");
     }
   };
 
-
   const handleSubmit = (e: FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     const newExp: Experience = {
       title,
       type,
@@ -158,13 +159,16 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
       dates: { startDate, endDate },
       location,
     };
-    if (title.trim() !== "" &&
+    if (
+      title.trim() !== "" &&
       company.trim() !== "" &&
-      startDate.trim() !== "") {
-
-      editMode ? dispatch(updateExpereince(newExp)) : dispatch(addExperience(newExp));
+      startDate.trim() !== ""
+    ) {
+      editMode
+        ? dispatch(updateExpereince(newExp))
+        : dispatch(addExperience(newExp));
     } else {
-      return
+      return;
     }
     clearExp();
     dispatch(clearSelectedSkills());
@@ -174,14 +178,12 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
     const selectedEndDate = e.target.value;
     if (new Date(selectedEndDate) >= new Date(startDate)) {
       setEndDate(selectedEndDate);
-      setisInvalidDate(false)
-
+      setisInvalidDate(false);
     } else {
-
-      setisInvalidDate(true)
+      setisInvalidDate(true);
     }
     if (status) {
-      setisInvalidDate(false)
+      setisInvalidDate(false);
       setEndDate("Present");
     }
   };
@@ -241,7 +243,7 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
             isDisabled={editMode && !editingExperience}
             validate={(value) => {
               if (value.trim() === "") {
-                return "Please fill this field"
+                return "Please fill this field";
               }
             }}
             onChange={(e) => {
@@ -289,7 +291,7 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
             isRequired
             validate={(value) => {
               if (value.trim() === "") {
-                return "Please fill this field"
+                return "Please fill this field";
               }
             }}
             onChange={(e) => {
@@ -320,7 +322,7 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
             <Input
               validate={(value) => {
                 if (value.trim() === "") {
-                  return "Please add Start date"
+                  return "Please add Start date";
                 }
               }}
               isDisabled={editMode && !editingExperience}
@@ -350,45 +352,67 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
             )}
           </div>
           <div className="selected-skills flex gap-2 mt-2">
-            {editMode && editingExperience?.skills && editingExperience.skills.map((skill: Skill, index: number) => (
-
-              <span
-                className="selected-skill bg-slate-300 px-2 border rounded-md border-slate-400 font-medium text-sm"
-                key={index}
-              >
-                {skill.skill}
-                <button
-                  type="button"
-                  className="remove-skill p-1 rounded-full text-slate-600 "
-                  onClick={() =>
-                    dispatch(removeExperienceSkill(skill.skill))
-                  }
+            {editMode &&
+              editingExperience?.skills &&
+              editingExperience.skills.map((skill: Skill, index: number) => (
+                <span
+                  className="selected-skill bg-slate-300 px-2 border rounded-md border-slate-400 font-medium text-sm"
+                  key={index}
                 >
-                  x
-                </button>
-              </span>
-            ))}
+                  {skill.skill}
+                  <button
+                    type="button"
+                    className="remove-skill p-1 rounded-full text-slate-600 "
+                    onClick={() => {
+                      dispatch(removeExperienceSkill(skill.skill));
+                      dispatch(removeSelectedSkill(skill));
+                    }}
+                  >
+                    x
+                  </button>
+                </span>
+              ))}
           </div>
           <InputSkills jobRole={title} />
 
           <div>
             {editMode &&
-              editingExperience?.description &&
-              editingExperience.description.length > 0 ? (
+            editingExperience?.description &&
+            editingExperience.description.length > 0 ? (
               <ul className="text-xs text-slate-900">
                 {editingExperience.description.map((desc, index) => (
-                  <li key={index} className="list-disc ml-4 relative">
+                  <li
+                    key={index}
+                    className="relative selected-skill bg-slate-300 p-1 mb-1 border rounded-md border-slate-400 font-medium text-xs"
+                  >
                     <p> {desc}</p>
-                    <button
-                      type="button"
-                      onClick={() => dispatch(editExperienceDescription(index))}
-                    >
-                      <FontAwesomeIcon
-                        icon={faEdit}
-                        size="lg"
-                        className="mb-2 cursor-pointer absolute top-0 right-0"
-                      />
-                    </button>
+
+                    <div className="absolute top-1 right-1 ">
+                      <div className="flex gap-2">
+                        <button
+                          type="button"
+                          onClick={() =>
+                            dispatch(editExperienceDescription(index))
+                          }
+                        >
+                          <FontAwesomeIcon
+                            icon={faPen}
+                            size="sm"
+                            className="mb-2 cursor-pointer "
+                          />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => dispatch(removeExpDescription(index))}
+                        >
+                          <FontAwesomeIcon
+                            icon={faClose}
+                            size="sm"
+                            className="mb-2 cursor-pointer"
+                          />
+                        </button>
+                      </div>
+                    </div>
                   </li>
                 ))}
               </ul>
@@ -400,7 +424,7 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
               label="Description"
               value={currentInput}
               onChange={(e) => setCurrentInput(e.target.value)}
-              onKeyUp={(e) => handleKeyUp(e)}
+              onKeyUp={handleKeyUp}
               placeholder="- Enter some decriptions about your work as a list and press Enter"
             ></Textarea>
           </div>

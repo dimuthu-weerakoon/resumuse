@@ -14,6 +14,7 @@ import {
   faArrowCircleRight,
   faArrowLeft,
   faArrowRight,
+  faClose,
   faPen,
   faPlusCircle,
   faRepeat,
@@ -21,9 +22,13 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   addHighlight,
+  addMoreDescriptions,
+  addMoreUrls,
   clearEditingHighlight,
   editHighlightDescription,
   editHighlightUrl,
+  removeHighlightDescription,
+  removeHighlightUrl,
   setHeading,
   updateEditingHighlightDesc,
   updateHighlight,
@@ -136,15 +141,17 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
       link: link,
     };
 
-    if (editMode) {
-      dispatch(updateHighlightUrl(newUrl));
-      setPlatform("");
-      setLink("");
-    } else {
-      setUrls((prev) => [...prev, newUrl]);
-      setPlatform("");
-      setLink("");
+    if (editMode && !editingHighlightUrl) {
+      dispatch(addMoreUrls(newUrl));
     }
+
+    editMode
+      ? dispatch(updateHighlightUrl(newUrl))
+      : setUrls((prev) => [...prev, newUrl]);
+
+    setPlatform("");
+    setLink("");
+
     console.log(urls);
   };
 
@@ -153,15 +160,15 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
     if (e.key === "Enter" && value) {
       e.preventDefault();
       if (editMode && !editingHighlightDesc) {
-        setDescription((prev) => [...prev, value]);
+        dispatch(addMoreDescriptions(value));
       }
       editMode
         ? dispatch(updateEditingHighlightDesc(value))
         : setDescription((prev) => [...prev, value]);
-
       setCurrentInput("");
     }
   };
+
   const handleSubmit = () => {
     const newHighlight: Highlight = {
       title: title,
@@ -292,18 +299,39 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
             editingHighlight.description.length > 0 ? (
               <ul className="text-xs text-slate-900">
                 {editingHighlight.description.map((desc, index) => (
-                  <li key={index} className="list-disc ml-4 relative">
+                  <li
+                    key={index}
+                    className="relative selected-skill bg-slate-300 p-1 mb-1 border rounded-md border-slate-400 font-medium text-xs"
+                  >
                     <p> {desc}</p>
-                    <button
-                      type="button"
-                      onClick={() => dispatch(editHighlightDescription(index))}
-                    >
-                      <FontAwesomeIcon
-                        icon={faPen}
-                        size="xs"
-                        className="mb-2 cursor-pointer absolute top-0 right-0"
-                      />
-                    </button>
+                    <div className="absolute top-1 right-1 ">
+                      <div className="flex gap-2">
+                        <button
+                          type="button"
+                          onClick={() =>
+                            dispatch(editHighlightDescription(index))
+                          }
+                        >
+                          <FontAwesomeIcon
+                            icon={faPen}
+                            size="sm"
+                            className="mb-2 cursor-pointer "
+                          />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            dispatch(removeHighlightDescription(index))
+                          }
+                        >
+                          <FontAwesomeIcon
+                            icon={faClose}
+                            size="sm"
+                            className="mb-2 cursor-pointer"
+                          />
+                        </button>
+                      </div>
+                    </div>
                   </li>
                 ))}
               </ul>
@@ -330,19 +358,12 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
             editingHighlight.urls.length > 0 ? (
               <ul className="text-xs text-slate-900">
                 {editingHighlight.urls.map((url, index) => (
-                  <li key={index} className="relative">
-                    {editMode && (
-                      <button
-                        type="button"
-                        onClick={() => dispatch(editHighlightUrl(index))}
-                      >
-                        <FontAwesomeIcon
-                          icon={faPen}
-                          size="lg"
-                          className="mb-2 cursor-pointer absolute bottom-2 right-0"
-                        />
-                      </button>
-                    )}
+                  <li key={index} 
+                  className="relative selected-skill bg-slate-300 p-1 mb-1 border rounded-md border-slate-400 font-medium text-xs"
+
+                  >
+                    
+
                     <FontAwesomeIcon icon={iconNames[url.platform]} />{" "}
                     <a
                       className="italic hover:underline"
@@ -351,6 +372,41 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
                     >
                       {url.link}
                     </a>{" "}
+
+
+
+                    <div className="absolute top-1 right-1 ">
+                      <div className="flex gap-2">
+                        <button
+                          type="button"
+                          onClick={() =>
+                            dispatch(editHighlightUrl(index))
+                          }
+                        >
+                          <FontAwesomeIcon
+                            icon={faPen}
+                            size="sm"
+                            className="mb-2 cursor-pointer "
+                          />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            dispatch(removeHighlightUrl(url))
+                          }
+                        >
+                          <FontAwesomeIcon
+                            icon={faClose}
+                            size="sm"
+                            className="mb-2 cursor-pointer"
+                          />
+                        </button>
+                      </div>
+                    </div>
+
+
+
+
                   </li>
                 ))}
               </ul>
@@ -370,7 +426,8 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
                 <SelectItem
                   key={social.platform}
                   value={social.platform}
-                  isDisabled={editMode && platform !== social.platform}
+                  
+                  isReadOnly={editingHighlightDesc?.valueOf &&  platform !== social.platform}
                   startContent={
                     <FontAwesomeIcon
                       icon={iconNames[social.platform]}
@@ -419,6 +476,7 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
       </Form>
     </motion.div>
   );
+  
 };
 
 export default InputHighlight;

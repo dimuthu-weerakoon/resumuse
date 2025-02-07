@@ -29,7 +29,9 @@ const highlightSlice = createSlice({
       state.highlights.unshift(action.payload);
     },
     removeHighlight(state, action: PayloadAction<number>) {
-      state.highlights = state.highlights.filter((_,index) => index !== action.payload);
+      state.highlights = state.highlights.filter(
+        (_, index) => index !== action.payload
+      );
     },
     editHighlight(state, action: PayloadAction<number>) {
       state.editingHighlight =
@@ -63,6 +65,19 @@ const highlightSlice = createSlice({
         }
       }
     },
+    addMoreDescriptions(state, action: PayloadAction<string>) {
+      if (state.editingHighlight) {
+        state.editingHighlight.description.push(action.payload);
+      }
+    },
+    removeHighlightDescription(state, action: PayloadAction<number>) {
+      if (state.editingHighlight?.description) {
+        state.editingHighlight.description =
+          state.editingHighlight.description.filter(
+            (_, index) => index !== action.payload
+          );
+      }
+    },
     editHighlightUrl(state, action: PayloadAction<number>) {
       state.editingHighlightUrl =
         state.editingHighlight?.urls.find(
@@ -83,6 +98,24 @@ const highlightSlice = createSlice({
         }
       }
     },
+    removeHighlightUrl(state, action: PayloadAction<SocialLink>) {
+      if (state.editingHighlight?.urls) {
+        state.editingHighlight.urls = state.editingHighlight.urls.filter(
+          (url) =>
+            url.link !== action.payload.link &&
+            url.platform !== action.payload.platform
+        );
+      }
+    },
+    addMoreUrls(state, action: PayloadAction<SocialLink>) {
+      if (!state.editingHighlight?.urls.some(url=>(
+         url.link === action.payload.link &&
+         url.platform === action.payload.platform
+        ))) {
+      state.editingHighlight?.urls.push(action.payload);
+        
+      }
+    },
     clearEditingHighlight(state) {
       state.editingHighlight = null;
     },
@@ -101,5 +134,9 @@ export const {
   updateHighlight,
   clearEditingHighlight,
   editHighlightUrl,
-  updateHighlightUrl
+  updateHighlightUrl,
+  addMoreDescriptions,
+  removeHighlightDescription,
+  addMoreUrls,
+  removeHighlightUrl
 } = highlightSlice.actions;

@@ -16,6 +16,7 @@ const InputSkills = ({ jobRole }: { jobRole: string }) => {
   const { skills, selectedSkills } = useSelector(
     (state: any) => state.skills
   );
+  const editMode: boolean = useSelector((state: any) => state.editmode);
 
   const [searchQuery, setSearchQuery] = useState<any>("");
   const dispatch = useDispatch();
@@ -85,9 +86,9 @@ const InputSkills = ({ jobRole }: { jobRole: string }) => {
           </ul>
         ) : ("")}
 
-        <div className="selected-skills flex gap-2 mt-2">
+        <div  className="selected-skills flex gap-2 mt-2">
           {selectedSkills.map((skill: Skill, index: number) => (
-            <span
+            <span hidden={editMode}
               className="selected-skill bg-slate-300 px-2 border rounded-md border-slate-400 font-medium text-sm"
               key={index}
             >
