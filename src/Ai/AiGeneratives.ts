@@ -47,7 +47,7 @@ export const generateSkills = async (jobrole: string, input: string) => {
       .map((skill) => ({ skill: skill.trim() }));
     return skills;
   } catch (err) {
-    console.error.apply(err);
+    console.error(err);
     return [];
   }
 };

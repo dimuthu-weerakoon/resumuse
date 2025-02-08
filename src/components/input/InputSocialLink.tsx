@@ -121,6 +121,7 @@ const InputSocialLink = ({ templateId }: { templateId: number }) => {
           required
           size="sm"
           value={platform}
+          isDisabled={editMode && !editingLink}
           onChange={(e) => setPlatform(e.target.value)}
           label="Select Platform"
         >
@@ -143,6 +144,7 @@ const InputSocialLink = ({ templateId }: { templateId: number }) => {
 
         <Input
           size="sm"
+          isDisabled={editMode && !editingLink}
           type="url"
           label="URL"
           value={link}

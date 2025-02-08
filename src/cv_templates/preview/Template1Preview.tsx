@@ -172,7 +172,7 @@ const Template1Preview = () => {
 
                         {exp.skills!.length > 0 && (
                           <ul>
-                            <li>
+                            <li className="text-xs">
                               <span>Improved Skills - </span>
                               <span className="font-medium">
                                 {exp.skills!

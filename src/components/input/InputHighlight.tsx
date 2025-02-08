@@ -403,10 +403,6 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
                         </button>
                       </div>
                     </div>
-
-
-
-
                   </li>
                 ))}
               </ul>

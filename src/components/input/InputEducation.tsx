@@ -166,6 +166,7 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
           <Input
             label="Qualification / Certifications"
             value={title}
+            isDisabled={editMode && !editingEducation}
             isRequired
             validate={(value) => {
               if (value.trim() === "") {
@@ -200,6 +201,7 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
             label="Institute / College"
             value={institute}
             isRequired
+            isDisabled={editMode && !editingEducation}
             validate={(value) => {
               if (value.trim() === "") {
                 return "Please fill this field"
@@ -224,6 +226,7 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
                 label="Start Date"
                 type="date"
                 size="sm"
+            isDisabled={editMode && !editingEducation}
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
               />
@@ -232,6 +235,7 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
                 size="sm"
                   label="End Date"
                   type="date"
+            isDisabled={editMode && !editingEducation}
                   value={endDate !== "Present" ? endDate : ""}
                   onChange={handleEndDate}
                   disabled={studying}
@@ -246,6 +250,7 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
           size="sm"
             label="Description - (optional)"
             value={description || ""}
+            isDisabled={editMode && !editingEducation}
             onChange={(e) => setDescription(e.target.value)}
           />
 
@@ -254,6 +259,7 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
             variant="flat"
             className="input-action-btn max-w-fit"
             type="submit"
+            isDisabled={editMode && !editingEducation}
             onClick={handleSubmit}
           >
             <FontAwesomeIcon icon={editMode ? faRepeat : faPlusCircle} /> {editMode ? "Update" : "Add education"}

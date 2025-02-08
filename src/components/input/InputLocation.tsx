@@ -1,11 +1,23 @@
 import { useEffect, useState, useRef, useMemo } from "react";
 import { LocationProps } from "../../types/Location";
-import { fetchCities, fetchCountries, fetchStates } from "../../country_API/functions";
+import {
+  fetchCities,
+  fetchCountries,
+  fetchStates,
+} from "../../country_API/functions";
 import { Select, SelectItem } from "@nextui-org/react";
 import { useSelector } from "react-redux";
 
-const InputLocation = ({ location, setCity, setCountry, setState }: LocationProps) => {
-  const [countries, setCountries] = useState<{ name: string; iso2: string }[]>([]);
+const InputLocation = ({
+  location,
+  setCity,
+  setCountry,
+  setState,
+}: LocationProps) => {
+  const [countries, setCountries] = useState<{ name: string; iso2: string }[]>(
+    []
+  );
+
   const [countryIso2, setCountryIso2] = useState<string | null>(null);
   const [states, setStates] = useState<{ name: string; iso2: string }[]>([]);
   const [stateIso2, setStateIso2] = useState<string | null>(null);
@@ -14,12 +26,16 @@ const InputLocation = ({ location, setCity, setCountry, setState }: LocationProp
 
   const locationRef = useRef(location);
 
-  // Fetch countries on component mount
+  {
+    /* Fetch countries from Country API  on component mount and set it to countries*/
+  }
   useEffect(() => {
     const fetchCountriesData = async () => {
       try {
         const fetchedCountries = await fetchCountries();
-        setCountries(fetchedCountries.map((c: any) => ({ name: c.name, iso2: c.iso2 })));
+        setCountries(
+          fetchedCountries.map((c: any) => ({ name: c.name, iso2: c.iso2 }))
+        );
       } catch (error) {
         console.error("Error fetching countries:", error);
       }
@@ -27,15 +43,22 @@ const InputLocation = ({ location, setCity, setCountry, setState }: LocationProp
     fetchCountriesData();
   }, []);
 
-  // Fetch states when countryIso2 changes
+  {
+    /*  Fetch states when countryIso2 changes and set states to states */
+  }
+
   useEffect(() => {
     const fetchStatesData = async () => {
       if (!countryIso2) return;
       try {
         const fetchedStates = await fetchStates(countryIso2);
-        setStates(fetchedStates.map((s: any) => ({ name: s.name, iso2: s.iso2 })));
+        setStates(
+          fetchedStates.map((s: any) => ({ name: s.name, iso2: s.iso2 }))
+        );
         if (location?.state) {
-          const selectedStateIso = fetchedStates.find((s: any) => s.name === location.state)?.iso2;
+          const selectedStateIso = fetchedStates.find(
+            (s: any) => s.name === location.state
+          )?.iso2;
           setStateIso2(selectedStateIso || null);
         }
       } catch (error) {
@@ -45,7 +68,10 @@ const InputLocation = ({ location, setCity, setCountry, setState }: LocationProp
     fetchStatesData();
   }, [countryIso2]);
 
-  // Fetch cities when stateIso2 changes
+  {
+    /* Fetch cities when stateIso2 changes and set cities to cities */
+  }
+
   useEffect(() => {
     const fetchCitiesData = async () => {
       if (!countryIso2 || !stateIso2) return;
@@ -59,7 +85,10 @@ const InputLocation = ({ location, setCity, setCountry, setState }: LocationProp
     fetchCitiesData();
   }, [stateIso2, countryIso2]);
 
-  // Handle edit mode
+  {
+    /* handle editmode */
+  }
+
   useEffect(() => {
     if (editMode && location) {
       const prevLocation = locationRef.current;
@@ -69,7 +98,9 @@ const InputLocation = ({ location, setCity, setCountry, setState }: LocationProp
         setState(location.state);
         setCity(location.city);
 
-        const countryIso = countries.find((c) => c.name === location.country)?.iso2;
+        const countryIso = countries.find(
+          (c) => c.name === location.country
+        )?.iso2;
         if (countryIso) setCountryIso2(countryIso);
         const stateIso = states.find((s) => s.name === location.country)?.iso2;
         if (stateIso) setCountryIso2(stateIso2);
@@ -77,8 +108,9 @@ const InputLocation = ({ location, setCity, setCountry, setState }: LocationProp
       }
     }
   }, [editMode, location, countries, setCountry, setState, setCity]);
-
-
+  {
+    /* memorize country options */
+  }
   const countryOptions = useMemo(() => {
     return countries.map((country) => (
       <SelectItem key={country.name} value={country.name}>
@@ -86,7 +118,9 @@ const InputLocation = ({ location, setCity, setCountry, setState }: LocationProp
       </SelectItem>
     ));
   }, [countries]);
-
+  {
+    /* memorize state Option  */
+  }
 
   const stateOptions = useMemo(() => {
     return states.map((state) => (
@@ -95,7 +129,9 @@ const InputLocation = ({ location, setCity, setCountry, setState }: LocationProp
       </SelectItem>
     ));
   }, [states]);
-
+  {
+    /* memorize City options */
+  }
 
   const cityOptions = useMemo(() => {
     return cities.map((city) => (
@@ -106,14 +142,20 @@ const InputLocation = ({ location, setCity, setCountry, setState }: LocationProp
   }, [cities]);
 
   return (
+    /* Wrapper */
+
     <div className="flex max-lg:flex-wrap gap-3">
-   
+      {/* Next UI Select Element selected items in current location's country , state , city */}
+
+      {/* Country Select */}
       <Select
         size="sm"
         label="Select Country"
         selectedKeys={new Set(location?.country ? [location.country] : [])}
         onChange={(e) => {
-          const selectedCountry = countries.find((c) => c.name === e.target.value);
+          const selectedCountry = countries.find(
+            (c) => c.name === e.target.value
+          );
           setCountry(e.target.value);
           setCountryIso2(selectedCountry?.iso2 || "");
         }}
@@ -142,7 +184,8 @@ const InputLocation = ({ location, setCity, setCountry, setState }: LocationProp
         label="Select City"
         selectedKeys={new Set(location?.city ? [location.city] : [])}
         onChange={(e) => setCity(e.target.value)}
-        isDisabled={!stateIso2}>
+        isDisabled={!stateIso2}
+      >
         {cityOptions}
       </Select>
     </div>

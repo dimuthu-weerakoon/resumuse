@@ -145,8 +145,8 @@ const Template3Preview = () => {
               </ul>
               {exp.skills && exp.skills.length > 0 && (
                 <div className="flex items-center gap-3">
-                  <h5 className="text-sm font-medium mt-1">Improved skills: </h5>
-                  <span className="text-sm ">{exp.skills.join(", ")} </span>
+                  <h5 className="text-xs font-medium mt-1">Improved skills: </h5>
+                  <span className="text-xs">{exp.skills.map(skill=>skill.skill).join(",")} </span>
                 </div>
               )}
 

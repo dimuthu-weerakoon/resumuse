@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import InputSkills from "./InputSkills";
 import { Experience } from "../../types/Experience";
 import InputLocation from "./InputLocation";
@@ -38,7 +38,6 @@ import {
   faArrowLeft,
   faArrowRight,
   faClose,
-  faEdit,
   faPen,
   faPlusCircle,
   faRepeat,
@@ -72,36 +71,48 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
     editingExperience: Experience | null;
     editingExpDescription: string | null;
   } = useSelector((state: any) => state.experience);
-
-  const employeeTypes = ["Intership", "Contract", "Employee", "Freelance"];
+  //array of employee types
+  const employeeTypes = ["Internship", "Contract", "Employee", "Freelance"];
 
   useEffect(() => {
     if (editMode && editingExpDescription) {
       setCurrentInput(editingExpDescription);
     }
   }, [editMode, editingExpDescription]);
+  //use effect for add more skills when edit mode and if has editing experience
 
   useEffect(() => {
     if (editMode && editingExperience?.skills) {
-      const newSkills = selectedSkills.filter(
+      //check selcted skills already exits in editing experince skill array
+
+      const newSkills: Skill[] = selectedSkills.filter(
         (newSkill: Skill) =>
           !editingExperience.skills.some(
             (existingSkill) => existingSkill.skill === newSkill.skill
           )
       );
+      //if skill not exites push it to editing experince skills
+
       if (newSkills.length > 0) dispatch(addMoreSkills(newSkills));
     }
-  }, [editMode, editingExperience?.skills, selectedSkills, dispatch]);
+  }, [editMode, editingExperience?.skills, selectedSkills, dispatch]); // dependecy array if changes editmode , editng experince and selected skills and dispacth
+
+//function to suggest Job Roles
 
   async function handleAiSuggestTitle() {
+    //calling async function suggestJobroles from AiGeneratives
     const aiSuggestJobRoles: string[] = await suggestJobRole(title);
+    // set suggested jobroles to suggestedjobroles local state
     setSuggestedJobRoles(aiSuggestJobRoles);
   }
 
+  //use effect to set location
   useEffect(() => {
+    //set state ,city ,country  as prop of location object
     setLocation({ state, city, country });
-  }, [state, city, country]);
+  }, [state, city, country]); // re run when state , city ,country change
 
+ // function to clear form 
   const clearExp = () => {
     setTitle("");
     setType("");
@@ -111,10 +122,14 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
     setDescription([]);
     setStatus(false);
     setLocation(null);
+    setCurrentInput("");
   };
 
+  //useEffect for set values of editng experince to current local state
   useEffect(() => {
+    //check when editmode and has editng experice object
     if (editMode && editingExperience) {
+      // setting each value to each local state
       setTitle(editingExperience.title);
       setType(editingExperience.type);
       setCompany(editingExperience.company);
@@ -124,29 +139,41 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
       setStatus(editingExperience.status);
       setLocation(editingExperience.location);
     }
-  }, [editMode, editingExperience]);
+  }, [editMode, editingExperience]); // when edit mode change or if change ediitng experince
+
+  //useEffect for clear editing experince and clear slelcted skills when if not in edit mode
   useEffect(() => {
+    //check when not in edit mode
     if (!editMode) {
+      //if not in editmode dispatch action to clear editng experince and clear selected skills
       dispatch(clearEditingExperience());
       dispatch(clearSelectedSkills());
+      //also clear the form
       clearExp();
     }
-  }, [editMode, dispatch]);
+  }, [editMode, dispatch]); // re-run when change edit mode or dispatch
 
+
+  //function to add description or edit
   const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // trimmed user input 
     const value = e.currentTarget.value.trim();
+    // check has user input and press enter
     if (e.key === "Enter" && value) {
-      e.preventDefault();
+      //checks when editmode and has not editng experince desciption
       if (editMode && !editingExpDescription) {
+        //dispatch action to add more description to editng experince
         dispatch(addMoreDescriptions(value));
       }
+      // if in edit mode diapatch action to updated editing experince description
+      // else set description state add current user input value
       editMode
         ? dispatch(updateExperienceDescription(value))
         : setDescription((prev) => [...prev, value]);
       setCurrentInput("");
     }
   };
-
+//
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     const newExp: Experience = {

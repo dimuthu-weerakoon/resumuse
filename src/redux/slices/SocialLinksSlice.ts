@@ -17,11 +17,16 @@ const SocialLinkSlice = createSlice({
       state.links.push(action.payload);
     },
     removeSocialLink(state, action: PayloadAction<SocialLink>) {
-      state.links = state.links.filter((social) => social.link !== action.payload.link);
+      state.links = state.links.filter(
+        (social) =>
+          social.link !== action.payload.link &&
+          social.platform !== action.payload.platform
+      );
+
     },
     editSocialLink(state, action: PayloadAction<number>) {
       state.editingLink =
-        state.links.find((el, index) => index === action.payload) || null;
+        state.links.find((_, index) => index === action.payload) || null;
     },
     updateSocialLink(state, action: PayloadAction<SocialLink>) {
       if (state.editingLink) {

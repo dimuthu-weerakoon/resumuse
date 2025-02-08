@@ -240,7 +240,18 @@ const Template2Preview = () => {
                           <li className=" list-disc font-light" key={index}>{des}</li>
                         ))}
                       </ul>
-                      {editMode &&
+                      {exp.skills!.length > 0 && (
+                        <ul>
+                          <li className="text-xs">
+                            <span >Improved Skills - </span>
+                            <span className="font-medium">
+                              {exp.skills!
+                                .map((skill) => skill.skill)
+                                .join(" , ")}
+                            </span>
+                          </li>
+                        </ul>
+                      )}                      {editMode &&
                         <div className="absolute bottom-0 right-0">
                           <div className="flex gap-2">
                             <button onClick={() => handleEditExperiences(index)}>
@@ -253,9 +264,7 @@ const Template2Preview = () => {
                                 icon={faClose} size="xl"
                                 className="mb-2 cursor-pointer text-red-700" />
                             </button>
-
                           </div>
-
                         </div>
                       }
                     </div>
@@ -287,8 +296,8 @@ const Template2Preview = () => {
                       </div>
                       <p className="text-[.7rem] font-light">{edu.description}</p>
                       {editMode &&
-                          <div className="absolute bottom-0 right-0">
-                            <div className="flex gap-2">
+                        <div className="absolute bottom-0 right-0">
+                          <div className="flex gap-2">
                             <button onClick={() => handleEditEducation(index)}>
                               <FontAwesomeIcon
                                 icon={faPen} size="xl"
@@ -299,9 +308,9 @@ const Template2Preview = () => {
                                 icon={faClose} size="xl"
                                 className="mb-2 cursor-pointer text-red-700" />
                             </button>
-                            </div>
                           </div>
-                        }
+                        </div>
+                      }
                     </div>
                   ))}
               </div>
@@ -341,9 +350,9 @@ const Template2Preview = () => {
                         ))}
                       </ul>
                       {editMode &&
-                          <div className="absolute bottom-0 right-0">
+                        <div className="absolute bottom-0 right-0">
 
-                            <div className="flex gap-2">
+                          <div className="flex gap-2">
                             <button onClick={() => handleEditHighlights(index)}>
                               <FontAwesomeIcon
                                 icon={faPen} size="xl"
@@ -354,9 +363,9 @@ const Template2Preview = () => {
                                 icon={faClose} size="xl"
                                 className="mb-2 cursor-pointer text-red-700" />
                             </button>
-                            </div>
                           </div>
-                        }
+                        </div>
+                      }
                     </div>
                   ))}
                 </div>
