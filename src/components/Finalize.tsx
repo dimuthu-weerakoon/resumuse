@@ -2,7 +2,7 @@ import { Button } from "@nextui-org/react";
 import PreviewPanel from "./Preview";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faExclamationTriangle,
@@ -11,7 +11,7 @@ import {
 
 const Finalize = ({ previewTemplate }: { previewTemplate: JSX.Element }) => {
   const [open, setOpen] = useState<boolean>(false); // states for open and close dialog paneel in preview pannel;
-
+  const navigate = useNavigate();
   return (
     <motion.div
       initial={{ opacity: 0, y: -50 }}
@@ -45,10 +45,10 @@ const Finalize = ({ previewTemplate }: { previewTemplate: JSX.Element }) => {
           <p className="text-xs text-blue-900 font-medium">
             <FontAwesomeIcon icon={faExclamationTriangle} /> Have any
             corrections on previous steps ?{" "}
-            {/* link to naviagete previous route */}
-            <Link to={-1} className="text-blue-700 underline">
+            {/* button to naviagete previous route */}
+            <button onClick={()=>navigate(-1)} className="text-blue-700 underline">
               Go Back
-            </Link>
+            </button>
           </p>
         </div>
       </motion.div>

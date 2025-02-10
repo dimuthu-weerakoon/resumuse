@@ -7,7 +7,7 @@ import { Education } from "../../types/Education";
 import ContactInfo from "../../types/ContactInfo";
 import { iconNames } from "../../common_functions/SocialIconObject";
 import { SocialLink } from "../../types/SocialLinks";
-import { faClose, faEdit, faPen } from "@fortawesome/free-solid-svg-icons";
+import { faClose, faPen } from "@fortawesome/free-solid-svg-icons";
 import {
   editSocialLink,
   removeSocialLink,
