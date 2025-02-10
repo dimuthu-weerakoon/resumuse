@@ -29,8 +29,7 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.1.1",
     "react-to-print": "^3.0.4",
-    "resumuse": "file:",
-    "Resumuse": "file:"
+    "resumuse": "file:"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
