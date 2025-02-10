@@ -8,7 +8,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import { disableEditmode, enableEditmode } from "../redux/slices/editModeSlice";
 
 const Navbar = () => {
-  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [isVisible, setIsVisible] = useState<boolean>(false); // state for visible
   const location = useLocation()
   const splitedPath = location.pathname.split("/")
   const isTemplateRoute = splitedPath.includes("template")
@@ -25,6 +25,7 @@ const Navbar = () => {
   }
   return (
     <>
+    {/* mobile menu */}
       <AnimatePresence>
         {isVisible && (
           <motion.div
@@ -41,6 +42,7 @@ const Navbar = () => {
                 className="absolute top-4 right-4 text-white"
                 onClick={() => setIsVisible(false)}
               >
+                {/* close button for mobile menu side bar */}
                 <FontAwesomeIcon icon={faClose} size="lg" />
               </button>
             </div>

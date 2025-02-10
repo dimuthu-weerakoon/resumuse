@@ -47,28 +47,35 @@ const Template2Preview = () => {
     (state: { picture: { pictureFile: File | null } }) =>
       state.picture.pictureFile
   );
+
+  // memorize picture url
   const pictureUrl = useMemo(
     () => (pictureFile ? URL.createObjectURL(pictureFile) : null),
     [pictureFile]
   );
+  // function to handle edit social media links
+
   const handleEditSocialMedia = (index: number) => {
     dispatch(editSocialLink(index))
     navigate(`/template/2/create/social-link`);
   }
-
+  // function to handle edit education
   const handleEditEducation = (index: number) => {
     dispatch(editEducation(index))
     navigate(`/template/2/create/education`);
   }
-
+  // function to handle edit experince
   const handleEditExperiences = (index: number) => {
     dispatch(editExperience(index))
     navigate(`/template/2/create/experience`)
   }
+
+  // function to handle edit highlights
   const handleEditHighlights = (index: number) => {
     dispatch(editHighlight(index))
     navigate(`/template/2/create/custom-section`)
   }
+  // function to handle edit refrees
   const handleEditRefree = (index: number) => {
     dispatch(editRefree(index))
     navigate(`/template/2/create/refrees`)
@@ -78,6 +85,7 @@ const Template2Preview = () => {
       <div className="shadow-lg p-4 bg-white font-sans-serif w-full h-full ">
         <div className="grid grid-cols-3 h-full">
           <div className=" h-full p-4 rounded-s-md">
+            {/* Picture section */}
             <div className="flex justify-center items-start">
               {pictureUrl ? (
                 <img
@@ -93,6 +101,7 @@ const Template2Preview = () => {
                 />
               )}
             </div>
+            {/* Personal information section */}
             <div className="flex justify-center mt-4 mb-10 items-center ">
               <h3 className="text-gray-800 font-semibold text-xl text-center">
                 {personalInfo.firstName} {personalInfo.middleName}{" "}
@@ -101,6 +110,7 @@ const Template2Preview = () => {
             </div>
 
             <div className="flex flex-col mb-4">
+              {/* Conatct information */}
               <h3 className="mb-1 font-medium"> Contact Infomation</h3>
               <hr className="border-blue-400 rounded-lg border-1 mb-4" />
               <div className=" rounded-md">
@@ -113,7 +123,7 @@ const Template2Preview = () => {
                       <li className="mb-1"> <FontAwesomeIcon icon={faPhone} />{" "} {contactInfo.phone}</li>
                     </>
                   )}
-
+                  {/*Social links */}
                   {links &&
                     links.map((social, index) => (
                       <li key={index} className="mb-2 relative">
@@ -162,7 +172,7 @@ const Template2Preview = () => {
                 </ul>
               </div>
             </div> */}
-
+            {/* Refrees section */}
             <div className="flex flex-col">
               <h3 className="font-medium mb-1"> Refrees</h3>
               <hr className="border-blue-400 rounded-lg border-1 mb-2" />
@@ -206,6 +216,7 @@ const Template2Preview = () => {
           </div>
 
           <div className=" col-span-2 p-4 rounded-e-md">
+            {/* summery*/}
             <div className="mb-2">
               <h3 className="mb-1">
                 <span className="font-medium">Profile</span>
@@ -215,7 +226,7 @@ const Template2Preview = () => {
                 {summery}
               </p>
             </div>
-
+            {/* Experience section */}
             <div className="mb-2">
               <h3 className="mb-1">
                 <span className="font-medium">Work Experience</span>
@@ -271,7 +282,7 @@ const Template2Preview = () => {
                   ))}
               </div>
             </div>
-
+            {/* Education section */}
             <div className="mb-2">
               <h3 className="mb-1">
                 <span className="font-medium">
@@ -316,6 +327,7 @@ const Template2Preview = () => {
               </div>
             </div>
 
+            {/* Highlights section */}
             {highlights && highlights.length > 0 && (
               <div className="mb-2">
                 <h3 className="mb-1">

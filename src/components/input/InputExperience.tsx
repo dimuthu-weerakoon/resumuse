@@ -97,7 +97,7 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
     }
   }, [editMode, editingExperience?.skills, selectedSkills, dispatch]); // dependecy array if changes editmode , editng experince and selected skills and dispacth
 
-//function to suggest Job Roles
+  //function to suggest Job Roles
 
   async function handleAiSuggestTitle() {
     //calling async function suggestJobroles from AiGeneratives
@@ -112,7 +112,7 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
     setLocation({ state, city, country });
   }, [state, city, country]); // re run when state , city ,country change
 
- // function to clear form 
+  // function to clear form
   const clearExp = () => {
     setTitle("");
     setType("");
@@ -153,10 +153,9 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
     }
   }, [editMode, dispatch]); // re-run when change edit mode or dispatch
 
-
   //function to add description or edit
   const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    // trimmed user input 
+    // trimmed user input
     const value = e.currentTarget.value.trim();
     // check has user input and press enter
     if (e.key === "Enter" && value) {
@@ -173,56 +172,73 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
       setCurrentInput("");
     }
   };
-//
+  //
   const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
+    e.preventDefault(); //prevent default form submition
+
+    //local states as propperties of experince object
     const newExp: Experience = {
       title,
       type,
       company,
       description,
       status,
-      skills: editMode ? editingExperience?.skills : selectedSkills,
+      skills: editMode ? editingExperience?.skills : selectedSkills, //when editmode skills set to editing experince skills else skills as selected skills
       dates: { startDate, endDate },
       location,
     };
+    //check title and company and start date are not empty
     if (
       title.trim() !== "" &&
       company.trim() !== "" &&
       startDate.trim() !== ""
     ) {
+      //when editmode update editng experince else add new experince
       editMode
         ? dispatch(updateExpereince(newExp))
         : dispatch(addExperience(newExp));
     } else {
+      //if false return back
       return;
     }
+    //clear form after submit
     clearExp();
+    // dispatch action to clear slected skills
     dispatch(clearSelectedSkills());
   };
 
+  // function for handle end date
+
   const handleEndDate = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //target element value
     const selectedEndDate = e.target.value;
+    //check selected date after or equal to start date
     if (new Date(selectedEndDate) >= new Date(startDate)) {
-      setEndDate(selectedEndDate);
-      setisInvalidDate(false);
+      setEndDate(selectedEndDate); // set endd ate to local state end date
+      setisInvalidDate(false); // set false invaliddate state
     } else {
-      setisInvalidDate(true);
+      setisInvalidDate(true); // else set true invalid date state
     }
+    //check if status true
     if (status) {
+      //set Invaliddate flase
       setisInvalidDate(false);
+      //  setEnd date to present
       setEndDate("Present");
     }
   };
 
+  //navigate route to next Input component
   const handleNext = () => {
     navigate(`/template/${templateId}/create/custom-section`);
   };
+  //navigate route to previous Input component
   const handleBack = () => {
     navigate(`/template/${templateId}/create/education`);
   };
 
   return (
+    //framer motion element
     <motion.div
       initial={{ opacity: 0, x: -50 }}
       animate={{ opacity: 1, x: 0 }}
@@ -259,6 +275,8 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
         </p>
       </div>
 
+      {/* Next UI input form */}
+
       <Form validationBehavior="native">
         <div className="flex flex-col gap-3 w-full">
           <Input
@@ -267,26 +285,34 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
             label="Podition / Job Role"
             value={title}
             isRequired
+            // when edit mode and if not editing experince disavle element
             isDisabled={editMode && !editingExperience}
+            //validate prop to validate ui if empty return error message
             validate={(value) => {
               if (value.trim() === "") {
                 return "Please fill this field";
               }
             }}
+            //on change event set title to value and run handleAiSuggest title
             onChange={(e) => {
               setTitle(e.target.value);
               handleAiSuggestTitle();
             }}
           />
+          {/*  check title exits and suggested job roles array not empty */}
 
           {title && suggestedJobRoles.length > 0 && (
             <Listbox
               className="max-h-40"
+              //next ui on action event. get key of listbox items as string and set it title
               onAction={(key) => {
                 setTitle(key as string);
+                //clear suggestions by set suggestesd job roles empty array
                 setSuggestedJobRoles([]);
               }}
             >
+              {/* showing fetched suggestions */}
+
               {suggestedJobRoles.map((job) => (
                 <ListboxItem key={job} textValue={job}>
                   {job}
@@ -294,14 +320,21 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
               ))}
             </Listbox>
           )}
+
+          {/*  selected employment type */}
+
           <Select
             size="sm"
             label="Select Employment Type"
             selectedKeys={new Set([type])}
             value={type}
+            //disable when edit mode and if not editig experince
             isDisabled={editMode && !editingExperience}
+            //onchange set value to type
             onChange={(e) => setType(e.target.value)}
           >
+            {/*  showing elemnts of emplyment array */}
+
             {employeeTypes.map((type) => (
               <SelectItem key={type} value={type}>
                 {type}
@@ -309,13 +342,17 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
             ))}
           </Select>
 
+          {/*Input company  */}
+
           <Input
             size="sm"
+            //disable when edit mode and if not editig experince
             isDisabled={editMode && !editingExperience}
             type="text"
             label="Company / Organization"
             value={company}
             isRequired
+            //next ui validate prop to validate if empty return error
             validate={(value) => {
               if (value.trim() === "") {
                 return "Please fill this field";
@@ -325,19 +362,24 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
               setCompany(e.target.value);
             }}
           />
+          {/* Input Location component */}
 
           <InputLocation
+            //loaction object to memeorize current location
             location={location}
+            //fuction to update location field
             setCity={setCity}
             setState={setState}
             setCountry={setCountry}
           />
+          {/*checkbox to update state status to cuurent working this company  */}
 
           <Checkbox
             type="checkbox"
             id="current-job"
             isSelected={status}
             isDisabled={editMode && !editingExperience}
+            //toggle update status state
             onChange={() => setStatus((prev) => !prev)}
           >
             <span className="text-xs text-blue-950">
@@ -346,12 +388,16 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
           </Checkbox>
 
           <div className="flex gap-2 flex-nowrap">
+            {/*Input satrt date   */}
+
             <Input
+              //validate start date if empty return error message
               validate={(value) => {
                 if (value.trim() === "") {
                   return "Please add Start date";
                 }
               }}
+              //disable when in edit mode and if not editng experince
               isDisabled={editMode && !editingExperience}
               size="sm"
               label="Start Date"
@@ -361,12 +407,15 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
               isRequired
               onChange={(e) => setStartDate(e.target.value)}
             />
+            {/*if not currently working show end date  */}
 
             {!status && (
               <Input
                 size="sm"
                 isDisabled={editMode && !editingExperience}
+                //isInvalid prop if IsInvalidatedate true
                 isInvalid={isInvalidEndDate}
+                //if status true / currently working
                 hidden={status}
                 label="End Date"
                 type="date"
@@ -378,7 +427,10 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
               />
             )}
           </div>
+
           <div className="selected-skills flex gap-2 mt-2">
+            {/*if in editmode and not null editingexperinceskills map  editind experinceskills  */}
+
             {editMode &&
               editingExperience?.skills &&
               editingExperience.skills.map((skill: Skill, index: number) => (
@@ -391,6 +443,7 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
                     type="button"
                     className="remove-skill p-1 rounded-full text-slate-600 "
                     onClick={() => {
+                      //dispatch actions to remove experience skill and and same skill remove from selected skills once
                       dispatch(removeExperienceSkill(skill.skill));
                       dispatch(removeSelectedSkill(skill));
                     }}
@@ -400,13 +453,20 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
                 </span>
               ))}
           </div>
+
+          {/*Input Input skills component  */}
+
           <InputSkills jobRole={title} />
 
           <div>
+            {/*check if in edit mode and editngexperince description not null    */}
+
             {editMode &&
             editingExperience?.description &&
             editingExperience.description.length > 0 ? (
               <ul className="text-xs text-slate-900">
+                {/* mapping editing experince descriptions     */}
+
                 {editingExperience.description.map((desc, index) => (
                   <li
                     key={index}
@@ -419,6 +479,7 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
                         <button
                           type="button"
                           onClick={() =>
+                            //dispatch action to edit selected description by index
                             dispatch(editExperienceDescription(index))
                           }
                         >
@@ -430,6 +491,7 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
                         </button>
                         <button
                           type="button"
+                          //dispatch action to remove selected description
                           onClick={() => dispatch(removeExpDescription(index))}
                         >
                           <FontAwesomeIcon
@@ -444,26 +506,36 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
                 ))}
               </ul>
             ) : null}
+            {/* input textarea for enter descripotion   */}
 
             <Textarea
               size="sm"
+              //diable in editmode and not editing experince
               isDisabled={editMode && !editingExperience}
               label="Description"
+              //set value to current input
               value={currentInput}
+              // onchnage update currentinput state to user input value
               onChange={(e) => setCurrentInput(e.target.value)}
+              //trigger function when onKeyUp function
               onKeyUp={handleKeyUp}
               placeholder="- Enter some decriptions about your work as a list and press Enter"
             ></Textarea>
           </div>
           <div className="p-2">
+            {/* button for submit   */}
+
             <Button
               size="sm"
               variant="flat"
+              //diable when edit mode and if no editing experince object
               isDisabled={editMode && !editingExperience}
               className="input-action-btn max-w-fit"
               type="button"
+              //onclick event trigger function handlesubmit
               onClick={handleSubmit}
             >
+              {/*change fontawesome icon and button text when in edit mode   */}
               <FontAwesomeIcon icon={editMode ? faRepeat : faPlusCircle} />{" "}
               {editMode ? "Update" : "Add Experience"}
             </Button>

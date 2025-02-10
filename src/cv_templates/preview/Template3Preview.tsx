@@ -35,21 +35,22 @@ const Template3Preview = () => {
   const { highlights, heading }: { highlights: Highlight[], heading: string } = useSelector(
     (state: any) => state.highlight
   );
-
+// function to handle edit social media links
   const handleEditSocialMedia = (index: number) => {
     dispatch(editSocialLink(index))
     navigate(`/template/3/create/social-link`);
   }
-
+// function to handle edit education
   const handleEditEducation = (index: number) => {
     dispatch(editEducation(index))
     navigate(`/template/3/create/education`);
   }
-
+// function to handle edit experince
   const handleEditExperiences = (index: number) => {
     dispatch(editExperience(index))
     navigate(`/template/3/create/experience`)
   }
+  // function to handle edit highlights
   const handleEditHighlights = (index: number) => {
     dispatch(editHighlight(index))
     navigate(`/template/3/create/custom-section`)
@@ -59,10 +60,12 @@ const Template3Preview = () => {
     <div className=" w-full h-[29.7cm]  ">
       <div className="p-8 font-sans-serif w-full h-full bg-white">
         <div className="mb-4">
+          {/* Personal information */}
           <h3 className="font-semibold text-xl -tracking-tighter capitalize">
             {personalInfo.firstName}{" "} {personalInfo.middleName}{" "}
             {personalInfo.lastName}
           </h3>
+          {/* Contact information */}
           <ul className="flex gap-2 items-center font-light text-xs italic">
             <li>
               {(contactInfo.location?.city || contactInfo.location?.country) && (
@@ -78,6 +81,7 @@ const Template3Preview = () => {
             <li>{contactInfo.phone}<span className="font-bold ml-2 not-italic text-sm text-blue-950">|</span></li>
             <li>{contactInfo.email}</li>
           </ul>
+          {/* Social Links */}
           <ul className="flex gap-2 items-center font-light text-xs italic">
             {links.map((social, index) => (
               <li key={index} className="flex items-center relative">
@@ -105,9 +109,9 @@ const Template3Preview = () => {
               </li>
             ))}
           </ul>
-
         </div>
 
+        {/* Summery */}
         <div className="mb-4">
           <h3 className="font-medium text-lg -tracking-tighter uppercase">Carrer Overview</h3>
           <hr className="border-blue-900 border-1 mb-2" />
@@ -116,6 +120,7 @@ const Template3Preview = () => {
           </p>
         </div>
 
+        {/* Experience section */}
         <div className="mb-4">
           <h3 className="font-medium text-lg -tracking-tighter uppercase">Work Experience</h3>
           <hr className="border-blue-900 border-1 mb-2" />
@@ -146,7 +151,7 @@ const Template3Preview = () => {
               {exp.skills && exp.skills.length > 0 && (
                 <div className="flex items-center gap-3">
                   <h5 className="text-xs font-medium mt-1">Improved skills: </h5>
-                  <span className="text-xs">{exp.skills.map(skill=>skill.skill).join(",")} </span>
+                  <span className="text-xs">{exp.skills.map(skill => skill.skill).join(",")} </span>
                 </div>
               )}
 
@@ -171,6 +176,7 @@ const Template3Preview = () => {
           ))}
 
         </div>
+        {/* hightlights section */}
         {highlights.length > 0 && (
           <div className="mb-4">
             <h3 className="font-medium text-lg -tracking-tighter uppercase">{heading}</h3>
@@ -220,6 +226,8 @@ const Template3Preview = () => {
 
           </div>
         )}
+
+        {/* educations section */}
         <div className="mb-4">
           <h3 className="font-medium text-lg -tracking-tighter uppercase">Education</h3>
           <hr className="border-blue-900 border-1 mb-2" />

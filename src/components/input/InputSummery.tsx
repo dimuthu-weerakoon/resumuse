@@ -8,7 +8,7 @@ import { useNavigate } from "react-router"
 import { Textarea, Button } from "@nextui-org/react"
 import { motion } from "framer-motion"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faArrowLeft, faArrowRight, faMagicWandSparkles, faPlusCircle } from "@fortawesome/free-solid-svg-icons"
+import { faArrowLeft, faMagicWandSparkles, faPlusCircle } from "@fortawesome/free-solid-svg-icons"
 import RouteRules from "../../TemplateRoutes/RouteRules"
 
 
@@ -17,25 +17,33 @@ import RouteRules from "../../TemplateRoutes/RouteRules"
 
 const InputSummery = ({ templateId }: { templateId: number }) => {
 
+    //experince global state from redux store 
     const experience: Experience[] = useSelector((state: any) => state.experience)
+    // use navigate from react router 
     const navigate = useNavigate()
-
+    // summery state 
     const [summery, setSummery] = useState<string>("")
+    //dispatch redux action
     const dispatch = useDispatch()
-
+    // function to handle ai genearted summery
     const handleAiSummery = async () => {
+        // clear exitsiting input
         setSummery("")
+        //call function generateAiSummery.
+        //passs experiences array ass parameter to generate summery to relavent experinces
         const aiSummery = await generateAiSummery(experience);
+        //update summery state to ai generate summery or if not generated empty value
         setSummery(aiSummery || "")
     }
 
-
+    // handle summery 
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault()
+        //dispatch add summery 
         dispatch(addSummery(summery))
     }
 
-
+    //naviagete back to previous section
 
     const handleBack = () => {
         navigate(`/template/${templateId}/create/custom-section`);
@@ -61,7 +69,7 @@ const InputSummery = ({ templateId }: { templateId: number }) => {
                 <div className="flex justify-between gap-5 w-full">
 
                     <div className="flex gap-3">
-                        <Button size="sm" type="button" className="input-action-btn" onClick={handleSubmit}>
+                        <Button size="sm" type="button" className="input-action-btn" onClick={handleSubmit}> 
                             <FontAwesomeIcon icon={faPlusCircle} />   Add</Button>
                         <Button size="sm" type="button" className="input-action-btn" onClick={handleAiSummery}>
                             <FontAwesomeIcon icon={faMagicWandSparkles} />  Generate </Button>

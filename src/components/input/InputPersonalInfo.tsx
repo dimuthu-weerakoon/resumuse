@@ -10,11 +10,11 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 const InputPersonalInfo = ({ templateId }: { templateId: number }) => {
   const personalInfo: PersonalInfo = useSelector(
     (state: any) => state.personalInfo
-  );
+  );  //personal info state from redux store
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  //naviagte to next component
   const handleNext = () => {
     navigate(`/template/${templateId}/create/contact-Info`);
   };
@@ -47,6 +47,7 @@ const InputPersonalInfo = ({ templateId }: { templateId: number }) => {
             label="First Name"
             value={personalInfo.firstName}
             onChange={(e) =>
+              // 
               dispatch(
                 addPersonalInfo({ ...personalInfo, firstName: e.target.value })
               )

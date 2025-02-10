@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const Finalize = ({ previewTemplate }: { previewTemplate: JSX.Element }) => {
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false); // states for open and close dialog paneel in preview pannel;
 
   return (
     <motion.div
@@ -45,6 +45,7 @@ const Finalize = ({ previewTemplate }: { previewTemplate: JSX.Element }) => {
           <p className="text-xs text-blue-900 font-medium">
             <FontAwesomeIcon icon={faExclamationTriangle} /> Have any
             corrections on previous steps ?{" "}
+            {/* link to naviagete previous route */}
             <Link to={-1} className="text-blue-700 underline">
               Go Back
             </Link>
@@ -53,6 +54,7 @@ const Finalize = ({ previewTemplate }: { previewTemplate: JSX.Element }) => {
       </motion.div>
 
       <PreviewPanel open={open} setOpen={setOpen}>
+            {/* Preview pannel children current preview template */}
         {previewTemplate}
       </PreviewPanel>
     </motion.div>

@@ -6,10 +6,12 @@ const Template1 = () => {
   return (
     <>
       <div className="template-grid">
+         {/* Rendering InputSteps Components */}
         <div>{useOutlet()}</div>
 
         <div className="template-preview-container  ">
           <div className="scaled-template ">
+             {/* Scaled template display */}
             <Template3Preview />
           </div>
         </div>

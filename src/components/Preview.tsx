@@ -5,15 +5,15 @@ import { ReactNode, useRef } from "react";
 import PdfSetup from "./PdfSetup";
 
 export default function PreviewPanel({
-  open,
-  setOpen,
-  children,
+  open, // state for open dialog box
+  setOpen, // setter function to update open state
+  children, // children element
 }: {
-  open: boolean;
+  open: boolean; 
   setOpen: any;
   children: ReactNode;
 }) {
-  const canvas = useRef<HTMLDivElement>(null);
+  const canvas = useRef<HTMLDivElement>(null); // ref object for canvas
   return (
     <div>
       <Dialog open={open} onClose={setOpen} className="relative  z-[300]">
@@ -25,6 +25,7 @@ export default function PreviewPanel({
         <div className="fixed inset-0 z-10 w-full overflow-y-auto">
           <div className=" flex min-h-screen  items-center justify-center p-4 text-center sm:items-center sm:p-0">
             <div className=" absolute right-20 top-0 m-4 z-20">
+              {/* pdf setup componets and pass canvas as prop  */}
               <PdfSetup canvas={canvas} />
             </div>
 
@@ -33,7 +34,9 @@ export default function PreviewPanel({
               className=" mt-3 relative transform overflow-hidden  bg-white text-left shadow-xl transition-all  data-[enter]:ease-out data-[leave]:ease-in sm:my-8 "
             >
               <div className="w-full max-w-[21cm] h-full max-h-[29.7cm] overflow-auto">
-                <div className="" ref={canvas}>
+                <div className="" 
+                //ref object elemeb which print as canvas in pdf
+                ref={canvas}> 
                   {children}
                 </div>
               </div>

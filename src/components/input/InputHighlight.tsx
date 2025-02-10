@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import {
@@ -59,12 +59,14 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
     editingHighlightDesc,
     editingHighlightUrl,
   }: {
-    heading: string;
-    editingHighlight: Highlight | null;
-    editingHighlightDesc: string | null;
-    editingHighlightUrl: SocialLink | null;
+    heading: string; //heading state from redux store
+    editingHighlight: Highlight | null; //editinghighlight state from redux store
+    editingHighlightDesc: string | null; // editing highlight decription state from redux store
+    editingHighlightUrl: SocialLink | null; //editing highlight url state from redux store
   } = useSelector((state: any) => state.highlight);
-  const editMode: boolean = useSelector((state: any) => state.editmode);
+  const editMode: boolean = useSelector((state: any) => state.editmode); // editmode state from redux store
+
+  // function to claer form
   const clearForm = () => {
     setTitle("");
     setStartDate("");
@@ -75,14 +77,20 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
     setLink("");
     setCurrentInput("");
   };
+  // useEffect to clear editng highlight and clear from
   useEffect(() => {
+    //check if not in edit mode
     if (!editMode) {
+      //dispatch action clear editing
       dispatch(clearEditingHighlight());
+      //clear form
       clearForm();
     }
-  }, [editMode, dispatch]);
+  }, [editMode, dispatch]); // re run when edit mode and dispatch changed
 
-  useMemo(() => {
+  // useEffect to update local states to  editng highlight values
+  useEffect(() => {
+    //check if in edit mode and has editing highlight
     if (editMode && editingHighlight) {
       setTitle(editingHighlight.title);
       setStartDate(editingHighlight.dates.startDate);
@@ -90,86 +98,128 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
       setDescription(editingHighlight.description);
       setUrls(editingHighlight.urls);
     }
-  }, [editMode, editingHighlight]);
+  }, [editMode, editingHighlight]); //re run when edit mode editng hight changed
 
-  useMemo(() => {
+  //useeffect editnghight light description nly change if dependecy array value changes
+  useEffect(() => {
     if (editMode && editingHighlightDesc) {
       setCurrentInput(editingHighlightDesc);
     }
   }, [editMode, editingHighlightDesc]);
-  useMemo(() => {
+  // use effect to memorize editnghight light url only change if dependecy array value changes
+  useEffect(() => {
     if (editMode && editingHighlightUrl) {
       setLink(editingHighlightUrl.link);
       setPlatform(editingHighlightUrl.platform);
     }
   }, [editMode, editingHighlightUrl]);
 
+  //function to handle url 
   const handleUrls = () => {
+    //get trimmed link
     const trimmedLink = link.trim();
+    //check if platform and trimed link not null
     if (!platform && !trimmedLink) {
-      setPlatform("");
-      setLink("");
-      setInvalid(false);
-      setErrorMessage(null);
+
+      setPlatform("");//set paltform empty string
+      setLink(""); //set link empty string
+      setInvalid(false); //set invalid false
+      setErrorMessage(null); // ser error message null
+      return
     }
+
+
     try {
+
+      // create  url object using trimmed link
       const checkUrl = new URL(trimmedLink);
+      //check if url protocol not https and if not platform 
       if (checkUrl.protocol !== "https:" || !platform) {
+        // update state Invalid true
         setInvalid(true);
+        // update state error message 
         setErrorMessage("Invalid URL");
+        // and return
         return;
       }
+
+      //check if paltform equals to github and url hostname not github.com
       if (platform === "github" && checkUrl.hostname !== "github.com") {
+        //upadte state invalid true
         setInvalid(true);
+        //update error message state
         setErrorMessage("Enter a Valid Platform URL");
+        //and return
         return;
       }
     } catch (error) {
+      //upadte state invalid true
       setInvalid(true);
+      //update error message state
       setErrorMessage("Invalid URL");
+      //and return 
       return;
     }
+
+
+    //if not both platform and link
     if (!platform && !link) {
+      //set invlaid false
       setInvalid(false);
+      //set error message null
       setErrorMessage(null);
     }
+    //set invlaid false
     setInvalid(false);
+    //set invlaid false
     setErrorMessage(null);
 
+    //create object new url 
     const newUrl: SocialLink = {
       platform: platform,
       link: link,
     };
 
+    //check if editmode and not editnghighlight object
     if (editMode && !editingHighlightUrl) {
-      dispatch(addMoreUrls(newUrl));
+      dispatch(addMoreUrls(newUrl)); //disapatch action add more url
     }
-
+    // if edit mode update editing highlight url if add url to urls state 
     editMode
       ? dispatch(updateHighlightUrl(newUrl))
       : setUrls((prev) => [...prev, newUrl]);
-
+    //clear both platform and link input
     setPlatform("");
     setLink("");
 
     console.log(urls);
   };
 
+
+  // function to handle descriptions
   const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    //get user input from textarea
     const value = e.currentTarget.value.trim();
+    //check if keyboard event key press enter and has value
     if (e.key === "Enter" && value) {
-      e.preventDefault();
+      //nested if if in editmode and if has not editng highlight description 
       if (editMode && !editingHighlightDesc) {
-        dispatch(addMoreDescriptions(value));
+        dispatch(addMoreDescriptions(value)); // dispacth action to add more descriptions
       }
+      // if in edit mode dispatch action to  update editng highlight description
+      //if not set value to descriptions state array
       editMode
         ? dispatch(updateEditingHighlightDesc(value))
         : setDescription((prev) => [...prev, value]);
+      //clear input
       setCurrentInput("");
     }
   };
+  //function to handle submit
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault() // prevent default submitions
 
-  const handleSubmit = () => {
+    //create highkight object
     const newHighlight: Highlight = {
       title: title,
       dates: {
@@ -180,23 +230,32 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
       description: description,
     };
 
+    //check if title and heading and description array are not empty
+
     if (
       title.trim() !== "" &&
       heading.trim() !== "" &&
       description.length > 0
     ) {
+
+      //if in edit mode dispatch action to upodate highlight
+      //else dispatch action to add highlight
       editMode
         ? dispatch(updateHighlight(newHighlight))
         : dispatch(addHighlight(newHighlight));
     } else {
+      //if conditions false return
       return;
     }
+    //clear form
     clearForm();
   };
 
+  //navigate route to next input component
   const handleNext = () => {
     navigate(`/template/${templateId}/create/summery`);
   };
+  //navigate route to previous component
   const handleBack = () => {
     navigate(`/template/${templateId}/create/experience`);
   };
@@ -295,8 +354,8 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
 
           <div>
             {editMode &&
-            editingHighlight?.description &&
-            editingHighlight.description.length > 0 ? (
+              editingHighlight?.description &&
+              editingHighlight.description.length > 0 ? (
               <ul className="text-xs text-slate-900">
                 {editingHighlight.description.map((desc, index) => (
                   <li
@@ -309,6 +368,7 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
                         <button
                           type="button"
                           onClick={() =>
+                            //if click dispatch edit highlight description by index
                             dispatch(editHighlightDescription(index))
                           }
                         >
@@ -321,6 +381,8 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
                         <button
                           type="button"
                           onClick={() =>
+                            //if click dispatch remove highlight description by index
+
                             dispatch(removeHighlightDescription(index))
                           }
                         >
@@ -336,10 +398,12 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
                 ))}
               </ul>
             ) : null}
+
+
             <Textarea
               label="Description"
               validate={(value) => {
-                if (value.trim() === "") {
+                if (value.trim() === "" && !editingHighlight) {
                   return "Please add some descriptions";
                 }
               }}
@@ -354,15 +418,15 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
 
           <div>
             {editMode &&
-            editingHighlight?.urls &&
-            editingHighlight.urls.length > 0 ? (
+              editingHighlight?.urls &&
+              editingHighlight.urls.length > 0 ? (
               <ul className="text-xs text-slate-900">
                 {editingHighlight.urls.map((url, index) => (
-                  <li key={index} 
-                  className="relative selected-skill bg-slate-300 p-1 mb-1 border rounded-md border-slate-400 font-medium text-xs"
+                  <li key={index}
+                    className="relative selected-skill bg-slate-300 p-1 mb-1 border rounded-md border-slate-400 font-medium text-xs"
 
                   >
-                    
+
 
                     <FontAwesomeIcon icon={iconNames[url.platform]} />{" "}
                     <a
@@ -418,12 +482,15 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
               isDisabled={editMode && !editingHighlight}
               size="sm"
             >
+
+{/* returns each socialplaform array element */}
+              
               {socialPlatforms.map((social) => (
                 <SelectItem
                   key={social.platform}
                   value={social.platform}
-                  
-                  isReadOnly={editingHighlightDesc?.valueOf &&  platform !== social.platform}
+
+               //next ui start content icon s of social platforms
                   startContent={
                     <FontAwesomeIcon
                       icon={iconNames[social.platform]}
@@ -460,7 +527,7 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
               variant="flat"
               className="input-action-btn max-w-fit"
               type="button"
-              onPress={handleSubmit}
+              onClick={handleSubmit}
               size="sm"
               isDisabled={editMode && !editingHighlight}
             >
@@ -472,7 +539,7 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
       </Form>
     </motion.div>
   );
-  
+
 };
 
 export default InputHighlight;

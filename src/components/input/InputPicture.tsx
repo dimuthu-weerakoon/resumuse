@@ -1,14 +1,13 @@
 import {
   faArrowLeft,
   faArrowRight,
-  faCancel,
   faClose,
   faUpload,
   faUserCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "@nextui-org/react";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearPicture, setPicture } from "../../redux/slices/PictureSlice";
 import { motion } from "framer-motion";
@@ -16,65 +15,85 @@ import { useNavigate } from "react-router-dom";
 
 const InputPicture = ({ templateId }: { templateId: number }) => {
   const { pictureFile }: { pictureFile: File | null } = useSelector(
-    (state: any) => state.picture
+    (state: any) => state.picture //picture file state from state redux store
   );
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const fileInput = useRef<HTMLInputElement | null>(null);
-  const [dragging, setDragging] = useState<boolean>(false);
-  const pictureUrl = pictureFile ? URL.createObjectURL(pictureFile) : null;
+  const navigate = useNavigate(); // usenavigate hook from react router dom
 
+  const dispatch = useDispatch(); //useDispatch hook from redux store
+
+  const fileInput = useRef<HTMLInputElement | null>(null); // mutable ref objectb of input file element
+  const [dragging, setDragging] = useState<boolean>(false); // local state for manage drag event
+  const pictureUrl = pictureFile ? URL.createObjectURL(pictureFile) : null; // create object url from file
+
+  //navigate route to next input componenet
   const handleNext = () => {
     navigate(`/template/${templateId}/create/finalize`);
   };
+  //navigate route to previous input componenet
+
   const handleBack = () => {
     navigate(`/template/${templateId}/create/refrees`);
   };
+
+  //function to input file click
   const handleFileClick = () => {
     if (fileInput.current) {
       fileInput.current.click();
     }
   };
 
+  // function to handle event file dragging
   const handleFileDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     setDragging(true);
   };
 
+  //function to handle event drag leave
   const handleFileDragLeave = async (e: React.DragEvent) => {
     e.preventDefault();
     setDragging(false);
   };
 
+  //function to handle drop
   const handleFileDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setDragging(false);
+    //check if has event datatransfer files and its not empty
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      //   get first element from datatrasfer files array
       const file = e.dataTransfer.files[0];
+      // dispatch action to set picture file to selected file
       dispatch(setPicture(file));
     }
   };
 
+  // function to handle file after upload
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //if has file list and its nort empty
     if (e.target.files && e.target.files.length > 0) {
+      // dispatch action to set picture file to uploaded file
       dispatch(setPicture(e.target.files[0]));
     }
   };
-
+  // funtion to remove file
   const handleFileRemove = () => {
+    // if exists picture file
     if (pictureFile) {
+      // duspatchb action to clear picture file
       dispatch(clearPicture());
     }
   };
 
+  //use effect to  release existing object url to  avoid memeory leak
   useEffect(() => {
+    //return clean up function to clear object urls from browser memeory
     return () => {
       if (pictureUrl) {
         URL.revokeObjectURL(pictureUrl);
       }
     };
-  }, [pictureFile]);
+  }, [pictureFile]); // if file chnaged exitsting objects urls will be removed from memeory
 
   return (
     <motion.div
@@ -112,9 +131,9 @@ const InputPicture = ({ templateId }: { templateId: number }) => {
         </p>
       </div>
       <div
-        onDrop={handleFileDrop}
-        onDragOver={handleFileDragOver}
-        onDragLeave={handleFileDragLeave}
+        onDrop={handleFileDrop} //on drop event trigger handleFileDrop function
+        onDragOver={handleFileDragOver} //on dragover event trigger handleFileDragover function
+        onDragLeave={handleFileDragLeave} //on drag leave event trigger handleFileDragleave function
         className={`${
           dragging && "bg-blue-200"
         } flex flex-col gap-4 justify-center items-center w-full border-blue-200 border-dashed border-2 rounded-lg p-3`}
@@ -125,10 +144,11 @@ const InputPicture = ({ templateId }: { templateId: number }) => {
             type="file"
             onChange={handleFileChange}
             name="img"
-            ref={fileInput}
+            ref={fileInput} // ref of element
             className="hidden"
           />
         </div>
+
 
         {pictureUrl ? (
           <img
@@ -147,7 +167,9 @@ const InputPicture = ({ templateId }: { templateId: number }) => {
         <div className="flex justify-between flex-nowrap gap-3">
           <Button
             size="sm"
+            
             onPress={handleFileClick}
+
             className="shadow-blue-700 shadow-xl input-action-btn"
           >
             <FontAwesomeIcon icon={faUpload} /> Upload

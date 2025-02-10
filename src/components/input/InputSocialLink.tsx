@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SocialLink } from "../../types/SocialLinks";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -50,30 +50,42 @@ const InputSocialLink = ({ templateId }: { templateId: number }) => {
     }
   }, [editMode, dispatch]);
 
-  const handleSubmit = (isEdit: boolean) => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    //get trimmed input 
+    const trimmedLink = link.trim()
     try {
-      const checkUrl = new URL(link);
+      // create url from trimmed input
+      const checkUrl = new URL(trimmedLink);
+      //check if url protocol not https and if not platform
       if (checkUrl.protocol !== "https:" || !platform) {
+        // throw error
         throw new Error("Invalid URL");
       }
+      // check platform equals to linkedlin and url hostname not equal to these platform names
       if (
         (platform === "linkedin" && checkUrl.hostname !== "linkedin.com") ||
         (platform === "github" && checkUrl.hostname !== "github.com")
       ) {
+        // throw error invalid platform 
         throw new Error("Enter a valid platform URL");
       }
-
+      // update state Invalid flase
       setInvalid(false);
+      //update error message
       setErrorMessage(null);
-
+      // create social link  object
       const socialLink: SocialLink = { platform, link };
-      dispatch(
-        isEdit ? updateSocialLink(socialLink) : addSocialLink(socialLink)
-      );
+      // dispatch action if in edit mode update social link if not add social link
+      dispatch(editMode ? updateSocialLink(socialLink) : addSocialLink(socialLink));
+      // clear input field after submit
       setPlatform("");
       setLink("");
     } catch (error: any) {
+      //if catch error update state invalid true
+
       setInvalid(true);
+      //update error message
       setErrorMessage(error.message);
     }
   };
@@ -117,20 +129,26 @@ const InputSocialLink = ({ templateId }: { templateId: number }) => {
 
       <div className="flex w-full justify-center items-center gap-3 max-lg:flex-wrap">
         <Select
+        //next ui selected keys current platform already selected 
           selectedKeys={new Set(platform ? [platform] : [])}
           required
           size="sm"
           value={platform}
+          //disble element when edit mode if not editng link
           isDisabled={editMode && !editingLink}
           onChange={(e) => setPlatform(e.target.value)}
           label="Select Platform"
         >
+
+        
+        {/*  showing socialplatform with icons in selectitems */}
           {socialPlatforms.map((social) => (
             <SelectItem
               key={social.platform}
               value={social.platform}
               isDisabled={editMode && platform !== social.platform}
               startContent={
+                
                 <FontAwesomeIcon
                   icon={iconNames[social.platform]}
                   color={social.color}
@@ -151,7 +169,7 @@ const InputSocialLink = ({ templateId }: { templateId: number }) => {
           errorMessage={errorMessage}
           isInvalid={inValid}
           endContent={
-            <Button size="sm" isIconOnly onPress={() => handleSubmit(editMode)}>
+            <Button size="sm" isIconOnly onClick={handleSubmit}>
               <FontAwesomeIcon
                 className="text-blue-950"
                 size="lg"
