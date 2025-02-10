@@ -57,6 +57,9 @@ const InputSummery = ({ templateId }: { templateId: number }) => {
             transition={{ duration: 0.8, }} className="w-full">
             <div className="flex justify-between mb-4">
                 <Button size="sm" onPress={handleBack} className="input-nav-btn"> <FontAwesomeIcon icon={faArrowLeft} /> </Button>
+                {/* component to retuirn navigation 
+            only naviagte next route when matching template id
+            */}
                 <RouteRules templateId={templateId} />
             </div>
 
@@ -69,7 +72,7 @@ const InputSummery = ({ templateId }: { templateId: number }) => {
                 <div className="flex justify-between gap-5 w-full">
 
                     <div className="flex gap-3">
-                        <Button size="sm" type="button" className="input-action-btn" onClick={handleSubmit}> 
+                        <Button size="sm" type="button" className="input-action-btn" onClick={handleSubmit}>
                             <FontAwesomeIcon icon={faPlusCircle} />   Add</Button>
                         <Button size="sm" type="button" className="input-action-btn" onClick={handleAiSummery}>
                             <FontAwesomeIcon icon={faMagicWandSparkles} />  Generate </Button>

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import ContactInfo from "../../types/ContactInfo";
-
+// initial state of contact info all props empty
 const initialState:ContactInfo={
     address: "",
     location: {
@@ -11,11 +11,14 @@ const initialState:ContactInfo={
     phone: "",
     email: ""
 }
-
+//create contact info slice
 const contactInfoSlice  = createSlice({
-    name:'contactInfo',
-    initialState:initialState,
+    name:'contactInfo', // slice name
+    initialState:initialState, 
+    //reducer functions
     reducers:{
+        //functions to add contact info 
+        //update state to action payload
         addContactInfo(state,action:PayloadAction<ContactInfo>){
             state.address = action.payload.address
             state.location = action.payload.location
@@ -25,7 +28,7 @@ const contactInfoSlice  = createSlice({
     }
 })
 
-
+//export slice actions 
 export const {addContactInfo} = contactInfoSlice.actions
-
+// export reducer
 export default contactInfoSlice.reducer
