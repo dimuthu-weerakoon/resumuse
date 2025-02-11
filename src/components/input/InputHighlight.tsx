@@ -199,6 +199,7 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
   // function to handle descriptions
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     //get user input from textarea
+    e.preventDefault()
     const value = e.currentTarget.value.trim();
     //check if keyboard event key press enter and has value
     if (e.key === "Enter" && value) {

@@ -156,6 +156,7 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
   //function to add description or edit
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     // trimmed user input
+    e.preventDefault()
     const value = e.currentTarget.value.trim();
     // check has user input and press enter
     if (e.key === "Enter" && value) {

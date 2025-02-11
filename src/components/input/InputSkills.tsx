@@ -33,6 +33,7 @@ const InputSkills = ({ jobRole }: { jobRole: string }) => {
 
   // function to add skills without using ai suggested skills
   const addSkillManually = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    e.preventDefault()
     //get trimmed user input value
     const value = e.currentTarget.value.trim();
     if (value !== "" && e.key === "Enter") {
