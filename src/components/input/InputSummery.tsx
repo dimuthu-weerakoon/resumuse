@@ -68,7 +68,9 @@ const InputSummery = ({ templateId }: { templateId: number }) => {
                 <p className="input-sub-heading">Add your work experience, highlighting your roles, companies, and key achievements</p>
             </div>
             <form >
-                <Textarea label="Enter your Summery or Generate Using AI" className=" mb-3" value={summery} cols={5} rows={5} onChange={e => setSummery(e.target.value)}></Textarea>
+                <Textarea
+
+                    label="Enter your Summery or Generate Using AI" className=" mb-3" value={summery} cols={5} rows={5} onChange={e => setSummery(e.target.value)}></Textarea>
                 <div className="flex justify-between gap-5 w-full">
 
                     <div className="flex gap-3">

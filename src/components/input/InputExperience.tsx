@@ -459,8 +459,8 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
             {/*check if in edit mode and editngexperince description not null    */}
 
             {editMode &&
-            editingExperience?.description &&
-            editingExperience.description.length > 0 ? (
+              editingExperience?.description &&
+              editingExperience.description.length > 0 ? (
               <ul className="text-xs text-slate-900">
                 {/* mapping editing experince descriptions     */}
 
@@ -506,6 +506,8 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
             {/* input textarea for enter descripotion   */}
 
             <Textarea
+              enterKeyHint="enter"
+              inputMode="text"
               size="sm"
               //diable in editmode and not editing experince
               isDisabled={editMode && !editingExperience}
@@ -529,8 +531,8 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
               isDisabled={editMode && !editingExperience}
               className="input-action-btn max-w-fit"
               type="submit"
-           
-              
+
+
             >
               {/*change fontawesome icon and button text when in edit mode   */}
               <FontAwesomeIcon icon={editMode ? faRepeat : faPlusCircle} />{" "}

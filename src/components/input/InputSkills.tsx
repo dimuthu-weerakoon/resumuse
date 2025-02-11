@@ -50,7 +50,7 @@ const InputSkills = ({ jobRole }: { jobRole: string }) => {
       }
     }
   };
-//useEffect  fetch skills when job role and search query not empty
+  //useEffect  fetch skills when job role and search query not empty
   useEffect(() => {
     if (jobRole !== "" && searchQuery !== "") {
       fetchAiSkills();
@@ -60,9 +60,11 @@ const InputSkills = ({ jobRole }: { jobRole: string }) => {
   return (
     <div className="">
       <div className="grid grid-cols-1 w-full relative">
-  {/* Input field for searching and adding skills */}
+        {/* Input field for searching and adding skills */}
 
         <Input
+          enterKeyHint="enter"
+          inputMode="text"
           label="Improved Skills"
           type="text"
           id="skills-input"
@@ -72,7 +74,7 @@ const InputSkills = ({ jobRole }: { jobRole: string }) => {
           onKeyDown={addSkillManually}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-    {/* Show skills list when searchQuery is not empty */}
+        {/* Show skills list when searchQuery is not empty */}
 
         {searchQuery ? (
           <ul className="shadow-xl bg-white w-full z-10 flex flex-col items-start overflow-y-auto max-h-40 absolute top-full left-0">
@@ -99,7 +101,7 @@ const InputSkills = ({ jobRole }: { jobRole: string }) => {
         ) : (
           ""
         )}
-    {/* show selected skills  */}
+        {/* show selected skills  */}
         <div className="selected-skills flex gap-2 mt-2">
           {selectedSkills.map((skill: Skill, index: number) => (
             <span

@@ -197,7 +197,7 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
 
 
   // function to handle descriptions
-  const handleKeyDown= (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     //get user input from textarea
     const value = e.currentTarget.value.trim();
     //check if keyboard event key press enter and has value
@@ -234,7 +234,7 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
 
     if (
       title.trim() !== "" &&
-      heading.trim() !== "" 
+      heading.trim() !== ""
     ) {
 
       //if in edit mode dispatch action to upodate highlight
@@ -400,6 +400,8 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
 
 
             <Textarea
+              enterKeyHint="enter"
+              inputMode="text"
               label="Description"
               size="sm"
               value={currentInput}
@@ -477,14 +479,14 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
               size="sm"
             >
 
-{/* returns each socialplaform array element */}
-              
+              {/* returns each socialplaform array element */}
+
               {socialPlatforms.map((social) => (
                 <SelectItem
                   key={social.platform}
                   value={social.platform}
 
-               //next ui start content icon s of social platforms
+                  //next ui start content icon s of social platforms
                   startContent={
                     <FontAwesomeIcon
                       icon={iconNames[social.platform]}
