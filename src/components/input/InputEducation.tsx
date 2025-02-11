@@ -342,8 +342,6 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
             className="input-action-btn max-w-fit"
             type="submit"
             isDisabled={editMode && !editingEducation}
-            //onclick trigger submit function
-            onClick={handleSubmit}
           >
             <FontAwesomeIcon icon={editMode ? faRepeat : faPlusCircle} />{" "}
             {editMode ? "Update" : "Add education"}

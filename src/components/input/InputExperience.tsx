@@ -274,7 +274,7 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
         </p>
       </div>
       {/* Next UI input form */}
-      <Form validationBehavior="native">
+      <Form validationBehavior="native" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-3 w-full">
           <Input
             size="sm"
@@ -528,9 +528,9 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
               //diable when edit mode and if no editing experince object
               isDisabled={editMode && !editingExperience}
               className="input-action-btn max-w-fit"
-              type="button"
-              //onclick event trigger function handlesubmit
-              onClick={handleSubmit}
+              type="submit"
+           
+              
             >
               {/*change fontawesome icon and button text when in edit mode   */}
               <FontAwesomeIcon icon={editMode ? faRepeat : faPlusCircle} />{" "}

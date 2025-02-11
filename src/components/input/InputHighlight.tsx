@@ -234,8 +234,7 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
 
     if (
       title.trim() !== "" &&
-      heading.trim() !== "" &&
-      description.length > 0
+      heading.trim() !== "" 
     ) {
 
       //if in edit mode dispatch action to upodate highlight
@@ -402,11 +401,6 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
 
             <Textarea
               label="Description"
-              validate={(value) => {
-                if (value.trim() === "" && !editingHighlight) {
-                  return "Please add some descriptions";
-                }
-              }}
               size="sm"
               value={currentInput}
               isDisabled={editMode && !editingHighlight}
@@ -526,8 +520,7 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
             <Button
               variant="flat"
               className="input-action-btn max-w-fit"
-              type="button"
-              onClick={handleSubmit}
+              type="submit"
               size="sm"
               isDisabled={editMode && !editingHighlight}
             >
