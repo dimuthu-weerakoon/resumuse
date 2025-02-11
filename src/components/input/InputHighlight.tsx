@@ -295,7 +295,7 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
           other notable contributions.
         </p>
       </div>
-      <Form validationBehavior="native" >
+      <Form validationBehavior="native" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-3 w-full">
           <Input
             size="sm"
@@ -400,6 +400,8 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
 
 
             <Textarea
+            inputMode="text"
+            enterKeyHint="enter"
               label="Description"
               size="sm"
               value={currentInput}
@@ -520,8 +522,7 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
             <Button
               variant="flat"
               className="input-action-btn max-w-fit"
-              type="button"
-              onClick={handleSubmit}
+              type="submit"
               size="sm"
               isDisabled={editMode && !editingHighlight}
             >

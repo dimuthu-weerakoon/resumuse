@@ -202,7 +202,7 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
         </p>
       </div>
       {/* Next ui Form  */}
-      <Form validationBehavior="native" >
+      <Form validationBehavior="native"  onSubmit={handleSubmit} >
         <div className="flex flex-col gap-3 w-full">
           {/* qualifications input  */}
 
@@ -340,10 +340,10 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
             size="sm"
             variant="flat"
             className="input-action-btn max-w-fit"
-            type="button"
+            type="submit"
             isDisabled={editMode && !editingEducation}
             //onclick trigger submit function
-            onClick={handleSubmit}
+           
           >
             <FontAwesomeIcon icon={editMode ? faRepeat : faPlusCircle} />{" "}
             {editMode ? "Update" : "Add education"}
