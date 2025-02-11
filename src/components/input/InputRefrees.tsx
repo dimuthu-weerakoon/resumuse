@@ -3,8 +3,8 @@ import { Location } from "../../types/Location";
 import InputLocation from "./InputLocation";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { Form, Input } from "@nextui-org/react";
-import { Button } from "@nextui-org/react";
+import { Form, Input } from "@heroui/react";
+import { Button } from "@heroui/react";
 import { motion } from "framer-motion";
 import { Refree } from "../../types/Refree";
 import {

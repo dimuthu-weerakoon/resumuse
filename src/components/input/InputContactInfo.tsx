@@ -2,7 +2,7 @@ import InputLocation from "./InputLocation"; // Import the InputLocation compone
 import { useDispatch, useSelector } from "react-redux"; // Redux hooks to interact with the Redux store
 import { addContactInfo } from "../../redux/slices/ContactInfoSlice"; // Redux action to update contact info
 import { useNavigate } from "react-router"; // Hook to navigate between pages
-import { Button, Input } from "@nextui-org/react"; // Importing Button and Input components from NextUI library
+import { Button, Input } from "@heroui/react"; // Importing Button and Input components from NextUI library
 import ContactInfo from "../../types/ContactInfo"; // Type definition for ContactInfo
 import { Location } from "../../types/Location"; // Type definition for Location
 import { motion } from "framer-motion"; // Import motion for animations

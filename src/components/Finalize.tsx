@@ -1,4 +1,4 @@
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 import PreviewPanel from "./Preview";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -46,7 +46,7 @@ const Finalize = ({ previewTemplate }: { previewTemplate: JSX.Element }) => {
             <FontAwesomeIcon icon={faExclamationTriangle} /> Have any
             corrections on previous steps ?{" "}
             {/* button to naviagete previous route */}
-            <button onClick={()=>navigate(-1)} className="text-blue-700 underline">
+            <button onClick={() => navigate(-1)} className="text-blue-700 underline">
               Go Back
             </button>
           </p>
@@ -54,7 +54,7 @@ const Finalize = ({ previewTemplate }: { previewTemplate: JSX.Element }) => {
       </motion.div>
 
       <PreviewPanel open={open} setOpen={setOpen}>
-            {/* Preview pannel children current preview template */}
+        {/* Preview pannel children current preview template */}
         {previewTemplate}
       </PreviewPanel>
     </motion.div>

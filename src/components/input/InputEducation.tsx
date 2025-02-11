@@ -18,7 +18,7 @@ import {
   Textarea,
   Button,
   Form,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -168,7 +168,7 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
 
   return (
     //framer motion element
-    <motion.div
+    (<motion.div
       initial={{ opacity: 0, x: -50 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -50 }}
@@ -194,7 +194,6 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
           <FontAwesomeIcon icon={faArrowRight} />
         </Button>
       </div>
-
       <div className="mb-4">
         <h2 className="input-heading">Education</h2>
         <p className="input-sub-heading">
@@ -202,9 +201,7 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
           graduation dates.
         </p>
       </div>
-
       {/* Next ui Form  */}
-
       <Form validationBehavior="native" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-3 w-full">
           {/* qualifications input  */}
@@ -353,7 +350,7 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
           </Button>
         </div>
       </Form>
-    </motion.div>
+    </motion.div>)
   );
 };
 

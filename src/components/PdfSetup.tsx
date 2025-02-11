@@ -1,6 +1,6 @@
 import { faPrint } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 import React from "react";
 import { useReactToPrint } from "react-to-print";
 import { ContentNode } from "react-to-print/lib/types/ContentNode";

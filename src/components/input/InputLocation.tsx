@@ -5,7 +5,7 @@ import {
   fetchCountries,
   fetchStates,
 } from "../../country_API/functions";
-import { Select, SelectItem } from "@nextui-org/react";
+import { Select, SelectItem } from "@heroui/react";
 import { useSelector } from "react-redux";
 
 const InputLocation = ({
@@ -144,9 +144,8 @@ const InputLocation = ({
   return (
     /* Wrapper */
 
-    <div className="flex max-lg:flex-wrap gap-3">
+    (<div className="flex max-lg:flex-wrap gap-3">
       {/* Next UI Select Element selected items in current location's country , state , city */}
-
       {/* Country Select */}
       <Select
         size="sm"
@@ -162,7 +161,6 @@ const InputLocation = ({
       >
         {countryOptions}
       </Select>
-
       {/* State Select */}
       <Select
         size="sm"
@@ -177,7 +175,6 @@ const InputLocation = ({
       >
         {stateOptions}
       </Select>
-
       {/* City Select */}
       <Select
         size="sm"
@@ -188,7 +185,7 @@ const InputLocation = ({
       >
         {cityOptions}
       </Select>
-    </div>
+    </div>)
   );
 };
 

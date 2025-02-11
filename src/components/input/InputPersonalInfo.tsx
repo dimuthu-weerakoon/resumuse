@@ -2,7 +2,7 @@ import { PersonalInfo } from "../../types/PersonalInfo";
 import { useDispatch, useSelector } from "react-redux";
 import { addPersonalInfo } from "../../redux/slices/PersonalInfoSlice";
 import { useNavigate } from "react-router-dom";
-import { Input, Button } from "@nextui-org/react";
+import { Input, Button } from "@heroui/react";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";

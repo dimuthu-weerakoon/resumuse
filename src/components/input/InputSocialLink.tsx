@@ -7,7 +7,7 @@ import {
   updateSocialLink,
 } from "../../redux/slices/SocialLinksSlice";
 import { useNavigate } from "react-router";
-import { Button, Input, Select, SelectItem } from "@nextui-org/react";
+import { Button, Input, Select, SelectItem } from "@heroui/react";
 import {
   faArrowCircleRight,
   faArrowLeft,

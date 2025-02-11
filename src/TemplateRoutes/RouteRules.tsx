@@ -1,6 +1,6 @@
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Button } from "@nextui-org/react"
+import { Button } from "@heroui/react"
 import { useNavigate } from "react-router"
 
 const RouteRules = ({ templateId }: { templateId: number }) => {
@@ -20,9 +20,8 @@ const RouteRules = ({ templateId }: { templateId: number }) => {
 
     return (
         //return button for navigate
-        <Button size="sm" onPress={handleNext} variant="flat" className="input-nav-btn"> <FontAwesomeIcon icon={faArrowRight} /> </Button>
-
-    )
+        (<Button size="sm" onPress={handleNext} variant="flat" className="input-nav-btn"> <FontAwesomeIcon icon={faArrowRight} /> </Button>)
+    );
 
 }
 

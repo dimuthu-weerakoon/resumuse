@@ -31,7 +31,7 @@ import {
   SelectItem,
   Checkbox,
   Form,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -239,7 +239,7 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
 
   return (
     //framer motion element
-    <motion.div
+    (<motion.div
       initial={{ opacity: 0, x: -50 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -50 }}
@@ -266,7 +266,6 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
           <FontAwesomeIcon icon={faArrowRight} />{" "}
         </Button>
       </div>
-
       <div className="mb-4">
         <h2 className=" input-heading">Experience</h2>
         <p className="input-sub-heading">
@@ -274,9 +273,7 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
           achievements
         </p>
       </div>
-
       {/* Next UI input form */}
-
       <Form validationBehavior="native">
         <div className="flex flex-col gap-3 w-full">
           <Input
@@ -542,7 +539,7 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
           </div>
         </div>
       </Form>
-    </motion.div>
+    </motion.div>)
   );
 };
 

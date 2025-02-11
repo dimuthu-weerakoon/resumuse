@@ -7,7 +7,7 @@ import {
 } from "../../redux/slices/SkillsSlice";
 import Skill from "../../types/Skill"; //Type for Skill object
 import { generateSkills } from "../../Ai/AiGeneratives"; //function to generate skills from AI
-import { Input } from "@nextui-org/react"; // Next UI Input Component
+import { Input } from "@heroui/react"; // Next UI Input Component
 
 const InputSkills = ({ jobRole }: { jobRole: string }) => {
   //fetch skills and selected skills from redux store
