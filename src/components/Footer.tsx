@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const Footer = () => {
   return (
-    <div className="flex justify-between items-center p-6 bg-blue-950/10">
+    <div className=" flex justify-between items-center p-6 bg-blue-950/10">
     <div className="text-blue-950 font-medium ">
     Copyright &copy; 2025 ResuMuse
     </div>

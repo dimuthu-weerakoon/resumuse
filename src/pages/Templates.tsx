@@ -23,7 +23,7 @@ const Templates = () => {
           <p className="input-sub-heading">Choose from a wide variety of professional, modern, and creative templates designed to make your resume stand out</p>
         </div>
         <div className=" relative flex justify-center ">
-          <div className=" absolute   bg-gradient-to-r from-blue-900/10 from-30%  blur-3xl bg-slate-500 w-[50vw] h-[50vh] rounded-full z-10"></div>
+          <div className=" absolute   bg-gradient-to-r from-blue-800/30 from-30%  blur-3xl bg-blue-300 w-[50vw] h-[50vh] rounded-full -z-10"></div>
           <div className="flex flex-wrap justify-center gap-4">
             {
               templateRoutes.map((template, index) => (
@@ -34,12 +34,12 @@ const Templates = () => {
                     duration: 0.5,
                     scale: { type: "spring", visualDuration: 0.5, bounce: 0.5 },
                   }}
-                  className="bg-white/20 rounded shadow p-3 cursor-pointer z-40" key={index}>
+                  className="bg-white/20 rounded shadow p-3 cursor-pointer " key={index}>
 
                   <Link to={`/${template.path}/create`}>
                     <motion.img
                       whileHover={{ scale: 1.5 }}
-                      whileTap={{ scale: 0.8 }} src={template.imgUrl} className="md:max-w-44 max-lg:max-w-40" alt="" />
+                      whileTap={{ scale: 0.8 }} src={template.imgUrl} className="md:max-w-44 max-lg:max-w-32" alt="" />
                   </Link>
 
                   <div>
