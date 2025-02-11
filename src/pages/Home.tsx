@@ -34,10 +34,10 @@ const Home = () => {
 
   return (
     <>
-      <section className="relative h-screen w-screen">
+      <section className="  h-screen w-screen ">
 
-        <div className="z-20 flex items-center gap-3 lg:flex-row max-lg:flex-col justify-center h-full backdrop-blur-sm p-4">
-          <div className="md:w-1/2 max-lg:w-full text-center lg:text-left mr-3 relative">
+        <div className="z-20 flex items-center gap-3  lg:flex-row max-md:flex-col  justify-center h-full backdrop-blur-sm p-4">
+          <div className="md:w-1/2 max-lg:w-full max-md:text-center text-left mr-3 relative">
             <h1 className="drop-shadow-2xl z-[40] text-blue-700/65 font-semibold font-serif md:text-6xl max-lg:text-4xl">
               {titleText.map((letter, index) => (
                 <motion.span
@@ -52,13 +52,13 @@ const Home = () => {
             </h1>
             <div className="w-full h-full rounded-full bg-gradient-to-r from-blue-700/65 to-blue-900/85 blur-3xl opacity-50 pointer-events-none top-6 z-[-10] absolute inset-0"></div>
             <div className="relative z-50 mt-8 max-md:mb-4">
-              <Button  size="lg" onPress={() => navigate("/templates")} variant="shadow" color="primary">
-              <span className="font-medium ">Create Quick Resume</span>  
+              <Button size="lg" onPress={() => navigate("/templates")} variant="shadow" color="primary">
+                <span className="font-medium ">Create Quick Resume</span>
               </Button>
             </div>
           </div>
 
-          <div className="w-auto relative">
+          <div className="w-auto h-auto relative">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
