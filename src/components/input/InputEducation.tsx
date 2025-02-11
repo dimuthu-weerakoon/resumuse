@@ -202,7 +202,7 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
         </p>
       </div>
       {/* Next ui Form  */}
-      <Form validationBehavior="native" onSubmit={handleSubmit}>
+      <Form validationBehavior="native" >
         <div className="flex flex-col gap-3 w-full">
           {/* qualifications input  */}
 
@@ -250,7 +250,7 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
               ))}
             </Listbox>
           )}
-          {/* Input institute */}
+{/* Input institute */}
 
           <Input
             label="Institute / College,University"
@@ -270,11 +270,11 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
             type="text"
           />
 
-          {/* check box for if currently studing   */}
+{/* check box for if currently studing   */}
 
           <div>
             <Checkbox
-              // if studing slelcted 
+            // if studing slelcted 
               isSelected={studying}
               className="mb-1"
               //toggle studing to previous state 
@@ -286,7 +286,7 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
             </Checkbox>
 
             <div className="flex gap-3 flex-nowrap">
-              {/* Input start date */}
+{/* Input start date */}
 
               <Input
                 label="Start Date"
@@ -297,8 +297,8 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
                 onChange={(e) => setStartDate(e.target.value)}
               />
 
-              {/*Input end date only show if not studying */}
-
+{/*Input end date only show if not studying */}
+              
               {!studying && (
                 <Input
                   size="sm"
@@ -314,10 +314,10 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
             </div>
           </div>
 
-          {/* Input location Component  */}
+{/* Input location Component  */}
 
           <InputLocation
-            //pass updated location
+          //pass updated location
             location={location}
             // setter functions to update state , city , country
             setCity={setCity}
@@ -325,7 +325,7 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
             setCountry={setCountry}
           />
 
-          {/* input description - optional  */}
+{/* input description - optional  */}
 
           <Textarea
             size="sm"
@@ -334,14 +334,16 @@ const InputEducation = ({ templateId }: { templateId: number }) => {
             isDisabled={editMode && !editingEducation}
             onChange={(e) => setDescription(e.target.value)}
           />
-          {/* Submit button */}
+{/* Submit button */}
 
           <Button
             size="sm"
             variant="flat"
             className="input-action-btn max-w-fit"
-            type="submit"
+            type="button"
             isDisabled={editMode && !editingEducation}
+            //onclick trigger submit function
+            onClick={handleSubmit}
           >
             <FontAwesomeIcon icon={editMode ? faRepeat : faPlusCircle} />{" "}
             {editMode ? "Update" : "Add education"}

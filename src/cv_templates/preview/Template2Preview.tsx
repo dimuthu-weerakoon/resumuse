@@ -338,7 +338,7 @@ const Template2Preview = () => {
                   {highlights.map((h, index) => (
                     <div className="flex flex-col mb-2 relative" key={index}>
                       <h4 className="font-medium text-sm">{h.title}</h4>
-                      <ul className="flex text-[.65rem] gap-3 ">h
+                      <ul className="flex text-[.65rem] gap-3 ">
                         {h.urls.map((url, index) => (
                           <li key={index} className="mb-2">
                             <FontAwesomeIcon icon={iconNames[url.platform]} />{" "}
