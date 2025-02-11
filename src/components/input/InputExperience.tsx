@@ -154,7 +154,7 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
   }, [editMode, dispatch]); // re-run when change edit mode or dispatch
 
   //function to add description or edit
-  const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     // trimmed user input
     const value = e.currentTarget.value.trim();
     // check has user input and press enter
@@ -515,7 +515,7 @@ const InputExperience = ({ templateId }: { templateId: number }) => {
               // onchnage update currentinput state to user input value
               onChange={(e) => setCurrentInput(e.target.value)}
               //trigger function when onKeyUp function
-              onKeyUp={handleKeyUp}
+              onKeyDown={handleKeyDown}
               placeholder="- Enter some decriptions about your work as a list and press Enter"
             ></Textarea>
           </div>

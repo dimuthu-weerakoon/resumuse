@@ -197,7 +197,7 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
 
 
   // function to handle descriptions
-  const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown= (e: React.KeyboardEvent<HTMLInputElement>) => {
     //get user input from textarea
     const value = e.currentTarget.value.trim();
     //check if keyboard event key press enter and has value
@@ -411,7 +411,7 @@ const InputHighlight = ({ templateId }: { templateId: number }) => {
               value={currentInput}
               isDisabled={editMode && !editingHighlight}
               onChange={(e) => setCurrentInput(e.target.value)}
-              onKeyUp={handleKeyUp}
+              onKeyDown={handleKeyDown}
               placeholder="- Enter some decriptions about your work as a list and press Enter"
             ></Textarea>
           </div>

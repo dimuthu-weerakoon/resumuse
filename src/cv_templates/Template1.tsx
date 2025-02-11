@@ -7,7 +7,7 @@ const Template1 = () => {
     <>
       <div className="template-grid ">
         {/* rendering  InputSteops componets */}
-        <div>{useOutlet()}</div>
+        <div className="">{useOutlet()}</div>
 
         <div className="template-preview-container ">
           <div className="scaled-template ">

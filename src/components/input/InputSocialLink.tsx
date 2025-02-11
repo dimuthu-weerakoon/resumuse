@@ -50,8 +50,8 @@ const InputSocialLink = ({ templateId }: { templateId: number }) => {
     }
   }, [editMode, dispatch]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleSubmit = () => {
+
     //get trimmed input 
     const trimmedLink = link.trim()
     try {
@@ -169,7 +169,7 @@ const InputSocialLink = ({ templateId }: { templateId: number }) => {
           errorMessage={errorMessage}
           isInvalid={inValid}
           endContent={
-            <Button size="sm" isIconOnly onClick={handleSubmit}>
+            <Button size="sm" isIconOnly onPress={handleSubmit}>
               <FontAwesomeIcon
                 className="text-blue-950"
                 size="lg"

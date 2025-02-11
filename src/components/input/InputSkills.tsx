@@ -69,7 +69,7 @@ const InputSkills = ({ jobRole }: { jobRole: string }) => {
           className="skill-input"
           placeholder="Type Keywords"
           value={searchQuery}
-          onKeyUp={addSkillManually}
+          onKeyDown={addSkillManually}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
     {/* Show skills list when searchQuery is not empty */}
