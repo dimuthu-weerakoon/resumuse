@@ -6,8 +6,8 @@ const summerySlice = createSlice({
   name: "summery",
   initialState: initialState,
   reducers: {
-    addSummery(state, action: PayloadAction<string>) {
-      return action.payload
+    addSummery(_, action: PayloadAction<string>) {
+      return action.payload;
     },
     clearSummery() {
       return "";
